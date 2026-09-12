@@ -1,0 +1,9 @@
+id: java-core
+name: Java Core
+description: Базовый синтаксис, коллекции, многопоточность, JMM
+category: backend
+depends_on: []
+related_to:
+  - jvm
+  - oop
+  - concurrency

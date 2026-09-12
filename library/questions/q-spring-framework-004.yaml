@@ -1,0 +1,21 @@
+id: q-spring-framework-004
+skill: spring-framework
+difficulty: 0.63
+type: single_choice
+text: >-
+  Какой интерфейс в Spring используется для определения порядка выполнения компонентов (например,
+  аспектов или инициализаторов)?
+options:
+  - ApplicationListener
+  - Ordered
+  - InitializingBean
+  - BeanFactoryPostProcessor
+correct: 2
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      spring-framework: 8b0ebd2cf6c2e792
+    capturedAt: "2026-09-11T21:34:31.114Z"

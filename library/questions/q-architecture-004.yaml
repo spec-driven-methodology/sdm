@@ -1,0 +1,21 @@
+id: q-architecture-004
+skill: architecture
+difficulty: 0.63
+type: single_choice
+text: >-
+  Какой паттерн обеспечивает изоляцию доменной логики от деталей инфраструктуры (БД, веб-фреймворк)
+  и упрощает юнит-тестирование без базы данных?
+options:
+  - Repository
+  - Service Layer
+  - Use Case / Interactor
+  - DTO
+correct: 3
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      architecture: 311a6982cdaf7424
+    capturedAt: "2026-09-11T21:37:46.593Z"

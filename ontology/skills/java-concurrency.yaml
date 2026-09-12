@@ -1,0 +1,10 @@
+id: java-concurrency
+name: Java Concurrency
+description: >-
+  Потоки, Executors, синхронизация (synchronized, Lock/ReentrantLock), атомики,
+  concurrent-коллекции, CompletableFuture, параллельные стримы, volatile, happens-before,
+  deadlock/livelock.
+depends_on: []
+related_to: []
+topics: []
+topic_labels: {}

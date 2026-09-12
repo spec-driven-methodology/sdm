@@ -1,0 +1,19 @@
+id: q-testing-004
+skill: testing
+difficulty: 0.3
+type: single_choice
+text: Какой аннотацией в JUnit 5 обозначается тестовый метод?
+options:
+  - "@Test"
+  - "@BeforeEach"
+  - "@AfterEach"
+  - "@Disabled"
+correct: 1
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      testing: 7e664384d55dd6a7
+    capturedAt: "2026-09-11T21:34:02.839Z"

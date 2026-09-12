@@ -1,0 +1,26 @@
+level: senior
+title: Senior
+description: >-
+  Сеньор Java-разработчик со специализацией на Spring. Глубокое понимание экосистемы, проектирование
+  высоконагруженных систем, владение практиками DevOps и обеспечение качества.
+profile: java-developer
+requirements:
+  - skill: core-java
+    depth: 0.9
+    weight: 0.3
+  - skill: spring-framework
+    depth: 0.9
+    weight: 0.3
+  - skill: databases
+    depth: 0.9
+    weight: 0.1
+  - skill: testing
+    depth: 0.9
+    weight: 0.1
+  - skill: architecture
+    depth: 0.9
+    weight: 0.1
+  - skill: devops
+    depth: 0.9
+    weight: 0.1
+threshold: 0.7

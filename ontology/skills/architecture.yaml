@@ -1,0 +1,9 @@
+id: architecture
+name: Architecture
+description: >-
+  Проектирование систем: микросервисы, монолит, DDD, Clean/Hexagonal, CQRS, Event-Driven, паттерны
+  интеграции, observability, resilience, масштабируемость, версионирование API.
+depends_on: []
+related_to: []
+topics: []
+topic_labels: {}

@@ -1,0 +1,9 @@
+id: spring-framework
+name: Spring Framework
+description: >-
+  Разработка на Spring: IoC/DI, Spring Boot, Spring MVC, REST, безопасность, транзакции, работа с
+  данными (JDBC, JPA), тестирование и интеграция.
+depends_on: []
+related_to: []
+topics: []
+topic_labels: {}

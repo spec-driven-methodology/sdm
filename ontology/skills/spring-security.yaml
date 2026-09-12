@@ -1,0 +1,10 @@
+id: spring-security
+name: Spring Security
+description: >-
+  Аутентификация и авторизация (Basic, JWT, OAuth2/OpenID Connect), фильтры, выражение SpEL,
+  метод-безопасность (@PreAuthorize, @Secured), защита от уязвимостей (CSRF, CORS, XSS,
+  clickjacking), PasswordEncoder.
+depends_on: []
+related_to: []
+topics: []
+topic_labels: {}

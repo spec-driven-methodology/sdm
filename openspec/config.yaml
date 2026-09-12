@@ -1,0 +1,83 @@
+schema: spec-driven
+
+context: |
+  Specra — Methodology-as-Specs Framework.
+  RU one-liner: фреймворк methodology-as-specs: онтология навыков →
+  библиотека контента → профили/пороги → аудит покрытия и экспорт.
+  One competency skeleton (эталон / single source of truth) for assessment
+  and learning; export to external surfaces and AI agents.
+  System picture: specs in git · framework (schema/ops/coverage/quality) ·
+  agent+model (CLI/MCP = agent hands). Not a full agent harness/orchestrator.
+  Audience: competency owners (HR, recruiters, methodologists, analysts,
+    domain experts) — intent + review via agent-first UX. University /
+    bootcamp / onboarding are contexts, not a different product type.
+
+  Tech stack:
+  - TypeScript + Node.js (>=20.19)
+  - npm workspaces monorepo: packages/cli, packages/core
+  - YAML specs validated with Zod
+  - CLI via Commander (tool surface for agents/CI)
+  - Graph of skills in-memory (graphology)
+  - Local semantic search planned via LanceDB + embeddings (optional)
+  - License: Apache-2.0
+
+  Usage model (agent-first):
+  - Primary UX: AI agent (any vendor), like OpenSpec for humans.
+  - Competency owners state intent and review; agent calls Specra tools.
+  - CLI is the stable contract for agents and CI, not a flag-heavy manual UI.
+  - Prefer domain operations (cert coverage, question add --to-skill, gaps)
+    over generic CRUD naming.
+  - New commands SHOULD support machine-readable output (--json) and stable
+    exit codes / SdmError codes for agents.
+  - Interactive TTY prompts are optional fallback, not the default design center.
+  - Agents must not bypass Zod/schema by hand-editing YAML when a command exists.
+  - AI question generation comes after reliable coverage/gaps/add primitives.
+  - Portable agent skills live in agents/ + AGENTS.md (source of truth).
+  - Do NOT put end-user methodology skills only under .cursor/ — IDE adapters
+    are optional mirrors. Workspace .cursor is for Specra core development only.
+
+  Product boundaries:
+  - Specra stores, links, audits, and exports methodology specs
+    (skills, questions, learning materials, certifications).
+  - Specra does NOT run candidate tests or act as an LMS as a primary surface.
+  - Specra is NOT a full agent harness / model orchestrator.
+  - Consumers: AI agents, testing systems, HR platforms, education exports
+    (MCP/API/CLI).
+
+  Three layers of methodology projects (created by `sdm init`):
+  1. ontology/ — skills graph
+  2. library/ — questions (and learning content) bound to skills
+  3. certifications/ — profiles, levels, thresholds
+
+  Baseline main specs: project-root, cert-coverage, coverage-blueprint, question-add, question-validate, skill-write, skill-graph, skill-graph-cli, cert-write, cert-reweight, profile-write, profile-domain, core-tests, bootstrap-methodology, bootstrap-role-pack, intent-loop, agent-skills-install, release, question-list, cert-gaps, mcp-server, mcp-host-install, getting-started, action-logging, question-generate, question-type-mix, cert-patch, export-test, export-test-player, player-sync, player-session-ux, player-export-library, player-course-reader, methodology-studio, studio-sync, studio-bridge, studio-export-form, studio-coverage, question-expected-answer, export-matrix, export-course, export-kit, mcp-tests, export-mermaid, methodology-audit, quality-report, corpus-manifest, semantic-index, cert-teams, export-confluence, about-sdm, guide-suggest, distractor-quality, product-version, content-staleness, library-terms.
+
+  Development workflow: OpenSpec inside this repo — full pipeline via workspace
+  /opsx:cycle (ground → propose → apply → verify → archive), or step-by-step
+  propose → apply → archive. Workspace-level Cursor config lives outside this
+  git repo (../.cursor).
+  Product vision: ../docs/idea.md (section 1.1 agent-first).
+
+  Conventions:
+  - Conventional commits
+  - ESM only ("type": "module")
+  - Prefer small focused packages over a monolith
+  - Logic in @spec-driven-methodology/core; thin CLI in @spec-driven-methodology/cli
+  - Update CHANGELOG.md when shipping user-visible CLI/agent behavior (Keep a Changelog)
+  - Before commit/push: npm run verify (build + typecheck + test), smoke changed CLI, refresh README/AGENTS as needed,
+    never commit secrets/PII/playground junk/dist/node_modules (see workspace release-hygiene rule)
+
+rules:
+  proposal:
+    - Keep proposals under 500 words
+    - Always include a "Non-goals" section
+    - Stay within methodology infrastructure unless change explicitly expands scope
+    - State how the change serves agent-first use (domain op, --json, error codes)
+  design:
+    - Prefer TypeScript packages under packages/
+    - Call out YAML schema and Zod validation impact
+    - Prefer non-interactive, deterministic command contracts suitable for agents
+  tasks:
+    - Break tasks into chunks of max 2 hours
+    - Include a playground verification step when CLI behavior changes
+    - When adding CLI output, include or plan a --json path for agents
+    - Include a docs/CHANGELOG touch when the change is user-visible

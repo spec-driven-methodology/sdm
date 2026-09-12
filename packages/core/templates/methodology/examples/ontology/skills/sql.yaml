@@ -1,0 +1,9 @@
+id: sql
+name: SQL
+description: Запросы, индексы, транзакции, оптимизация
+category: data
+depends_on: []
+related_to:
+  - postgresql
+  - jdbc
+  - hibernate

@@ -1,0 +1,19 @@
+id: q-testing-008
+skill: testing
+difficulty: 0.9
+type: single_choice
+text: В чём ключевое отличие между @Mock и @InjectMocks в Mockito?
+options:
+  - "@Mock создаёт мок, @InjectMocks внедряет зависимости в тестируемый класс"
+  - "@Mock внедряет зависимости, @InjectMocks создаёт мок"
+  - Оба создают моки, но для разных типов
+  - Оба используются для внедрения зависимостей
+correct: 1
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      testing: 7e664384d55dd6a7
+    capturedAt: "2026-09-11T21:35:24.998Z"

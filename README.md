@@ -1,0 +1,37 @@
+# sdm
+
+SDM methodology project (knowledge base).
+
+## Layout
+
+- `ontology/` — skill graph
+- `library/` — questions bound to skills
+- `certifications/` — profiles, levels, thresholds
+- `player/` — author preview for `export test` / learning JSON (not a secure exam)
+- `studio/` — Methodology Studio: view/action shell for intent-loop (does not write YAML)
+- `.sdm/` — local config, cache, optional vector index
+
+## Host setup (once per IDE workspace)
+
+Creating this methodology folder does **not** install SDM into Cursor/GigaCode.
+From the SDM install, wire the host (MCP + portable skills by default):
+
+```bash
+sdm mcp install --hosts gigacode --json
+# Cursor: --hosts cursor --cursor-root <ide-workspace-root>
+# Opt out of skills only: add --no-skills
+```
+
+Do **not** pass `--project` unless you want a single default methodology.
+Prefer per-call tool arg `project` = this directory. Guide: SDM `GETTING_STARTED.md`, skill `connect-mcp`.
+
+## Next steps
+
+After host wire + reload, open your AI agent and describe an intent, for example:
+
+> Хочу основу профиля Java-разработчик, уровень Middle, направление backend.
+
+The agent should load SDM skill **intent-loop** (clarify → plan → confirm → execute).
+You do not need to type CLI flags — CLI is for the agent.
+
+For agents: see `AGENTS.md` and portable skills (`intent-loop`, …) after `mcp install`.

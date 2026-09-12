@@ -1,0 +1,9 @@
+id: spring-data
+name: Spring Data
+description: >-
+  Репозитории (CRUD, paging/sorting, спецификации, Querydsl), JPA/Hibernate, транзакции, проекции,
+  DTO, миграции (Flyway/Liquibase), кэширование, auditing.
+depends_on: []
+related_to: []
+topics: []
+topic_labels: {}

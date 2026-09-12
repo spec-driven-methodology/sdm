@@ -1,0 +1,21 @@
+id: q-architecture-006
+skill: architecture
+difficulty: 0.63
+type: single_choice
+text: >-
+  Какой паттерн интеграции лучше всего подходит для гарантии exactly-once доставки событий между
+  микросервисами?
+options:
+  - Idempotent Consumer
+  - Two-Phase Commit
+  - Outbox Pattern
+  - Saga
+correct: 3
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      architecture: 311a6982cdaf7424
+    capturedAt: "2026-09-11T21:38:54.068Z"

@@ -1,0 +1,21 @@
+id: q-databases-003
+skill: databases
+difficulty: 0.63
+type: single_choice
+text: >-
+  Какой индекс в PostgreSQL наиболее эффективен для полнотекстового поиска по большим текстовым
+  полям?
+options:
+  - B-tree
+  - GIN
+  - GiST
+  - Hash
+correct: 2
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      databases: ff6ae5bb58f91237
+    capturedAt: "2026-09-11T21:34:53.960Z"

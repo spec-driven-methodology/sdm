@@ -1,0 +1,23 @@
+id: q-databases-004
+skill: databases
+difficulty: 0.9
+type: single_choice
+text: >-
+  В чём ключевое отличие между индексами B-tree и GIN в PostgreSQL с точки зрения поддержки типов
+  данных и операций?
+options:
+  - B-tree работает только с числами, GIN — только с текстом
+  - >-
+    B-tree оптимален для точечного поиска по скалярным значениям, GIN — для полнотекстового поиска и
+    массивов
+  - B-tree поддерживает транзакции, GIN — нет
+  - GIN всегда быстрее B-tree на любых запросах
+correct: 2
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      databases: ff6ae5bb58f91237
+    capturedAt: "2026-09-11T21:35:13.280Z"

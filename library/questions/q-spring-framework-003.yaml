@@ -1,0 +1,21 @@
+id: q-spring-framework-003
+skill: spring-framework
+difficulty: 0.6
+type: single_choice
+text: >-
+  Какая аннотация в Spring используется для объявления компонента, управляемого контейнером IoC, без
+  указания конкретной стереотипной роли (@Service, @Repository)?
+options:
+  - "@Component"
+  - "@Bean"
+  - "@Autowired"
+  - "@Configuration"
+correct: 1
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      spring-framework: 8b0ebd2cf6c2e792
+    capturedAt: "2026-09-11T21:31:41.550Z"

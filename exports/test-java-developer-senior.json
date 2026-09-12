@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "sdm.export.test/v1",
+  "profile": "java-developer",
+  "level": "senior",
+  "title": "Senior",
+  "threshold": 0.7,
+  "requirements": [
+    {"skill": "core-java", "depth": 0.9, "weight": 0.3},
+    {"skill": "spring-framework", "depth": 0.9, "weight": 0.3},
+    {"skill": "databases", "depth": 0.9, "weight": 0.1},
+    {"skill": "testing", "depth": 0.9, "weight": 0.1},
+    {"skill": "architecture", "depth": 0.9, "weight": 0.1},
+    {"skill": "devops", "depth": 0.9, "weight": 0.1}
+  ],
+  "questions": [
+    {"id": "q-architecture-001", "skill": "architecture", "difficulty": 0.3, "type": "single_choice", "text": "Какой паттерн интеграции микросервисов лучше всего подходит для обеспечения слабой связности и eventual consistency?", "options": ["REST API", "gRPC", "Event-Driven (Message Bus)", "Shared Database"], "correct": 3},
+    {"id": "q-architecture-002", "skill": "architecture", "difficulty": 0.63, "type": "single_choice", "text": "Какой паттерн проектирования лучше всего подходит для разделения сложной бизнес-логики на изолированные, тестируемые домены?", "options": ["MVC", "Clean/Hexagonal Architecture", "Singleton", "Observer"], "correct": 2},
+    {"id": "q-architecture-003", "skill": "architecture", "difficulty": 0.63, "type": "single_choice", "text": "Какой паттерн проектирования чаще всего используется для изоляции доменной логики от фреймворка и инфраструктуры в Clean/Hexagonal Architecture?", "options": ["Repository", "Service Layer", "Use Case / Interactor", "DTO"], "correct": 3},
+    {"id": "q-architecture-004", "skill": "architecture", "difficulty": 0.63, "type": "single_choice", "text": "Какой паттерн обеспечивает изоляцию доменной логики от деталей инфраструктуры (БД, веб-фреймворк) и упрощает юнит-тестирование без базы данных?", "options": ["Repository", "Service Layer", "Use Case / Interactor", "DTO"], "correct": 3},
+    {"id": "q-architecture-005", "skill": "architecture", "difficulty": 0.63, "type": "single_choice", "text": "Какой паттерн проектирования лучше всего подходит для реализации CQRS (Command Query Responsibility Segregation) в микросервисной архитектуре?", "options": ["MediatR", "Clean Architecture", "Hexagonal Architecture", "Event Sourcing"], "correct": 1},
+    {"id": "q-architecture-006", "skill": "architecture", "difficulty": 0.63, "type": "single_choice", "text": "Какой паттерн интеграции лучше всего подходит для гарантии exactly-once доставки событий между микросервисами?", "options": ["Idempotent Consumer", "Two-Phase Commit", "Outbox Pattern", "Saga"], "correct": 3},
+    {"id": "q-core-java-001", "skill": "core-java", "difficulty": 0.3, "type": "single_choice", "text": "Какой результат выполнения кода: List<String> list = new ArrayList<>(); list.add(\"A\"); list.add(\"B\"); return list.stream().filter(s -> s.startsWith(\"A\")).count();?", "options": ["0", "1", "2", "Ошибка компиляции"], "correct": 2},
+    {"id": "q-core-java-002", "skill": "core-java", "difficulty": 0.6, "type": "multi_choice", "text": "Какие из перечисленных утверждений о ключевом слове volatile в Java верны?", "options": ["Гарантирует видимость изменений между потоками", "Устраняет необходимость в синхронизации для составных операций", "Запрещает переупорядочивание операций чтения/записи", "Обеспечивает атомарность операций инкремента"], "correct": 1},
+    {"id": "q-core-java-003", "skill": "core-java", "difficulty": 0.9, "type": "open", "text": "Объясните разницу между volatile и synchronized в Java и приведите пример, где volatile недостаточен.", "expected": "volatile гарантирует видимость и порядок, но не атомарность; synchronized обеспечивает взаимное исключение и видимость. Пример: i++ требует synchronized, так как volatile не сделает инкремент атомарным."},
+    {"id": "q-databases-001", "skill": "databases", "difficulty": 0.3, "type": "single_choice", "text": "Какой уровень изоляции транзакций в PostgreSQL обеспечивает защиту от «грязного чтения» (dirty read), но допускает «неповторяющееся чтение» (non-repeatable read) и «фантомы» (phantom read)?", "options": ["READ UNCOMMITTED", "READ COMMITTED", "REPEATABLE READ", "SERIALIZABLE"], "correct": 2},
+    {"id": "q-databases-002", "skill": "databases", "difficulty": 0.45, "type": "single_choice", "text": "Какой уровень изоляции транзакций в PostgreSQL обеспечивает защиту от «грязного чтения» и «неповторяющегося чтения», но допускает «фантомы»?", "options": ["READ UNCOMMITTED", "READ COMMITTED", "REPEATABLE READ", "SERIALIZABLE"], "correct": 3},
+    {"id": "q-databases-003", "skill": "databases", "difficulty": 0.63, "type": "single_choice", "text": "Какой индекс в PostgreSQL наиболее эффективен для полнотекстового поиска по большим текстовым полям?", "options": ["B-tree", "GIN", "GiST", "Hash"], "correct": 2},
+    {"id": "q-databases-004", "skill": "databases", "difficulty": 0.9, "type": "single_choice", "text": "В чём ключевое отличие между индексами B-tree и GIN в PostgreSQL с точки зрения поддержки типов данных и операций?", "options": ["B-tree работает только с числами, GIN — только с текстом", "B-tree оптимален для точечного поиска по скалярным значениям, GIN — для полнотекстового поиска и массивов", "B-tree поддерживает транзакции, GIN — нет", "GIN всегда быстрее B-tree на любых запросах"], "correct": 2},
+    {"id": "q-devops-001", "skill": "devops", "difficulty": 0.3, "type": "single_choice", "text": "Какой инструмент используется для оркестрации контейнеров в production-среде?", "options": ["Docker", "Kubernetes", "Terraform", "Ansible"], "correct": 2},
+    {"id": "q-devops-002", "skill": "devops", "difficulty": 0.63, "type": "single_choice", "text": "Какой инструмент используется для декларативного описания инфраструктуры как кода (IaC) в современных DevOps-процессах?", "options": ["Ansible", "Terraform", "Jenkins", "Docker"], "correct": 2},
+    {"id": "q-devops-003", "skill": "devops", "difficulty": 0.3, "type": "single_choice", "text": "Какой инструмент используется для мониторинга и визуализации метрик в стеке Prometheus?", "options": ["Grafana", "ELK", "Jaeger", "Istio"], "correct": 1},
+    {"id": "q-devops-004", "skill": "devops", "difficulty": 0.3, "type": "single_choice", "text": "Какой инструмент используется для автоматизации развёртывания и управления конфигурациями серверов (не для оркестрации контейнеров)?", "options": ["Terraform", "Ansible", "Kubernetes", "Prometheus"], "correct": 2},
+    {"id": "q-spring-framework-001", "skill": "spring-framework", "difficulty": 0.3, "type": "single_choice", "text": "Какой аннотацией в Spring Boot обозначается главный класс приложения, с которого начинается выполнение?", "options": ["@Component", "@Configuration", "@SpringBootApplication", "@EnableAutoConfiguration"], "correct": 3},
+    {"id": "q-spring-framework-002", "skill": "spring-framework", "difficulty": 0.45, "type": "single_choice", "text": "Какой механизм в Spring используется для управления транзакциями на уровне аннотаций?", "options": ["@Transactional", "@Service", "@Repository", "@Component"], "correct": 1},
+    {"id": "q-spring-framework-003", "skill": "spring-framework", "difficulty": 0.6, "type": "single_choice", "text": "Какая аннотация в Spring используется для объявления компонента, управляемого контейнером IoC, без указания конкретной стереотипной роли (@Service, @Repository)?", "options": ["@Component", "@Bean", "@Autowired", "@Configuration"], "correct": 1},
+    {"id": "q-spring-framework-004", "skill": "spring-framework", "difficulty": 0.63, "type": "single_choice", "text": "Какой интерфейс в Spring используется для определения порядка выполнения компонентов (например, аспектов или инициализаторов)?", "options": ["ApplicationListener", "Ordered", "InitializingBean", "BeanFactoryPostProcessor"], "correct": 2},
+    {"id": "q-spring-framework-005", "skill": "spring-framework", "difficulty": 0.9, "type": "single_choice", "text": "Какой паттерн внедрения зависимостей (DI) используется в Spring по умолчанию — через конструктор или через сеттеры?", "options": ["Через сеттеры (setter injection)", "Через конструктор (constructor injection)", "Через поля (field injection)", "Через фабричные методы"], "correct": 2},
+    {"id": "q-testing-001", "skill": "testing", "difficulty": 0.3, "type": "single_choice", "text": "Какой аннотацией в Spring Boot обозначается главный класс приложения, с которого начинается выполнение?", "options": ["@Component", "@Configuration", "@SpringBootApplication", "@EnableAutoConfiguration"], "correct": 3},
+    {"id": "q-testing-002", "skill": "testing", "difficulty": 0.3, "type": "single_choice", "text": "Какой аннотацией в Spring Boot обозначается главный класс приложения, с которого начинается выполнение?", "options": ["@Component", "@Configuration", "@SpringBootApplication", "@EnableAutoConfiguration"], "correct": 3},
+    {"id": "q-testing-003", "skill": "testing", "difficulty": 0.45, "type": "single_choice", "text": "Какой аннотацией в Spring Boot обозначается главный класс приложения, с которого начинается выполнение?", "options": ["@Component", "@Configuration", "@SpringBootApplication", "@EnableAutoConfiguration"], "correct": 3},
+    {"id": "q-testing-004", "skill": "testing", "difficulty": 0.3, "type": "single_choice", "text": "Какой аннотацией в JUnit 5 обозначается тестовый метод?", "options": ["@Test", "@BeforeEach", "@AfterEach", "@Disabled"], "correct": 1},
+    {"id": "q-testing-005", "skill": "testing", "difficulty": 0.45, "type": "single_choice", "text": "Какой инструмент используется для запуска интеграционных тестов с реальными зависимостями (БД, брокеры) в изолированных контейнерах?", "options": ["Mockito", "Testcontainers", "JUnit", "AssertJ"], "correct": 2},
+    {"id": "q-testing-006", "skill": "testing", "difficulty": 0.63, "type": "single_choice", "text": "Какой аннотацией в JUnit 5 заменяют @Before и @After из JUnit 4?", "options": ["@BeforeEach", "@BeforeAll", "@AfterEach", "@AfterAll"], "correct": 1},
+    {"id": "q-testing-007", "skill": "testing", "difficulty": 0.63, "type": "single_choice", "text": "Какой аннотацией в JUnit 5 заменяют @Before и @After из JUnit 4?", "options": ["@BeforeEach", "@BeforeAll", "@AfterEach", "@AfterAll"], "correct": 1},
+    {"id": "q-testing-008", "skill": "testing", "difficulty": 0.9, "type": "single_choice", "text": "В чём ключевое отличие между @Mock и @InjectMocks в Mockito?", "options": ["@Mock создаёт мок, @InjectMocks внедряет зависимости в тестируемый класс", "@Mock внедряет зависимости, @InjectMocks создаёт мок", "Оба создают моки, но для разных типов", "Оба используются для внедрения зависимостей"], "correct": 1}
+  ],
+  "meta": {
+    "questionCount": 30,
+    "skillsMissingQuestions": [],
+    "basis": {
+      "skills": {
+        "architecture": "311a6982cdaf7424",
+        "core-java": "5361d7e7364b7b91",
+        "databases": "ff6ae5bb58f91237",
+        "devops": "6fca83073dd54a85",
+        "spring-framework": "8b0ebd2cf6c2e792",
+        "testing": "7e664384d55dd6a7"
+      },
+      "level": {"id": "senior", "hash": "0b8bf5ce2e8a8510"},
+      "capturedAt": "2026-09-11T21:39:54.499Z"
+    },
+    "revision": "99f50bdcd747b546"
+  },
+  "id": "test-java-developer-senior"
+}

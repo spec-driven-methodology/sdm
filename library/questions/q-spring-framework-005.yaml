@@ -1,0 +1,21 @@
+id: q-spring-framework-005
+skill: spring-framework
+difficulty: 0.9
+type: single_choice
+text: >-
+  Какой паттерн внедрения зависимостей (DI) используется в Spring по умолчанию — через конструктор
+  или через сеттеры?
+options:
+  - Через сеттеры (setter injection)
+  - Через конструктор (constructor injection)
+  - Через поля (field injection)
+  - Через фабричные методы
+correct: 2
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      spring-framework: 8b0ebd2cf6c2e792
+    capturedAt: "2026-09-11T21:34:38.821Z"

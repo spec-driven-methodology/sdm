@@ -1,0 +1,21 @@
+id: q-architecture-003
+skill: architecture
+difficulty: 0.63
+type: single_choice
+text: >-
+  Какой паттерн проектирования чаще всего используется для изоляции доменной логики от фреймворка и
+  инфраструктуры в Clean/Hexagonal Architecture?
+options:
+  - Repository
+  - Service Layer
+  - Use Case / Interactor
+  - DTO
+correct: 3
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      architecture: 311a6982cdaf7424
+    capturedAt: "2026-09-11T21:37:03.534Z"

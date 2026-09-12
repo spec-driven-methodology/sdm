@@ -1,0 +1,16 @@
+id: q-spring-007
+skill: spring
+difficulty: 0.7
+type: code
+text: Напишите конфигурацию Spring Security для защиты эндпоинта /admin ролью ADMIN
+code_template: |
+  @Configuration
+  @EnableWebSecurity
+  public class SecurityConfig {
+      // ваш код здесь
+  }
+validation:
+  criteria:
+    - Объявлен SecurityFilterChain bean
+    - Эндпоинт /admin требует роль ADMIN
+    - Используется лямбда-стиль (Spring Security 6+)

@@ -1,0 +1,9 @@
+id: testing
+name: Testing
+description: >-
+  JUnit 5, AssertJ, Mockito, Testcontainers, интеграционные и контрактные тесты, покрытие,
+  мутационное тестирование, нагрузочные тесты (JMeter/Gatling).
+depends_on: []
+related_to: []
+topics: []
+topic_labels: {}

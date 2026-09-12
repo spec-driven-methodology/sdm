@@ -1,0 +1,19 @@
+id: q-spring-framework-002
+skill: spring-framework
+difficulty: 0.45
+type: single_choice
+text: Какой механизм в Spring используется для управления транзакциями на уровне аннотаций?
+options:
+  - "@Transactional"
+  - "@Service"
+  - "@Repository"
+  - "@Component"
+correct: 1
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      spring-framework: 8b0ebd2cf6c2e792
+    capturedAt: "2026-09-11T21:31:26.657Z"

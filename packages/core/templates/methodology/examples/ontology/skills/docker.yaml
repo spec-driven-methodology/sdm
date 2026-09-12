@@ -1,0 +1,8 @@
+id: docker
+name: Docker
+description: Контейнеризация, образы, docker-compose
+category: devops
+depends_on: []
+related_to:
+  - kubernetes
+  - microservices

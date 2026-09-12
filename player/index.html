@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SDM — проигрыватель</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <div class="brand-row">
+          <button type="button" class="brand" id="nav-home" title="На главную">
+            SDM
+          </button>
+          <p class="tagline">
+            <span class="tag-sep" aria-hidden="true"></span>Methodology-as-Specs Framework
+          </p>
+        </div>
+        <nav class="crumbs" id="crumbs" aria-label="Навигация" hidden>
+          <button type="button" class="crumb-link" id="crumb-home">Главная</button>
+          <span class="crumb-sep" aria-hidden="true">/</span>
+          <span class="crumb-current" id="crumb-current"></span>
+        </nav>
+      </header>
+
+      <section id="load-view" class="panel">
+        <h1>Загрузить JSON экспорта</h1>
+        <p class="lead">
+          SDM — эталон компетенций (methodology-as-specs): онтология навыков →
+          библиотека контента → профили/пороги → аудит покрытия и экспорт.
+          Один скелет для оценки и обучения. Превью тестов, курсов и шпаргалок
+          эксперта — для автора, не LMS и не экзаменатор.
+        </p>
+
+        <div class="mode-tabs" role="tablist" aria-label="Тип экспорта">
+          <button
+            type="button"
+            class="mode-tab"
+            id="tab-tests"
+            role="tab"
+            aria-selected="true"
+            data-mode="tests"
+          >
+            Тесты
+          </button>
+          <button
+            type="button"
+            class="mode-tab"
+            id="tab-courses"
+            role="tab"
+            aria-selected="false"
+            data-mode="courses"
+          >
+            Курсы
+          </button>
+          <button
+            type="button"
+            class="mode-tab"
+            id="tab-kits"
+            role="tab"
+            aria-selected="false"
+            data-mode="kits"
+          >
+            Шпаргалки
+          </button>
+        </div>
+
+        <div id="export-list-wrap" class="export-list-wrap" hidden>
+          <h2 class="subhead" id="export-list-heading">Файлы в exports/</h2>
+          <ul id="export-list" class="export-list"></ul>
+        </div>
+
+        <label class="dropzone" id="dropzone">
+          <input
+            type="file"
+            id="file-input"
+            accept="application/json,.json"
+            multiple
+          />
+          <span id="dropzone-hint"
+            >Перетащите файлы сюда или нажмите, чтобы выбрать (можно несколько)</span
+          >
+        </label>
+        <p id="load-error" class="error" hidden></p>
+
+        <div id="library-wrap" class="library-wrap" hidden>
+          <h2 class="subhead" id="library-heading">Загруженные тесты</h2>
+          <ul
+            id="library-list"
+            class="library-list"
+            role="listbox"
+            aria-label="Загруженные тесты"
+          ></ul>
+        </div>
+
+        <fieldset class="options-box" id="session-options">
+          <legend>Параметры сессии</legend>
+          <label class="check">
+            <input type="checkbox" id="opt-auto-next" />
+            Автопереход после проверки (~1 с)
+          </label>
+          <label class="check">
+            <input type="checkbox" id="opt-shuffle" />
+            Перетасовывать вопросы
+          </label>
+          <label class="check">
+            <input type="checkbox" id="opt-shuffle-options" />
+            Перетасовывать варианты
+          </label>
+          <label class="check">
+            <input type="checkbox" id="opt-timed" />
+            Ограничить время
+          </label>
+          <label class="field" id="minutes-field" hidden>
+            <span>Всего минут (пусто = N × 1 мин)</span>
+            <input
+              type="number"
+              id="opt-minutes"
+              min="1"
+              step="1"
+              placeholder="авто"
+            />
+          </label>
+        </fieldset>
+      </section>
+
+      <section id="kit-view" class="panel" hidden>
+        <div class="meta-row">
+          <div>
+            <h1 id="kit-title">Шпаргалка</h1>
+            <p class="meta" id="kit-meta"></p>
+          </div>
+          <p class="progress" id="kit-revision"></p>
+        </div>
+        <div id="kit-warnings" class="course-warnings" hidden></div>
+        <div id="kit-body" class="kit-body"></div>
+        <div class="actions">
+          <button type="button" id="btn-kit-home" class="btn">К библиотеке</button>
+        </div>
+      </section>
+
+      <section id="course-view" class="panel" hidden>
+        <div class="meta-row">
+          <div>
+            <h1 id="course-title">Курс</h1>
+            <p class="meta" id="course-meta"></p>
+            <p class="meta" id="course-warn-badge" hidden></p>
+          </div>
+          <p class="progress" id="course-progress"></p>
+        </div>
+
+        <div class="course-layout">
+          <aside class="course-outline" aria-label="Содержание">
+            <h2 class="subhead">Модули</h2>
+            <nav id="course-outline" class="course-outline-nav"></nav>
+          </aside>
+          <article class="course-lesson" id="course-lesson-card">
+            <p class="q-meta" id="course-lesson-crumb"></p>
+            <h2 id="course-lesson-title"></h2>
+            <div id="course-lesson-body" class="lesson-body"></div>
+            <div id="course-lesson-footnotes" class="course-footnotes" hidden></div>
+            <div id="course-glossary" class="course-glossary" hidden></div>
+            <div id="course-practice" class="course-practice" hidden></div>
+            <p class="lead course-practice-hint" id="course-practice-hint" hidden>
+              Практика берётся из <code>practiceQuestionIds</code> модуля (не из секции в тексте урока).
+            </p>
+            <div id="course-warnings" class="course-warnings" hidden></div>
+          </article>
+        </div>
+
+        <div class="actions">
+          <button type="button" id="btn-course-prev" class="btn ghost">Назад</button>
+          <button type="button" id="btn-course-next" class="btn primary">Далее</button>
+          <button type="button" id="btn-course-home" class="btn">К библиотеке</button>
+        </div>
+      </section>
+
+      <section id="run-view" class="panel" hidden>
+        <div class="meta-row">
+          <div>
+            <h1 id="test-title">Тест</h1>
+            <p class="meta" id="test-meta"></p>
+          </div>
+          <div class="run-badges">
+            <p class="progress" id="progress"></p>
+            <p class="timer" id="timer" hidden></p>
+          </div>
+        </div>
+
+        <article class="question" id="question-card">
+          <p class="q-meta" id="q-meta"></p>
+          <h2 id="q-text"></h2>
+          <div id="q-body"></div>
+          <div id="feedback" class="feedback" hidden></div>
+        </article>
+
+        <div class="actions">
+          <button type="button" id="btn-prev" class="btn ghost">Назад</button>
+          <button type="button" id="btn-skip" class="btn ghost">Пропустить</button>
+          <button type="button" id="btn-check" class="btn primary">Проверить</button>
+          <button type="button" id="btn-next" class="btn" hidden>Далее</button>
+          <button type="button" id="btn-finish" class="btn accent">Завершить</button>
+        </div>
+      </section>
+
+      <section id="stats-view" class="panel" hidden>
+        <p id="time-up-banner" class="time-up" hidden>Время вышло</p>
+        <h1>Результаты</h1>
+        <p class="lead" id="stats-summary"></p>
+        <div class="stats-grid" id="stats-grid"></div>
+        <h2>По навыкам</h2>
+        <table class="table" id="skill-table">
+          <thead>
+            <tr>
+              <th>Навык</th>
+              <th>Вес</th>
+              <th>Верно</th>
+              <th>Неверно</th>
+              <th>Пропуск</th>
+              <th>Без оценки</th>
+              <th>Доля</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
+    <div id="termTip" role="tooltip"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

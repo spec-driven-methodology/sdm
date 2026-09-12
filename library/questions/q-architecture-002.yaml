@@ -1,0 +1,21 @@
+id: q-architecture-002
+skill: architecture
+difficulty: 0.63
+type: single_choice
+text: >-
+  Какой паттерн проектирования лучше всего подходит для разделения сложной бизнес-логики на
+  изолированные, тестируемые домены?
+options:
+  - MVC
+  - Clean/Hexagonal Architecture
+  - Singleton
+  - Observer
+correct: 2
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      architecture: 311a6982cdaf7424
+    capturedAt: "2026-09-11T21:35:43.877Z"

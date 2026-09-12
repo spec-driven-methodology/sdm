@@ -1,0 +1,9 @@
+id: databases
+name: Databases
+description: >-
+  Проектирование схем данных, SQL, нормализация, индексы, транзакции. Работа с реляционными БД
+  (PostgreSQL, MySQL) и NoSQL (Redis). Оптимизация запросов.
+depends_on: []
+related_to: []
+topics: []
+topic_labels: {}

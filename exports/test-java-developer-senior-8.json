@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "sdm.export.test/v1",
+  "profile": "java-developer",
+  "level": "senior",
+  "title": "Senior",
+  "threshold": 0.7,
+  "requirements": [
+    {"skill": "core-java", "depth": 0.9, "weight": 0.3},
+    {"skill": "spring-framework", "depth": 0.9, "weight": 0.3},
+    {"skill": "databases", "depth": 0.9, "weight": 0.1},
+    {"skill": "testing", "depth": 0.9, "weight": 0.1},
+    {"skill": "architecture", "depth": 0.9, "weight": 0.1},
+    {"skill": "devops", "depth": 0.9, "weight": 0.1}
+  ],
+  "questions": [
+    {"id": "q-architecture-001", "skill": "architecture", "difficulty": 0.3, "type": "single_choice", "text": "Какой паттерн интеграции микросервисов лучше всего подходит для обеспечения слабой связности и eventual consistency?", "options": ["REST API", "gRPC", "Event-Driven (Message Bus)", "Shared Database"], "correct": 3},
+    {"id": "q-architecture-002", "skill": "architecture", "difficulty": 0.63, "type": "single_choice", "text": "Какой паттерн проектирования лучше всего подходит для разделения сложной бизнес-логики на изолированные, тестируемые домены?", "options": ["MVC", "Clean/Hexagonal Architecture", "Singleton", "Observer"], "correct": 2},
+    {"id": "q-architecture-003", "skill": "architecture", "difficulty": 0.63, "type": "single_choice", "text": "Какой паттерн проектирования чаще всего используется для изоляции доменной логики от фреймворка и инфраструктуры в Clean/Hexagonal Architecture?", "options": ["Repository", "Service Layer", "Use Case / Interactor", "DTO"], "correct": 3},
+    {"id": "q-architecture-004", "skill": "architecture", "difficulty": 0.63, "type": "single_choice", "text": "Какой паттерн обеспечивает изоляцию доменной логики от деталей инфраструктуры (БД, веб-фреймворк) и упрощает юнит-тестирование без базы данных?", "options": ["Repository", "Service Layer", "Use Case / Interactor", "DTO"], "correct": 3},
+    {"id": "q-architecture-005", "skill": "architecture", "difficulty": 0.63, "type": "single_choice", "text": "Какой паттерн проектирования лучше всего подходит для реализации CQRS (Command Query Responsibility Segregation) в микросервисной архитектуре?", "options": ["MediatR", "Clean Architecture", "Hexagonal Architecture", "Event Sourcing"], "correct": 1},
+    {"id": "q-architecture-006", "skill": "architecture", "difficulty": 0.63, "type": "single_choice", "text": "Какой паттерн интеграции лучше всего подходит для гарантии exactly-once доставки событий между микросервисами?", "options": ["Idempotent Consumer", "Two-Phase Commit", "Outbox Pattern", "Saga"], "correct": 3},
+    {"id": "q-core-java-001", "skill": "core-java", "difficulty": 0.3, "type": "single_choice", "text": "Какой результат выполнения кода: List<String> list = new ArrayList<>(); list.add(\"A\"); list.add(\"B\"); return list.stream().filter(s -> s.startsWith(\"A\")).count();?", "options": ["0", "1", "2", "Ошибка компиляции"], "correct": 2},
+    {"id": "q-core-java-002", "skill": "core-java", "difficulty": 0.6, "type": "multi_choice", "text": "Какие из перечисленных утверждений о ключевом слове volatile в Java верны?", "options": ["Гарантирует видимость изменений между потоками", "Устраняет необходимость в синхронизации для составных операций", "Запрещает переупорядочивание операций чтения/записи", "Обеспечивает атомарность операций инкремента"], "correct": 1}
+  ],
+  "meta": {
+    "questionCount": 8,
+    "skillsMissingQuestions": [],
+    "basis": {
+      "skills": {
+        "architecture": "311a6982cdaf7424",
+        "core-java": "5361d7e7364b7b91",
+        "databases": "ff6ae5bb58f91237",
+        "devops": "6fca83073dd54a85",
+        "spring-framework": "8b0ebd2cf6c2e792",
+        "testing": "7e664384d55dd6a7"
+      },
+      "level": {"id": "senior", "hash": "0b8bf5ce2e8a8510"},
+      "capturedAt": "2026-09-11T21:54:40.095Z"
+    },
+    "revision": "99f50bdcd747b546"
+  },
+  "id": "test-java-developer-senior-8"
+}

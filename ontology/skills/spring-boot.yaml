@@ -1,0 +1,10 @@
+id: spring-boot
+name: Spring Boot
+description: >-
+  Стартеры, автоконфигурация, условные бины, свойства и профили, Actuator, Web (MVC, WebFlux),
+  тестирование (Test, Boot Test), обработка ошибок, встроенный сервер, DevTools, production-ready
+  фичи.
+depends_on: []
+related_to: []
+topics: []
+topic_labels: {}

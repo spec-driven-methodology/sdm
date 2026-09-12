@@ -1,0 +1,6 @@
+.sdm/cache/
+.sdm/index/
+.sdm/logs/
+.sdm/studio/
+.DS_Store
+*.log

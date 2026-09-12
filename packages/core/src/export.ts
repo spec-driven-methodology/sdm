@@ -1,0 +1,468 @@
+import {
+  mulberry32,
+  shuffleDocumentQuestions,
+} from "./distractor-quality.js";
+import { SdmError } from "./errors.js";
+import {
+  applyExportQuestionFilter,
+  resolveExportQuestionFilter,
+  type ExportQuestionFilter,
+} from "./export-question-filter.js";
+import {
+  applySkillFilterToRequirements,
+  resolveExportSkillFilter,
+  type ExportSkillFilter,
+} from "./export-skill-filter.js";
+import {
+  applyExportTypeFilter,
+  resolveExportTypeFilter,
+  type ExportTypeFilter,
+} from "./export-type-filter.js";
+import {
+  assertProfileLevelMatch,
+  loadLevel,
+  loadQuestions,
+  loadProfile,
+  type LoadWarning,
+} from "./loaders.js";
+import { buildContentBasis } from "./content-basis.js";
+import {
+  buildTestPackageId,
+  hashContentRevision,
+} from "./export-package-identity.js";
+import { findProjectRoot } from "./project-root.js";
+import type { ContentBasis, Level, Question, Profile } from "./schemas.js";
+import { resolveLevelForTeam } from "./teams.js";
+
+export const EXPORT_TEST_SCHEMA = "sdm.export.test/v1";
+export const EXPORT_MATRIX_SCHEMA = "sdm.export.matrix/v1";
+
+export type ExportTestFormat = "json" | "csv";
+export type ExportMatrixFormat = "csv" | "json";
+
+export interface ExportTestDocument {
+  schemaVersion: typeof EXPORT_TEST_SCHEMA;
+  /** Stable upsert slot for external consumers. */
+  id: string;
+  profile: string;
+  level: string;
+  title: string;
+  threshold: number;
+  requirements: Level["requirements"];
+  questions: Question[];
+  meta: {
+    questionCount: number;
+    skillsMissingQuestions: string[];
+    adaptive?: boolean;
+    seed?: number;
+    perSkill?: number;
+    selectedIds?: string[];
+    team?: string;
+    typeFilter?: ExportTypeFilter;
+    skillFilter?: ExportSkillFilter;
+    questionFilter?: ExportQuestionFilter;
+    weightsNormalized?: boolean;
+    optionShuffle?: { enabled: true; seed?: number };
+    basis?: ContentBasis;
+    /** Content fingerprint (basis hashes without capturedAt). */
+    revision?: string;
+  };
+}
+
+export interface ExportMatrixCell {
+  skill: string;
+  level: string;
+  depth: number;
+  weight: number;
+}
+
+export interface ExportMatrixDocument {
+  schemaVersion: typeof EXPORT_MATRIX_SCHEMA;
+  profile: string;
+  title: string;
+  levels: string[];
+  cells: ExportMatrixCell[];
+}
+
+export interface ExportTestOptions {
+  startDir: string;
+  profile: string;
+  level: string;
+  format?: string;
+  team?: string;
+  adaptive?: boolean;
+  seed?: number;
+  perSkill?: number;
+  /** Allowlist of question types (mutually exclusive with excludeTypes) */
+  includeTypes?: string[];
+  /** Denylist of question types (mutually exclusive with includeTypes) */
+  excludeTypes?: string[];
+  /** Allowlist of skill ids (mutually exclusive with excludeSkills) */
+  includeSkills?: string[];
+  /** Denylist of skill ids (mutually exclusive with includeSkills) */
+  excludeSkills?: string[];
+  /** Allowlist of question ids (applied after skill/type filters) */
+  includeQuestions?: string[];
+  /** Permute choice options and remap correct (library YAML unchanged). */
+  shuffleOptions?: boolean;
+}
+
+export interface ExportMatrixOptions {
+  startDir: string;
+  profile: string;
+  format?: string;
+}
+
+export type AssembledTestDocument = Omit<ExportTestDocument, "id">;
+
+export interface ExportTestRun {
+  projectRoot: string;
+  format: ExportTestFormat;
+  document: ExportTestDocument;
+  csv: string | null;
+  warnings: LoadWarning[];
+}
+
+export interface ExportMatrixRun {
+  projectRoot: string;
+  format: ExportMatrixFormat;
+  document: ExportMatrixDocument;
+  csv: string | null;
+}
+
+function parseTestFormat(format: string | undefined): ExportTestFormat {
+  const value = (format ?? "json").toLowerCase();
+  if (value === "json" || value === "csv") {
+    return value;
+  }
+  throw new SdmError(
+    "EXPORT_FORMAT_INVALID",
+    `Invalid export test format "${format}". Use json or csv.`,
+  );
+}
+
+function parseMatrixFormat(format: string | undefined): ExportMatrixFormat {
+  const value = (format ?? "csv").toLowerCase();
+  if (value === "csv" || value === "json") {
+    return value;
+  }
+  throw new SdmError(
+    "EXPORT_FORMAT_INVALID",
+    `Invalid export matrix format "${format}". Use csv or json.`,
+  );
+}
+
+function csvEscape(value: string): string {
+  if (/[",\n\r]/.test(value)) {
+    return `"${value.replace(/"/g, '""')}"`;
+  }
+  return value;
+}
+
+function cellValue(value: unknown): string {
+  if (value === undefined || value === null) {
+    return "";
+  }
+  if (typeof value === "string") {
+    return csvEscape(value);
+  }
+  return csvEscape(JSON.stringify(value));
+}
+
+export function testDocumentToCsv(document: ExportTestDocument): string {
+  const header =
+    "id,skill,difficulty,type,text,options,correct,explanation,expected";
+  const rows = document.questions.map((q) =>
+    [
+      cellValue(q.id),
+      cellValue(q.skill),
+      cellValue(q.difficulty),
+      cellValue(q.type),
+      cellValue(q.text),
+      cellValue(q.options),
+      cellValue(q.correct),
+      cellValue(q.explanation),
+      cellValue(q.expected),
+    ].join(","),
+  );
+  return [header, ...rows].join("\n") + (rows.length > 0 ? "\n" : "");
+}
+
+export function matrixDocumentToCsv(document: ExportMatrixDocument): string {
+  const header = "skill,level,depth,weight";
+  const rows = document.cells.map((c) =>
+    [cellValue(c.skill), cellValue(c.level), cellValue(c.depth), cellValue(c.weight)].join(
+      ",",
+    ),
+  );
+  return [header, ...rows].join("\n") + (rows.length > 0 ? "\n" : "");
+}
+
+function pickAdaptiveQuestions(
+  level: Level,
+  questions: Question[],
+  perSkill: number,
+  seed: number,
+): Question[] {
+  const rand = mulberry32(seed);
+  const bySkill = new Map<string, Question[]>();
+  for (const q of questions) {
+    const list = bySkill.get(q.skill) ?? [];
+    list.push(q);
+    bySkill.set(q.skill, list);
+  }
+  const picked: Question[] = [];
+  for (const req of level.requirements) {
+    const pool = (bySkill.get(req.skill) ?? []).slice().sort((a, b) => {
+      // Prefer closer to required depth, then id
+      const da = Math.abs(a.difficulty - req.depth);
+      const db = Math.abs(b.difficulty - req.depth);
+      if (da !== db) return da - db;
+      return a.id.localeCompare(b.id);
+    });
+    // Shuffle top candidates lightly with seed for variety among near-depth items
+    const top = pool.slice(0, Math.max(perSkill * 2, perSkill));
+    for (let i = top.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [top[i], top[j]] = [top[j]!, top[i]!];
+    }
+    picked.push(...top.slice(0, perSkill));
+  }
+  return picked.sort((a, b) => {
+    const bySkillCmp = a.skill.localeCompare(b.skill);
+    if (bySkillCmp !== 0) return bySkillCmp;
+    return a.id.localeCompare(b.id);
+  });
+}
+
+export function assembleTestDocument(
+  profileId: string,
+  level: Level,
+  questions: Question[],
+  options?: {
+    adaptive?: boolean;
+    seed?: number;
+    perSkill?: number;
+    team?: string;
+    includeTypes?: string[];
+    excludeTypes?: string[];
+    includeSkills?: string[];
+    excludeSkills?: string[];
+    includeQuestions?: string[];
+    shuffleOptions?: boolean;
+    basis?: ContentBasis;
+  },
+): AssembledTestDocument {
+  const adaptive = Boolean(options?.adaptive);
+  const seed = options?.seed ?? 42;
+  const perSkill = options?.perSkill ?? 3;
+  const shuffleOptions = Boolean(options?.shuffleOptions);
+
+  const skillFilter = resolveExportSkillFilter(
+    {
+      includeSkills: options?.includeSkills,
+      excludeSkills: options?.excludeSkills,
+    },
+    level.requirements,
+  );
+  const { requirements, weightsNormalized } = applySkillFilterToRequirements(
+    level.requirements,
+    skillFilter,
+  );
+  const effectiveLevel: Level = { ...level, requirements };
+  const requiredSkills = new Set(requirements.map((r) => r.skill));
+
+  const typeFilter = resolveExportTypeFilter({
+    includeTypes: options?.includeTypes,
+    excludeTypes: options?.excludeTypes,
+  });
+  const questionFilter = resolveExportQuestionFilter({
+    includeQuestions: options?.includeQuestions,
+  });
+
+  // Pipeline: skill → adaptive → type → question id → optional shuffle
+  let selected = adaptive
+    ? pickAdaptiveQuestions(effectiveLevel, questions, perSkill, seed)
+    : questions
+        .filter((q) => requiredSkills.has(q.skill))
+        .slice()
+        .sort((a, b) => {
+          const bySkill = a.skill.localeCompare(b.skill);
+          if (bySkill !== 0) return bySkill;
+          return a.id.localeCompare(b.id);
+        });
+
+  selected = applyExportTypeFilter(selected, typeFilter);
+  selected = applyExportQuestionFilter(selected, questionFilter);
+
+  if (
+    (skillFilter !== undefined || questionFilter !== undefined) &&
+    selected.length === 0
+  ) {
+    throw new SdmError(
+      "EXPORT_FILTER_EMPTY",
+      "Skill or question filter produced an empty export package.",
+    );
+  }
+
+  if (shuffleOptions) {
+    // Shared --seed with adaptive for deterministic option shuffle.
+    selected = shuffleDocumentQuestions(selected, seed);
+  }
+
+  const counts = new Map<string, number>();
+  for (const q of selected) {
+    counts.set(q.skill, (counts.get(q.skill) ?? 0) + 1);
+  }
+
+  const skillsMissingQuestions = requirements
+    .map((r) => r.skill)
+    .filter((skill) => (counts.get(skill) ?? 0) === 0);
+
+  return {
+    schemaVersion: EXPORT_TEST_SCHEMA,
+    profile: profileId,
+    level: level.level,
+    title: level.title,
+    threshold: level.threshold,
+    requirements,
+    questions: selected,
+    meta: {
+      questionCount: selected.length,
+      skillsMissingQuestions,
+      ...(adaptive
+        ? {
+            adaptive: true,
+            seed,
+            perSkill,
+            selectedIds: selected.map((q) => q.id),
+          }
+        : {}),
+      ...(options?.team ? { team: options.team } : {}),
+      ...(typeFilter ? { typeFilter } : {}),
+      ...(skillFilter ? { skillFilter } : {}),
+      ...(questionFilter ? { questionFilter } : {}),
+      ...(weightsNormalized ? { weightsNormalized: true } : {}),
+      ...(shuffleOptions
+        ? { optionShuffle: { enabled: true as const, seed } }
+        : {}),
+      ...(options?.basis ? { basis: options.basis } : {}),
+    },
+  };
+}
+
+export function assembleMatrixDocument(profile: Profile, levels: Level[]): ExportMatrixDocument {
+  const byId = new Map(levels.map((l) => [l.level, l]));
+  const ordered = profile.levels.map((id) => {
+    const level = byId.get(id);
+    if (!level) {
+      throw new SdmError(
+        "LEVEL_NOT_FOUND",
+        `Level "${id}" not found under certifications/levels/`,
+      );
+    }
+    return level;
+  });
+
+  const cells: ExportMatrixCell[] = [];
+  for (const level of ordered) {
+    for (const req of level.requirements) {
+      cells.push({
+        skill: req.skill,
+        level: level.level,
+        depth: req.depth,
+        weight: req.weight,
+      });
+    }
+  }
+
+  return {
+    schemaVersion: EXPORT_MATRIX_SCHEMA,
+    profile: profile.profile,
+    title: profile.title,
+    levels: ordered.map((l) => l.level),
+    cells,
+  };
+}
+
+/**
+ * Assemble a consumer test package for a role + level.
+ */
+export function exportTest(options: ExportTestOptions): ExportTestRun {
+  const format = parseTestFormat(options.format);
+  const projectRoot = findProjectRoot(options.startDir);
+  const profile = loadProfile(projectRoot, options.profile);
+  const { level } = resolveLevelForTeam(
+    projectRoot,
+    options.profile,
+    options.level,
+    options.team,
+  );
+  assertProfileLevelMatch(profile, level, options.profile);
+
+  const { questions, warnings } = loadQuestions(projectRoot);
+  const assembled = assembleTestDocument(options.profile, level, questions, {
+    adaptive: options.adaptive,
+    seed: options.seed,
+    perSkill: options.perSkill,
+    team: options.team,
+    includeTypes: options.includeTypes,
+    excludeTypes: options.excludeTypes,
+    includeSkills: options.includeSkills,
+    excludeSkills: options.excludeSkills,
+    includeQuestions: options.includeQuestions,
+    shuffleOptions: options.shuffleOptions,
+  });
+  const basis = buildContentBasis({
+    projectRoot,
+    skillIds: assembled.requirements.map((r) => r.skill),
+    level,
+  });
+  const packageId = buildTestPackageId({
+    profile: options.profile,
+    level: options.level,
+    team: options.team,
+    adaptive: options.adaptive,
+    seed: options.seed,
+    perSkill: options.perSkill,
+    typeFilter: assembled.meta.typeFilter,
+    skillFilter: assembled.meta.skillFilter,
+    questionFilter: assembled.meta.questionFilter,
+  });
+  const revision = hashContentRevision(basis);
+  const document: ExportTestDocument = {
+    ...assembled,
+    id: packageId,
+    meta: { ...assembled.meta, basis, revision },
+  };
+  const csv = format === "csv" ? testDocumentToCsv(document) : null;
+
+  return { projectRoot, format, document, csv, warnings };
+}
+
+/**
+ * Assemble a competency matrix for a role (all listed levels).
+ */
+export function exportMatrix(options: ExportMatrixOptions): ExportMatrixRun {
+  const format = parseMatrixFormat(options.format);
+  const projectRoot = findProjectRoot(options.startDir);
+  const profile = loadProfile(projectRoot, options.profile);
+
+  const levels = profile.levels.map((levelId) => loadLevel(projectRoot, levelId));
+  const document = assembleMatrixDocument(profile, levels);
+  const csv = format === "csv" ? matrixDocumentToCsv(document) : null;
+
+  return { projectRoot, format, document, csv };
+}
+
+/** Envelope document field for agent/MCP `--json` mode. */
+export function exportDocumentPayload(
+  format: "json" | "csv",
+  document: ExportTestDocument | ExportMatrixDocument,
+  csv: string | null,
+): ExportTestDocument | ExportMatrixDocument | { csv: string } {
+  if (format === "csv") {
+    return { csv: csv ?? "" };
+  }
+  return document;
+}

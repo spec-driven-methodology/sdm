@@ -1,0 +1,9 @@
+id: devops
+name: DevOps
+description: >-
+  CI/CD, контейнеризация (Docker, Kubernetes), инфраструктура как код (Terraform, Ansible),
+  мониторинг и логирование (Prometheus, ELK), GitOps.
+depends_on: []
+related_to: []
+topics: []
+topic_labels: {}

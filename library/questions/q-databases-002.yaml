@@ -1,0 +1,21 @@
+id: q-databases-002
+skill: databases
+difficulty: 0.45
+type: single_choice
+text: >-
+  Какой уровень изоляции транзакций в PostgreSQL обеспечивает защиту от «грязного чтения» и
+  «неповторяющегося чтения», но допускает «фантомы»?
+options:
+  - READ UNCOMMITTED
+  - READ COMMITTED
+  - REPEATABLE READ
+  - SERIALIZABLE
+correct: 3
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      databases: ff6ae5bb58f91237
+    capturedAt: "2026-09-11T21:33:39.904Z"

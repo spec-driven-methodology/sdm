@@ -1,0 +1,21 @@
+id: q-core-java-001
+skill: core-java
+difficulty: 0.3
+type: single_choice
+text: >-
+  Какой результат выполнения кода: List&lt;String&gt; list = new ArrayList&lt;&gt;(); list.add("A");
+  list.add("B"); return list.stream().filter(s -&gt; s.startsWith("A")).count();?
+options:
+  - "0"
+  - "1"
+  - "2"
+  - Ошибка компиляции
+correct: 2
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      core-java: 5361d7e7364b7b91
+    capturedAt: "2026-09-11T21:31:03.364Z"

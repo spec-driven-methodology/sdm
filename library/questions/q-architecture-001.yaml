@@ -1,0 +1,21 @@
+id: q-architecture-001
+skill: architecture
+difficulty: 0.3
+type: single_choice
+text: >-
+  Какой паттерн интеграции микросервисов лучше всего подходит для обеспечения слабой связности и
+  eventual consistency?
+options:
+  - REST API
+  - gRPC
+  - Event-Driven (Message Bus)
+  - Shared Database
+correct: 3
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      architecture: 311a6982cdaf7424
+    capturedAt: "2026-09-11T21:33:49.922Z"

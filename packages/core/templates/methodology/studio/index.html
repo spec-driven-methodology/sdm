@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SDM — студия методологии</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <div class="brand-row">
+          <button type="button" class="brand" id="nav-home" title="На главную">
+            SDM
+          </button>
+          <p class="tagline">
+            <span class="tag-sep" aria-hidden="true"></span>Студия методологии
+          </p>
+        </div>
+        <nav class="crumbs" id="crumbs" aria-label="Навигация" hidden>
+          <button type="button" class="crumb-link" id="crumb-home">Главная</button>
+          <span class="crumb-sep" aria-hidden="true">/</span>
+          <span class="crumb-current" id="crumb-current"></span>
+        </nav>
+      </header>
+
+      <section id="load-view" class="panel">
+        <h1>Студия методологии</h1>
+        <p class="lead">
+          Author shell над эталоном: просмотр плана и передача действий исполнителю
+          (агент / CLI / API). Studio <strong>не</strong> пишет YAML и не генерирует
+          вопросы — только отображение и эмит <code>sdm.studio.action/v1</code>.
+          Не LMS, не harness агентов и не чат.
+        </p>
+
+        <p id="bridge-status" class="muted small" aria-live="polite">
+          Мост: проверка…
+        </p>
+
+        <div class="studio-actions-row">
+          <button type="button" class="btn primary" id="btn-demo">
+            Открыть демо-fixture
+          </button>
+          <button type="button" class="btn" id="btn-bridge" hidden>
+            Загрузить из моста
+          </button>
+        </div>
+
+        <label class="dropzone" id="dropzone">
+          <input
+            type="file"
+            id="file-input"
+            accept="application/json,.json"
+          />
+          <span id="dropzone-hint"
+            >Перетащите view JSON (<code>sdm.studio.view/v1</code>) или нажмите, чтобы выбрать</span
+          >
+        </label>
+        <p id="load-error" class="error" hidden></p>
+      </section>
+
+      <section id="work-view" class="panel" hidden>
+        <h1 id="work-title">План</h1>
+        <p id="work-lead" class="lead muted"></p>
+
+        <div id="phase-clarifications" class="studio-phase" hidden>
+          <h2 class="subhead">Уточнения</h2>
+          <div id="clarifications-root"></div>
+          <div class="studio-actions-row">
+            <button type="button" class="btn primary" id="btn-clarifications-next">
+              Далее к плану
+            </button>
+          </div>
+        </div>
+
+        <div id="phase-plan" class="studio-phase" hidden>
+          <h2 class="subhead">План</h2>
+          <div id="plan-root"></div>
+          <div class="studio-actions-row">
+            <button type="button" class="btn primary" id="btn-confirm">
+              Подтвердить план
+            </button>
+            <button type="button" class="btn" id="btn-reject">Отклонить</button>
+          </div>
+        </div>
+
+        <div id="phase-coverage" class="studio-phase" hidden>
+          <h2 class="subhead" id="coverage-title">Покрытие</h2>
+          <p id="coverage-summary" class="muted small"></p>
+          <div id="coverage-skills"></div>
+          <div id="coverage-suggestions" class="studio-suggest" hidden>
+            <h3 class="subhead">Что дальше</h3>
+            <div id="coverage-levers"></div>
+          </div>
+        </div>
+
+        <div id="phase-export" class="studio-phase" hidden>
+          <h2 class="subhead" id="export-title">Экспорт теста</h2>
+          <p class="muted small">
+            Параметры для агента (<code>export test</code>). Studio сама экспорт не выполняет.
+          </p>
+          <div id="export-root"></div>
+          <div class="studio-actions-row">
+            <button type="button" class="btn primary" id="btn-export">
+              Экспортировать тест
+            </button>
+          </div>
+        </div>
+
+        <div id="handoff-panel" class="studio-handoff" hidden>
+          <h2 class="subhead">Player</h2>
+          <p class="muted small" id="handoff-hint">
+            После того как агент положит JSON в <code>exports/</code>, откройте Player для превью
+            (не LMS).
+          </p>
+          <div class="studio-actions-row">
+            <a class="btn primary" id="link-player" href="../player/index.html" target="_blank" rel="noopener"
+              >Открыть Player</a
+            >
+            <a class="btn" id="link-exports" href="/exports/" target="_blank" rel="noopener" hidden
+              >Файлы exports/</a
+            >
+          </div>
+        </div>
+
+        <div id="action-panel" class="studio-action-panel" hidden>
+          <h2 class="subhead">Последнее действие</h2>
+          <p class="muted small" id="action-hint">
+            Передайте JSON агенту или сохраните файл. Studio методологию не меняет.
+          </p>
+          <pre id="action-json" class="studio-code"></pre>
+          <div class="studio-actions-row">
+            <button type="button" class="btn" id="btn-download-action">
+              Скачать action JSON
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="app.js" type="module"></script>
+  </body>
+</html>

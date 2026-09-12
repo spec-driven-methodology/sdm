@@ -1,0 +1,10 @@
+id: spring-core
+name: Spring Core
+description: >-
+  Основы Spring Framework: IoC-контейнер, бины, жизненный цикл, конфигурации, профили, события,
+  аннотации (@Component, @Service, @Repository, @Configuration, @Bean, @Autowired, @Qualifier,
+  @Value, @Scope, @Primary).
+depends_on: []
+related_to: []
+topics: []
+topic_labels: {}

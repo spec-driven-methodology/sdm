@@ -1,0 +1,21 @@
+id: q-devops-004
+skill: devops
+difficulty: 0.3
+type: single_choice
+text: >-
+  Какой инструмент используется для автоматизации развёртывания и управления конфигурациями серверов
+  (не для оркестрации контейнеров)?
+options:
+  - Terraform
+  - Ansible
+  - Kubernetes
+  - Prometheus
+correct: 2
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      devops: 6fca83073dd54a85
+    capturedAt: "2026-09-11T21:38:03.992Z"

@@ -1,0 +1,21 @@
+id: q-spring-framework-001
+skill: spring-framework
+difficulty: 0.3
+type: single_choice
+text: >-
+  Какой аннотацией в Spring Boot обозначается главный класс приложения, с которого начинается
+  выполнение?
+options:
+  - "@Component"
+  - "@Configuration"
+  - "@SpringBootApplication"
+  - "@EnableAutoConfiguration"
+correct: 3
+topics: []
+red_flags: []
+rubric: []
+meta:
+  basis:
+    skills:
+      spring-framework: 8b0ebd2cf6c2e792
+    capturedAt: "2026-09-11T21:31:12.155Z"

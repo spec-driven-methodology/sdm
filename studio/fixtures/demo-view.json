@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "sdm.studio.view/v1",
+  "id": "demo-typescript-junior",
+  "title": "Основа профиля TypeScript Junior",
+  "phases": [
+    {
+      "kind": "clarifications",
+      "id": "clarify-direction",
+      "title": "Уточнения",
+      "items": [
+        {
+          "id": "direction",
+          "prompt": "Направление?",
+          "options": [
+            { "label": "frontend (React/DOM)", "value": "frontend" },
+            { "label": "Node/backend", "value": "backend" },
+            { "label": "fullstack", "value": "fullstack" }
+          ],
+          "defaultValue": "backend"
+        },
+        {
+          "id": "ai",
+          "prompt": "AI в профиле?",
+          "options": [
+            { "label": "чистый TypeScript Junior", "value": "none" },
+            { "label": "язык + базовые AI-скиллы", "value": "basic-ai" }
+          ],
+          "defaultValue": "basic-ai"
+        }
+      ]
+    },
+    {
+      "kind": "plan",
+      "id": "plan-profile-pack",
+      "title": "План",
+      "plan": {
+        "schema": "sdm.intent.plan/v1",
+        "kind": "profile-pack",
+        "profile": {
+          "id": "typescript-ai-developer",
+          "title": "TypeScript AI Developer"
+        },
+        "level": {
+          "id": "typescript-junior",
+          "title": "Junior"
+        },
+        "skills": [
+          {
+            "id": "typescript-core",
+            "name": "TypeScript Core",
+            "category": "language",
+            "description": "Основы TypeScript для backend: типы, интерфейсы, generics, модули, strict mode.",
+            "topics": ["types", "interfaces", "generics", "modules"]
+          },
+          {
+            "id": "typescript-backend",
+            "name": "TypeScript Backend",
+            "category": "backend",
+            "description": "HTTP API на Node.js + TypeScript: маршруты, валидация, async/await.",
+            "topics": ["routing", "zod", "async-await"]
+          },
+          {
+            "id": "llm-typescript",
+            "name": "LLM in TypeScript",
+            "category": "ai",
+            "description": "Интеграция LLM в Node/TS-сервисы: SDK, chat completions, tools.",
+            "topics": ["openai-sdk", "chat-completions", "tools"]
+          }
+        ],
+        "links": [
+          {
+            "id": "typescript-backend",
+            "dependsOn": ["typescript-core"],
+            "relatedTo": []
+          },
+          {
+            "id": "llm-typescript",
+            "dependsOn": ["typescript-core"],
+            "relatedTo": ["prompt-engineering"]
+          }
+        ],
+        "reuseSkills": ["prompt-engineering", "ai-quality", "ai-security"],
+        "requirements": [
+          { "skill": "typescript-core", "depth": 0.5, "weight": 0.2 },
+          { "skill": "typescript-backend", "depth": 0.5, "weight": 0.2 },
+          { "skill": "llm-typescript", "depth": 0.45, "weight": 0.2 },
+          { "skill": "prompt-engineering", "depth": 0.5, "weight": 0.18 },
+          { "skill": "ai-quality", "depth": 0.35, "weight": 0.12 },
+          { "skill": "ai-security", "depth": 0.35, "weight": 0.1 }
+        ],
+        "seed": {
+          "questionsPerSkill": 3,
+          "difficultyMin": 0.2,
+          "difficultyMax": 0.5,
+          "type": "single_choice",
+          "typeMix": "single"
+        },
+        "exportTest": false,
+        "notes": "Демо-fixture. Studio не пишет YAML — только эмит action для агента/CLI."
+      }
+    },
+    {
+      "kind": "coverage",
+      "id": "coverage",
+      "title": "Пробелы покрытия",
+      "profile": "typescript-ai-developer",
+      "level": "typescript-junior",
+      "summary": { "missing": 1, "thin": 1, "ok": 1 },
+      "skills": [
+        {
+          "id": "llm-typescript",
+          "name": "LLM in TypeScript",
+          "status": "missing",
+          "questionCount": 0,
+          "depthRatio": 0
+        },
+        {
+          "id": "typescript-backend",
+          "name": "TypeScript Backend",
+          "status": "thin",
+          "questionCount": 1,
+          "depthRatio": 0.4
+        },
+        {
+          "id": "typescript-core",
+          "name": "TypeScript Core",
+          "status": "ok",
+          "questionCount": 5,
+          "depthRatio": 1
+        }
+      ],
+      "suggestions": [
+        {
+          "id": "close-gaps",
+          "label": "Закрыть пробелы покрытия (не покрыто / слабо покрыто)",
+          "why": "Демо: missing=1, thin=1",
+          "levers": [
+            {
+              "phrase": "сгенерировать черновики",
+              "mapsTo": "question generate --to-skill <skill> --json"
+            },
+            {
+              "phrase": "проверь черновик",
+              "mapsTo": "question validate --json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "export-form",
+      "id": "export-test",
+      "title": "Экспорт теста",
+      "target": "export_test",
+      "defaults": {
+        "profile": "typescript-ai-developer",
+        "level": "typescript-junior"
+      },
+      "fields": [
+        {
+          "id": "includeTypes",
+          "widget": "multi",
+          "label": "Типы вопросов",
+          "options": [
+            { "label": "single choice", "value": "single_choice" },
+            { "label": "multi choice", "value": "multi_choice" },
+            { "label": "open", "value": "open" },
+            { "label": "code", "value": "code" }
+          ],
+          "defaultValue": ["single_choice", "multi_choice"]
+        },
+        {
+          "id": "adaptive",
+          "widget": "boolean",
+          "label": "Адаптивная выборка",
+          "defaultValue": false
+        },
+        {
+          "id": "perSkill",
+          "widget": "number",
+          "label": "Вопросов на навык (adaptive)",
+          "min": 1,
+          "max": 20,
+          "defaultValue": 3
+        },
+        {
+          "id": "seed",
+          "widget": "number",
+          "label": "Seed",
+          "defaultValue": 42
+        },
+        {
+          "id": "shuffleOptions",
+          "widget": "boolean",
+          "label": "Перетасовать варианты",
+          "defaultValue": false
+        }
+      ]
+    }
+  ]
+}

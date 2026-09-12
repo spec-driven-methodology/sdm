@@ -1,0 +1,9 @@
+id: core-java
+name: Core Java
+description: >-
+  Фундаментальные основы языка Java: JVM, типы данных, ООП, коллекции, многопоточность, лямбды,
+  Stream API, обработка исключений, аннотации и рефлексия.
+depends_on: []
+related_to: []
+topics: []
+topic_labels: {}

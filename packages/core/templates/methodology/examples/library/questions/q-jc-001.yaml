@@ -1,0 +1,14 @@
+id: q-jc-001
+skill: java-core
+difficulty: 0.3
+type: single_choice
+text: Чем ArrayList отличается от LinkedList?
+options:
+  - ArrayList быстрее при вставке в середину
+  - ArrayList основан на массиве, LinkedList на связном списке
+  - LinkedList не реализует List
+  - Разницы нет, оба основаны на массиве
+correct: 2
+explanation: >
+  ArrayList использует массив (O(1) доступ, O(n) вставка),
+  LinkedList — двусвязный список (O(n) доступ, O(1) вставка в начало/конец).

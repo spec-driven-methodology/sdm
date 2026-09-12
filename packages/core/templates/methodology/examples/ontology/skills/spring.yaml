@@ -1,0 +1,11 @@
+id: spring
+name: Spring Framework
+description: Spring Boot, IoC, Data, Security
+category: backend
+depends_on:
+  - java-core
+  - sql
+related_to:
+  - docker
+  - microservices
+  - rest

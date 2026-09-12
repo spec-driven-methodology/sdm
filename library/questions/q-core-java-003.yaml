@@ -1,0 +1,32 @@
+id: q-core-java-003
+skill: core-java
+difficulty: 0.9
+type: open
+text: >-
+  Объясните разницу между volatile и synchronized в Java и приведите пример, где volatile
+  недостаточен.
+expected: >-
+  volatile гарантирует видимость и порядок, но не атомарность; synchronized обеспечивает взаимное
+  исключение и видимость. Пример: i++ требует synchronized, так как volatile не сделает инкремент
+  атомарным.
+topics: []
+evidence: knowledge
+red_flags: []
+rubric:
+  - score: 3
+    description: >-
+      Названы обе гарантии (видимость/порядок vs взаимное исключение), объяснена атомарность,
+      приведён корректный пример (i++), указано, где volatile не работает.
+  - score: 2
+    description: Верно названы гарантии, но пример неполный или объяснение атомарности смазано.
+  - score: 1
+    description: >-
+      Частично верно, но есть существенные неточности (например, volatile 'атомарен' или 'заменяет
+      synchronized').
+  - score: 0
+    description: Ответ неверный или отсутствует.
+meta:
+  basis:
+    skills:
+      core-java: 5361d7e7364b7b91
+    capturedAt: "2026-09-11T21:31:37.644Z"
