@@ -14,17 +14,13 @@ describe("initMethodologyProject player scaffold", () => {
     });
   });
 
-  it("copies studio assets without --with-examples", async () => {
+  it("does not copy studio assets (Methodology Studio removed)", async () => {
     await withTempProject((root) => {
-      assert.ok(existsSync(join(root, "studio", "index.html")));
-      assert.ok(existsSync(join(root, "studio", "app.js")));
-      assert.ok(existsSync(join(root, "studio", "styles.css")));
-      assert.ok(existsSync(join(root, "studio", "README.md")));
-      assert.ok(existsSync(join(root, "studio", "fixtures", "demo-view.json")));
+      assert.ok(!existsSync(join(root, "studio")));
       const readme = readFileSync(join(root, "README.md"), "utf8");
-      assert.match(readme, /studio\//);
+      assert.ok(!readme.includes("studio/"));
       const gitignore = readFileSync(join(root, ".gitignore"), "utf8");
-      assert.match(gitignore, /\.sdm\/studio\//);
+      assert.ok(!gitignore.includes(".sdm/studio/"));
     });
   });
 

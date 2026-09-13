@@ -22,7 +22,7 @@ The repository SHALL ship a portable skill at `agents/intent-loop/SKILL.md` that
 
 ### Requirement: Clarify before plan when slots missing
 
-Before presenting a final plan, the skill SHALL require the agent to ask clarifying questions when the human intent does not specify required slots for the chosen plan kind (at minimum for profile-pack: profile identity/title, level, and direction/category or equivalent skill-set hint). The agent MUST NOT run Specra write commands during clarify.
+Before presenting a final plan, the skill SHALL require the agent to ask clarifying questions when the human intent does not specify required slots for the chosen plan kind (at minimum for profile-pack: profile identity/title, level, and direction/category or equivalent skill-set hint). The agent MUST NOT run SDM write commands during clarify.
 
 #### Scenario: Incomplete intent triggers questions
 
@@ -36,12 +36,12 @@ Before presenting a final plan, the skill SHALL require the agent to ask clarify
 
 ### Requirement: Structured plan and confirmation gate
 
-The skill SHALL require a structured plan document before writes. For greenfield profile foundation the plan kind SHALL be `profile-pack` (compatible with bootstrap profile-pack schema). The agent MUST obtain explicit human confirmation before any Specra write operation (`profile create`, `skill add`, `skill link`, `cert create`, `question add`, `cert patch`, and equivalents).
+The skill SHALL require a structured plan document before writes. For greenfield profile foundation the plan kind SHALL be `profile-pack` (compatible with bootstrap profile-pack schema). The agent MUST obtain explicit human confirmation before any SDM write operation (`profile create`, `skill add`, `skill link`, `cert create`, `question add`, `cert patch`, and equivalents).
 
 #### Scenario: No writes before confirm
 
 - **WHEN** the human has not confirmed the plan
-- **THEN** the agent MUST NOT execute Specra write commands for that intent
+- **THEN** the agent MUST NOT execute SDM write commands for that intent
 
 #### Scenario: Plan edits re-confirm
 
@@ -50,7 +50,7 @@ The skill SHALL require a structured plan document before writes. For greenfield
 
 ### Requirement: Execute via existing domain ops
 
-After confirmation the skill SHALL instruct the agent to execute using existing Specra domain operations (and MCP equivalents), delegating greenfield profile foundation to the bootstrap profile-pack workflow. The agent MUST NOT hand-edit methodology YAML when a command exists.
+After confirmation the skill SHALL instruct the agent to execute using existing SDM domain operations (and MCP equivalents), delegating greenfield profile foundation to the bootstrap profile-pack workflow. The agent MUST NOT hand-edit methodology YAML when a command exists.
 
 #### Scenario: Greenfield delegates to profile-pack execution
 
@@ -135,7 +135,7 @@ When the human’s intent is to export a test package and they specify question-
 
 ### Requirement: Export intents map skill and question subsets to export_test filters
 
-When the human’s intent is to export a test package and they specify a skill subset or specific question ids in natural language (e.g. «только skill ai-quality», «без skill-authoring и mcp», «только QA-skills без общих», «только эти четыре вопроса», listing question ids), the `intent-loop` (and/or delegated `export-methodology`) skill SHALL map those preferences to MCP `export_test` / CLI `export test` skill-filter and/or `--include-question` / `includeQuestions` arguments — not to `jq`, Node post-filters, hand-edited export JSON, or instructing the human to pass raw flags. The agent MUST NOT invent a second export document by slicing a full package when Specra filters exist. The agent MUST confirm profile, level, and filter intent before running the export when the workflow requires confirmation; for a pure export handoff after an existing profile/level, the skill MAY proceed after a short confirmation of the filter set.
+When the human’s intent is to export a test package and they specify a skill subset or specific question ids in natural language (e.g. «только skill ai-quality», «без skill-authoring и mcp», «только QA-skills без общих», «только эти четыре вопроса», listing question ids), the `intent-loop` (and/or delegated `export-methodology`) skill SHALL map those preferences to MCP `export_test` / CLI `export test` skill-filter and/or `--include-question` / `includeQuestions` arguments — not to `jq`, Node post-filters, hand-edited export JSON, or instructing the human to pass raw flags. The agent MUST NOT invent a second export document by slicing a full package when SDM filters exist. The agent MUST confirm profile, level, and filter intent before running the export when the workflow requires confirmation; for a pure export handoff after an existing profile/level, the skill MAY proceed after a short confirmation of the filter set.
 
 #### Scenario: Human asks for QA-only skills export
 

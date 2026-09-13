@@ -1,0 +1,16 @@
+id: cqrs
+term: CQRS
+definition: >-
+  Command Query Responsibility Segregation — разделение моделей чтения (Query) и записи (Command).
+  Позволяет оптимизировать каждую сторону независимо.
+aliases: []
+skills:
+  - architecture
+kind: concept
+meta:
+  basis:
+    skills:
+      architecture: 311a6982cdaf7424
+    capturedAt: "2026-09-13T08:56:16.636Z"
+    terms:
+      cqrs: 68a1d323844d747f

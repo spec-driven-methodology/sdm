@@ -1,8 +1,8 @@
 import { z } from "zod";
 /** Public CLI command paths for about capabilities (keep in sync when adding CLI). */
-export declare const ABOUT_CLI_COMMANDS: readonly ["about", "suggest", "init", "doctor", "player sync", "studio sync", "studio push-view", "studio push-coverage", "studio pull-action", "studio serve", "intent validate-plan", "audit", "quality report", "skill add", "skill link", "skill graph", "skill impact", "content stale", "profile create", "cert create", "cert patch", "cert reweight", "cert coverage", "cert gaps", "question add", "question validate", "question list", "question generate", "term add", "term list", "index rebuild", "search", "export test", "export matrix", "export learning", "export course", "export mermaid", "export confluence", "mcp hosts", "mcp config", "mcp install", "agent hosts", "agent install", "completion install", "completion print"];
+export declare const ABOUT_CLI_COMMANDS: readonly ["about", "suggest", "init", "doctor", "player sync", "intent validate-plan", "audit", "quality report", "skill add", "skill link", "skill graph", "skill impact", "content stale", "profile create", "cert create", "cert patch", "cert reweight", "cert coverage", "cert gaps", "question add", "question validate", "question list", "question generate", "term add", "term list", "index rebuild", "search", "export test", "export matrix", "export learning", "export course", "export mermaid", "export confluence", "mcp hosts", "mcp config", "mcp install", "agent hosts", "agent install", "completion install", "completion print"];
 /** Public MCP tool names for about capabilities (keep in sync with @spec-driven-methodology/mcp TOOL_NAMES). */
-export declare const ABOUT_MCP_TOOLS: readonly ["about", "suggest", "doctor", "audit", "quality_report", "init", "locate_project", "list_projects", "player_sync", "studio_sync", "studio_push_view", "studio_push_coverage", "studio_pull_action", "skill_add", "skill_link", "skill_graph", "skill_impact", "content_stale", "profile_create", "cert_create", "cert_patch", "cert_reweight", "cert_coverage", "cert_gaps", "question_add", "question_validate", "question_list", "question_generate", "term_add", "term_list", "export_test", "export_matrix", "export_learning", "export_course", "export_kit", "export_mermaid", "export_confluence", "index_rebuild", "search", "skill_suggest_links", "question_deep_validate", "topic_registry", "topic_sync", "course_heal"];
+export declare const ABOUT_MCP_TOOLS: readonly ["about", "suggest", "doctor", "audit", "quality_report", "init", "locate_project", "list_projects", "player_sync", "skill_add", "skill_link", "skill_graph", "skill_impact", "content_stale", "profile_create", "cert_create", "cert_patch", "cert_reweight", "cert_coverage", "cert_gaps", "question_add", "question_validate", "question_list", "question_generate", "term_add", "term_list", "export_test", "export_matrix", "export_learning", "export_course", "export_kit", "export_mermaid", "export_confluence", "index_rebuild", "search", "skill_suggest_links", "question_deep_validate", "topic_registry", "topic_sync", "course_heal"];
 export declare const AboutSkillSchema: z.ZodObject<{
     id: z.ZodString;
     purpose: z.ZodString;
@@ -146,7 +146,7 @@ export type BuildAboutOptions = {
  * Resolve SDM package root (contains ABOUT.md + package.json name "sdm").
  * Order: explicit → SDM_HOME → walk from this module → cwd walk.
  */
-export declare function resolveSpecraHome(explicit?: string): string;
+export declare function resolveSdmHome(explicit?: string): string;
 export declare function listPortableSkills(agentsRoot: string): {
     id: string;
     purpose: string;

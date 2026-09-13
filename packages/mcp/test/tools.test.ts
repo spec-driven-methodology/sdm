@@ -143,10 +143,6 @@ describe("MCP tool registration", () => {
         "skill_impact",
         "skill_link",
         "skill_suggest_links",
-        "studio_pull_action",
-        "studio_push_coverage",
-        "studio_push_view",
-        "studio_sync",
         "suggest",
         "term_add",
         "term_list",
@@ -176,17 +172,6 @@ describe("MCP tool registration", () => {
       }
     }
     assert.deepEqual(missing, [], `params without description: ${missing.join(", ")}`);
-  });
-
-  it("studio_sync installs studio assets", async () => {
-    await withTempProject(async (root) => {
-      rmSync(join(root, "studio"), { recursive: true, force: true });
-      const payload = parseToolJson(
-        await runTool("studio_sync", { project: root }),
-      ) as { ok: boolean; studioDir?: string };
-      assert.equal(payload.ok, true);
-      assert.ok(payload.studioDir);
-    });
   });
 });
 

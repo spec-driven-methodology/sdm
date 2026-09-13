@@ -7,9 +7,8 @@ SDM methodology project (knowledge base).
 - `ontology/` — skill graph
 - `library/` — questions bound to skills
 - `certifications/` — profiles, levels, thresholds
-- `player/` — author preview for `export test` / learning JSON (not a secure exam)
-- `studio/` — Methodology Studio: view/action shell for intent-loop (does not write YAML)
-- `.sdm/` — local config, cache, optional vector index
+- \`player/\` — author preview for \`export test\` / learning JSON (not a secure exam)
+- \`.sdm/\` — local config, cache, optional vector index
 
 ## Host setup (once per IDE workspace)
 

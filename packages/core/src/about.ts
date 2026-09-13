@@ -12,11 +12,6 @@ export const ABOUT_CLI_COMMANDS = [
   "init",
   "doctor",
   "player sync",
-  "studio sync",
-  "studio push-view",
-  "studio push-coverage",
-  "studio pull-action",
-  "studio serve",
   "intent validate-plan",
   "audit",
   "quality report",
@@ -65,10 +60,6 @@ export const ABOUT_MCP_TOOLS = [
   "locate_project",
   "list_projects",
   "player_sync",
-  "studio_sync",
-  "studio_push_view",
-  "studio_push_coverage",
-  "studio_pull_action",
   "skill_add",
   "skill_link",
   "skill_graph",
@@ -168,7 +159,7 @@ function isSdmPackageRoot(dir: string): boolean {
  * Resolve SDM package root (contains ABOUT.md + package.json name "sdm").
  * Order: explicit → SDM_HOME → walk from this module → cwd walk.
  */
-export function resolveSpecraHome(explicit?: string): string {
+export function resolveSdmHome(explicit?: string): string {
   if (explicit?.trim()) {
     const root = resolve(explicit.trim());
     if (!isSdmPackageRoot(root)) {
@@ -300,7 +291,7 @@ const DEFAULT_NEXT_STEPS = [
  * Product semver SSOT: root package.json `version` (name "sdm").
  */
 export function getProductVersion(explicitHome?: string): string {
-  const home = resolveSpecraHome(explicitHome);
+  const home = resolveSdmHome(explicitHome);
   const pkgPath = join(home, "package.json");
   const pkg = JSON.parse(readFileSync(pkgPath, "utf8")) as { version?: string };
   if (!pkg.version || typeof pkg.version !== "string") {
@@ -316,7 +307,7 @@ export function getProductVersion(explicitHome?: string): string {
  * Build product-identity payload. Does not require a methodology project.
  */
 export function buildAbout(options: BuildAboutOptions = {}): AboutPayload {
-  const home = resolveSpecraHome(options.sdmHome);
+  const home = resolveSdmHome(options.sdmHome);
   const aboutPath = join(home, "ABOUT.md");
   const canon = parseAboutFrontmatter(readFileSync(aboutPath, "utf8"));
   const version = getProductVersion(home);

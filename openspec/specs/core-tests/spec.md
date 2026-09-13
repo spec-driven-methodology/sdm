@@ -27,14 +27,14 @@ The repository SHALL provide an automated test suite for `@spec-driven-methodolo
 
 ### Requirement: npm test and verify scripts
 
-The Specra monorepo root SHALL expose `npm test` (runs `@spec-driven-methodology/core` tests) and a single `npm run verify` script that runs build, typecheck, and tests in sequence.
+The SDM monorepo root SHALL expose `npm test` (runs `@spec-driven-methodology/core` tests) and a single `npm run verify` script that runs build, typecheck, and tests in sequence.
 
 #### Scenario: Developer runs verify
 
-- **WHEN** a developer runs `npm run verify` from the Specra repo root after installing dependencies
+- **WHEN** a developer runs `npm run verify` from the SDM repo root after installing dependencies
 - **THEN** the command MUST fail if build, typecheck, or the core test suite fails, and MUST succeed only when all three pass
 
 #### Scenario: npm test is wired
 
-- **WHEN** a developer runs `npm test` from the Specra repo root
+- **WHEN** a developer runs `npm test` from the SDM repo root
 - **THEN** the `@spec-driven-methodology/core` automated suite MUST execute and exit non-zero on assertion or runtime failure

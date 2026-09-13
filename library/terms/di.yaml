@@ -1,0 +1,16 @@
+id: di
+term: Dependency Injection
+definition: >-
+  Внедрение зависимостей — паттерн, при котором объект получает свои зависимости извне (через
+  конструктор, сеттер или поле), а не создаёт их сам.
+aliases: []
+skills:
+  - spring-framework
+kind: concept
+meta:
+  basis:
+    skills:
+      spring-framework: 8b0ebd2cf6c2e792
+    capturedAt: "2026-09-13T08:56:16.343Z"
+    terms:
+      di: c6e73e99df3aa9ea

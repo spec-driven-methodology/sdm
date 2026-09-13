@@ -15,7 +15,7 @@ Domain entity: **Profile** (профиль), not Role.
 
 | Vault path | SDM domain |
 |---|---|
-| `ontology/skills/*.yaml` | Skills (навыки, граф) |
+| `ontology/*.yaml` | Skills (навыки, граф) |
 | `library/questions/*.yaml` | Questions (вопросы) |
 | `library/terms/*.yaml` | Terms (термины) |
 | `certifications/profiles/*.yaml` | Profiles (профили) |
@@ -53,7 +53,7 @@ The project root is the directory containing `sdm.yaml`, returned by `locate_pro
 | **Create/edit methodology** | `sdm` `skill_add`, `question_add`, `cert_create` ... | **Always** `project` |
 | **Coverage / gaps** | `sdm` `cert_coverage`, `cert_gaps` | **Always** `project` |
 | **Export** | `sdm` `export_test`, `export_course` ... | **Always** `project` |
-| **Sync artifacts** | `sdm` `player_sync`, `studio_sync` | **Always** `project` |
+| **Sync artifacts** | \`sdm\` \`player_sync\` | **Always** \`project\` |
 
 ## Obsidian integration
 

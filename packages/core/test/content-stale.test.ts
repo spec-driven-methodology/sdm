@@ -61,7 +61,7 @@ describe("runContentStale", () => {
       assert.ok(added.question.meta?.basis?.skills?.["java-core"]);
 
       const skill = loadSkill(root, "java-core");
-      writeYamlFile(join(root, "ontology", "skills", "java-core.yaml"), {
+      writeYamlFile(join(root, "ontology", "java-core.yaml"), {
         ...skill,
         topics: ["collections", "streams"],
       });
@@ -130,7 +130,7 @@ describe("runContentStale", () => {
       });
 
       const skill = loadSkill(root, "java-core");
-      writeYamlFile(join(root, "ontology", "skills", "java-core.yaml"), {
+      writeYamlFile(join(root, "ontology", "java-core.yaml"), {
         ...skill,
         topics: ["t", "new"],
       });
@@ -190,7 +190,7 @@ describe("runContentStale", () => {
       );
 
       const skill = loadSkill(root, "java-core");
-      writeYamlFile(join(root, "ontology", "skills", "java-core.yaml"), {
+      writeYamlFile(join(root, "ontology", "java-core.yaml"), {
         ...skill,
         topics: ["collections", "streams"],
       });

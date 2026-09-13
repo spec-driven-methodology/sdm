@@ -116,7 +116,7 @@ export function patchCertification(projectRoot, input) {
     for (const raw of addTriples) {
         const req = parseRequirementTriple(raw);
         if (!skillExists(projectRoot, req.skill)) {
-            throw new SdmError("SKILL_NOT_FOUND", `Requirement skill "${req.skill}" not found under ontology/skills/`);
+            throw new SdmError("SKILL_NOT_FOUND", `Requirement skill "${req.skill}" not found under ontology/`);
         }
         if (bySkill.has(req.skill)) {
             throw new SdmError("REQUIREMENT_EXISTS", `Requirement skill "${req.skill}" already on level "${levelId}". Use --set-requirement to update.`);
@@ -127,7 +127,7 @@ export function patchCertification(projectRoot, input) {
     for (const raw of setTriples) {
         const req = parseRequirementTriple(raw);
         if (!skillExists(projectRoot, req.skill)) {
-            throw new SdmError("SKILL_NOT_FOUND", `Requirement skill "${req.skill}" not found under ontology/skills/`);
+            throw new SdmError("SKILL_NOT_FOUND", `Requirement skill "${req.skill}" not found under ontology/`);
         }
         const was = bySkill.has(req.skill);
         bySkill.set(req.skill, req);

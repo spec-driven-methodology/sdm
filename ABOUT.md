@@ -1,6 +1,6 @@
 ---
 name: SDM
-tagline: "Methodology-as-Specs Framework"
+tagline: "Spec-Driven Methodology"
 what: >-
   SDM — фреймворк methodology-as-specs: онтология навыков → библиотека
   контента → профили/пороги → аудит покрытия и экспорт. Один скелет
@@ -25,7 +25,7 @@ model: >-
 (**эталон** / единый источник правды) для оценки и обучения. Это не система
 проведения тестов и не LMS.
 
-EN tagline: **Methodology-as-Specs Framework**.
+EN tagline: **Spec-Driven Methodology**.
 Имя исторически читалось как Spec + RA (Resource Assessment); RA — только
 этимология, не живой слоган.
 
@@ -38,7 +38,7 @@ EN tagline: **Methodology-as-Specs Framework**.
 - Библиотека вопросов и учебный контент поверх того же графа (`library/`, `export learning`, `export kit`)
 - Профили / уровни / пороги (`certifications/`)
 - Coverage, gaps, сводный `quality report` (●○○), детальный audit, актуальность контента (`content stale` / `meta.basis`), export для агентов и потребителей
-- Methodology Studio (`studio/`) — author shell view/action + bridge (не пишет YAML); рядом с `player/`
+- Export test / learning JSON for agents; Methodology Studio удалён (obsidian-sdm)
 
 ### Спеки · фреймворк · агент
 
@@ -54,13 +54,13 @@ EN tagline: **Methodology-as-Specs Framework**.
 
 - HR-тестовой платформой или LMS
 - Полным harness / оркестратором агентов (нет orchestration моделей; CLI/MCP — доступ к эталону)
-- UI для кандидатов (статический `player/` / `studio/` — author preview / intent shell, не экзамен)
+- UI для кандидатов (статический `player/` — author preview, не экзамен)
 - Местом «ручного набора флагов» как главного UX — основной путь через агента
 
 ## Как работать
 
 1. Спросить агента на языке методологии («основа профиля Java Middle backend»).
-2. Агент ведёт intent-loop → plan → confirm → CLI/MCP (опционально Studio bridge).
+2. Агент ведёт intent-loop → plan → confirm → CLI/MCP.
 3. Проверять результат через `doctor`, `cert coverage`, сводный `quality report` (матрица ●○○; для сырых `.md` — `--sources`), `content stale` после правок онтологии, детальный `audit`, затем экспорт теста или обучения.
 
 **Контроль из одной точки:** правка навыка или требования → `impact` / покрытие → пересборка артефактов под поверхности; один банк — разные срезы профилей; валидация до экспорта.

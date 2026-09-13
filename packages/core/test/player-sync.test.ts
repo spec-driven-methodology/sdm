@@ -30,7 +30,7 @@ describe("syncPlayerAssets", () => {
     await withTempProject((root) => {
       const playerIndex = join(root, "player", "index.html");
       writeFileSync(playerIndex, "CUSTOM", "utf8");
-      const skillDir = join(root, "ontology", "skills");
+      const skillDir = join(root, "ontology");
       mkdirSync(skillDir, { recursive: true });
       const skillFile = join(skillDir, "keep-me.yaml");
       writeFileSync(skillFile, "id: keep-me\nname: Keep\n", "utf8");

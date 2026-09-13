@@ -7,9 +7,6 @@ export { DEFAULT_QUALITY_CONFIG, loadQualityConfig, effectiveDistractorMode, dis
 export { readYamlFile, writeYamlFile } from "./yaml.js";
 export { initMethodologyProject, isMethodologyProject, } from "./init.js";
 export { syncPlayerAssets, copyPlayerTemplateInto, } from "./player-sync.js";
-export { syncStudioAssets, copyStudioTemplateInto, } from "./studio-sync.js";
-export { STUDIO_VIEW_SCHEMA, STUDIO_ACTION_SCHEMA, studioBridgePaths, pushStudioView, pullStudioAction, readStudioViewFile, writeStudioActionFile, startStudioServe, parseStudioViewDocument, parseStudioActionDocument, } from "./studio-bridge.js";
-export { buildStudioCoverageView, pushStudioCoverage, } from "./studio-coverage.js";
 export { SdmError } from "./errors.js";
 export { findProjectRoot, locateProject, listMethodologyProjects, PROJECT_MANIFEST } from "./project-root.js";
 export { loadLevel, loadProfile, loadQuestions, assertProfileLevelMatch, hasLegacyRolesDirectory, parseLevelDocument, parseProfileDocument, profilePath, } from "./loaders.js";
@@ -56,6 +53,6 @@ export { TeamSchema, loadTeam, resolveLevelForTeam, teamFilePath, } from "./team
 export { EXPORT_MERMAID_SCHEMA, exportMermaid, assembleMermaidDocument, mermaidNodeId, } from "./export-mermaid.js";
 export { appendActionLog, withActionLog, redactForLog, rotateLogFile, actionLogDir, loadLoggingSettings, isLoggingEnvDisabled, resolveProjectRootForLog, DEFAULT_LOG_MAX_BYTES, DEFAULT_LOG_MAX_FILES, } from "./action-log.js";
 export { IntentPlanSchema, validateIntentPlan, parseIntentPlanJson, } from "./intent-plan.js";
-export { ABOUT_CLI_COMMANDS, ABOUT_MCP_TOOLS, AboutPayloadSchema, AboutSkillSchema, buildAbout, formatAboutText, getProductVersion, listPortableSkills, resolveSpecraHome, } from "./about.js";
+export { ABOUT_CLI_COMMANDS, ABOUT_MCP_TOOLS, AboutPayloadSchema, AboutSkillSchema, buildAbout, formatAboutText, getProductVersion, listPortableSkills, resolveSdmHome, } from "./about.js";
 export { SuggestPayloadSchema, SuggestItemSchema, SuggestLeverSchema, buildSuggest, formatSuggestText, } from "./suggest.js";
 //# sourceMappingURL=index.js.map

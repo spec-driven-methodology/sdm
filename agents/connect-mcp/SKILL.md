@@ -25,7 +25,7 @@ Make SDM MCP tools **and** portable skills available in the chosen agent host wi
 - absolute `command` / `args` resolved from the installed `@spec-driven-methodology/mcp`
 - **one MCP server instance per host** (not one per methodology folder)
 - default host config key **`SDM`** (Cursor/GigaCode sidebars often show the `mcp.json` / settings **key**, not MCP `title`; protocol `name` stays `sdm`)
-- **do not** put product version into the mcpServers key — freshness is `serverInfo.version` / MCP `about` / `sdm --version` (`framework` + `mcp` lines; see [`VERSIONING.md`](../../VERSIONING.md))
+- **do not** put product version into the mcpServers key — freshness is `serverInfo.version` / MCP `about` / `sdm --version` (`core` + `mcp` lines; see [`VERSIONING.md`](../../VERSIONING.md))
 - portable skills (`intent-loop`, `close-coverage`, …) mirrored by default with `mcp install`
 - after upgrades that change the key or entry path, re-run `mcp install` (default install migrates legacy lowercase key `sdm` → `SDM`)
 - after `npm run build` / `link:cli` / `link:refresh`, **restart MCP** in the host; smoke with MCP `about` or `sdm --version` (both lines should match). Prefer `npm run link:refresh` (no auto-bump); add `-- --mcp` to re-run `mcp install`

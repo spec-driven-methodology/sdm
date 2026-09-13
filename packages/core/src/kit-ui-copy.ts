@@ -66,7 +66,7 @@ export function kitWarningView(
       return {
         title: `Пустое описание навыка «${skill}»`,
         detail:
-          "В шпаргалке глоссарий и карточка навыка берут описание из онтологии (ontology/skills).",
+          "В шпаргалке глоссарий и карточка навыка берут описание из онтологии (ontology/).",
         action: "Заполните описание навыка и пересоберите шпаргалку.",
       };
     case "KIT_NO_WORK_SAMPLE":
@@ -88,7 +88,7 @@ export function kitWarningView(
       return {
         title: "Пустой глоссарий",
         detail: "Нет терминов и нет описаний навыков для глоссария kit.",
-        action: "Добавьте library/terms или описания навыков в ontology/skills.",
+        action: "Добавьте library/terms или описания навыков в ontology/.",
       };
     case "KIT_GLOSSARY_FALLBACK_SKILL":
       return {

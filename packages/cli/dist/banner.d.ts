@@ -2,10 +2,10 @@
  * Human-facing SDM wordmark (figlet standard). Not used on --json paths.
  */
 export declare const SDM_ASCII: string;
-export declare const SDM_TAGLINE = "Methodology-as-Specs Framework";
+export declare const SDM_TAGLINE = "Spec-Driven Methodology";
 /**
  * Logo + blank + tagline + blank + body + trailing blank.
- * Used by `--version` (body = framework/mcp lines).
+ * Used by `--version` (body = core/mcp lines).
  */
 export declare function withSdmBanner(body: string): string;
 /**

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Установка portable Specra agent skills в host-specific каталоги (Cursor, GigaCode) без ручного копирования.
+Установка portable SDM agent skills в host-specific каталоги (Cursor, GigaCode) без ручного копирования.
 
 ## Requirements
 
@@ -17,7 +17,7 @@ The CLI SHALL expose `sdm agent hosts` listing supported agent skill hosts with 
 
 ### Requirement: Install portable skills into host folders
 
-The CLI SHALL provide `sdm agent install --hosts <csv>|all` that mirrors each portable skill directory from Specra `agents/*/SKILL.md` into the selected host skills root. Non-TTY invocations without `--hosts` SHALL fail with `HOSTS_REQUIRED`. Unknown host ids SHALL fail with `UNKNOWN_HOST`.
+The CLI SHALL provide `sdm agent install --hosts <csv>|all` that mirrors each portable skill directory from SDM `agents/*/SKILL.md` into the selected host skills root. Non-TTY invocations without `--hosts` SHALL fail with `HOSTS_REQUIRED`. Unknown host ids SHALL fail with `UNKNOWN_HOST`.
 
 #### Scenario: Install into Cursor skills dir
 
@@ -37,7 +37,7 @@ The CLI SHALL provide `sdm agent install --hosts <csv>|all` that mirrors each po
 
 ### Requirement: Resolve agents source root
 
-Install SHALL resolve the Specra `agents/` directory from the installed package/monorepo (or `--agents-root` / `SDM_HOME/agents`). If no skills are found, it SHALL fail with `AGENTS_NOT_FOUND`.
+Install SHALL resolve the SDM `agents/` directory from the installed package/monorepo (or `--agents-root` / `SDM_HOME/agents`). If no skills are found, it SHALL fail with `AGENTS_NOT_FOUND`.
 
 #### Scenario: Missing agents root
 

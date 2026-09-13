@@ -676,7 +676,7 @@ describe("exportTest package identity", () => {
       });
       assert.notEqual(full.document.id, filtered.document.id);
 
-      writeYamlFile(join(root, "ontology/skills/docker.yaml"), {
+      writeYamlFile(join(root, "ontology/docker.yaml"), {
         id: "docker",
         name: "Docker updated",
         description: "Updated container runtime description for teaching.",

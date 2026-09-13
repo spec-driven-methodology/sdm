@@ -246,7 +246,7 @@ describe("exportKit", () => {
       assert.ok(run.html);
       assert.match(run.html!, /<html/i);
       assert.match(run.html!, /How do you evaluate prompts\?/);
-      assert.match(run.html!, /Methodology-as-Specs Framework/);
+      assert.match(run.html!, /Spec-Driven Methodology/);
       assert.match(run.html!, /class="brand">SDM/);
       assert.match(run.html!, /kit-ai-junior/);
 
@@ -293,7 +293,7 @@ describe("exportKit", () => {
       );
 
       const skill = loadSkill(root, "docker");
-      writeYamlFile(join(root, "ontology", "skills", "docker.yaml"), {
+      writeYamlFile(join(root, "ontology", "docker.yaml"), {
         ...skill,
         description: "Updated container description for stale test.",
         topics: ["images", "compose"],

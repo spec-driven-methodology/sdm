@@ -62,7 +62,7 @@ The player SHALL provide a session option to enable a total time budget for the 
 
 ### Requirement: Player does not choose question count N
 
-The player MUST NOT offer a control to reduce or sample the number of questions from a loaded package. Question count is determined solely by the export document produced by Specra (`export test`).
+The player MUST NOT offer a control to reduce or sample the number of questions from a loaded package. Question count is determined solely by the export document produced by SDM (`export test`).
 
 #### Scenario: No N picker in UI
 

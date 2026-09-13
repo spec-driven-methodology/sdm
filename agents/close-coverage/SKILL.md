@@ -84,6 +84,6 @@ Short report:
 
 ## Guardrails
 
-- Never invent skills that are not in `ontology/skills/` — `question add` will fail with `SKILL_NOT_FOUND`.
+- Never invent skills that are not in `ontology/` — `question add` will fail with `SKILL_NOT_FOUND`.
 - Never overwrite existing question ids without explicit `--force` and user approval.
 - Do not claim coverage is “green/ok” unless JSON shows `status: "ok"` (threshold is `minOkQuestions`, default 3).

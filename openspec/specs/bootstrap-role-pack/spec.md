@@ -26,12 +26,12 @@ The pack SHALL be invocable as plan kind `profile-pack` from `intent-loop`. Non-
 
 ### Requirement: Plan before write
 
-The skill SHALL require the agent to present a structured plan (profile, level, skills, requirements, questionsPerSkill, optional export) and obtain explicit user confirmation before any Specra write command (`profile create`, `skill add`, `skill link`, `cert create`, `question add`). Clarifying questions via `intent-loop` MAY precede the plan; the confirmation gate before writes remains mandatory.
+The skill SHALL require the agent to present a structured plan (profile, level, skills, requirements, questionsPerSkill, optional export) and obtain explicit user confirmation before any SDM write command (`profile create`, `skill add`, `skill link`, `cert create`, `question add`). Clarifying questions via `intent-loop` MAY precede the plan; the confirmation gate before writes remains mandatory.
 
 #### Scenario: No writes before confirm
 
 - **WHEN** the user has not confirmed the plan
-- **THEN** the agent MUST NOT run Specra write commands for that pack
+- **THEN** the agent MUST NOT run SDM write commands for that pack
 
 #### Scenario: User may edit plan
 

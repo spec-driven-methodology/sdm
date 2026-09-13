@@ -3,6 +3,8 @@ export declare const SkillSchema: z.ZodObject<{
     id: z.ZodString;
     name: z.ZodString;
     description: z.ZodDefault<z.ZodString>;
+    /** Тип узла онтологии: skill, concept, topic, talk... Открытый набор. */
+    kind: z.ZodDefault<z.ZodString>;
     category: z.ZodOptional<z.ZodString>;
     depends_on: z.ZodDefault<z.ZodArray<z.ZodString, "many">>;
     related_to: z.ZodDefault<z.ZodArray<z.ZodString, "many">>;
@@ -13,6 +15,7 @@ export declare const SkillSchema: z.ZodObject<{
     name: string;
     id: string;
     description: string;
+    kind: string;
     depends_on: string[];
     related_to: string[];
     topics: string[];
@@ -22,6 +25,7 @@ export declare const SkillSchema: z.ZodObject<{
     name: string;
     id: string;
     description?: string | undefined;
+    kind?: string | undefined;
     category?: string | undefined;
     depends_on?: string[] | undefined;
     related_to?: string[] | undefined;
@@ -152,10 +156,10 @@ export declare const TermSchema: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     id: string;
     skills: string[];
+    kind: "concept" | "product";
     definition: string;
     aliases: string[];
     term: string;
-    kind: "concept" | "product";
     meta?: {
         basis?: {
             capturedAt: string;
@@ -172,8 +176,8 @@ export declare const TermSchema: z.ZodObject<{
     definition: string;
     term: string;
     skills?: string[] | undefined;
-    aliases?: string[] | undefined;
     kind?: "concept" | "product" | undefined;
+    aliases?: string[] | undefined;
     meta?: {
         basis?: {
             capturedAt: string;
@@ -281,8 +285,8 @@ export declare const QuestionSchema: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     type: "code" | "single_choice" | "multi_choice" | "open";
     id: string;
-    topics: string[];
     skill: string;
+    topics: string[];
     difficulty: number;
     text: string;
     red_flags: string[];

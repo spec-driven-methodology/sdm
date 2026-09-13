@@ -28,11 +28,11 @@ npm run link:refresh   # compile + link CLI/MCP + completion
 Проверка:
 
 ```bash
-sdm --version          # ASCII SDM + framework … / mcp … (см. VERSIONING.md)
+sdm --version          # ASCII SDM + core … / mcp … (см. VERSIONING.md)
 sdm mcp hosts --json
 ```
 
-Ожидайте две строки версий с одинаковой identity (`framework` и `mcp`). Формат и bump: [`VERSIONING.md`](./VERSIONING.md).
+Ожидайте две строки версий с одинаковой identity (`core` и `mcp`). Формат и bump: [`VERSIONING.md`](./VERSIONING.md).
 
 Tab-completion ставится при `build` / `link:cli` / `link:refresh`. `link:cli` на prerelease ещё поднимает `…-alpha.N`; `link:refresh` — нет. После первого раза: `source ~/.zshrc` (или новый терминал), затем `sdm `<Tab> / `sk`<Tab>.
 

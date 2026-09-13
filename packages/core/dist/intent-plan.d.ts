@@ -109,11 +109,11 @@ export declare const IntentPlanSchema: z.ZodEffects<z.ZodObject<{
         category: string;
         topics?: string[] | undefined;
     }[];
+    kind: "profile-pack";
     level: {
         id: string;
         title: string;
     };
-    kind: "profile-pack";
     profile: {
         id: string;
         title: string;
@@ -150,11 +150,11 @@ export declare const IntentPlanSchema: z.ZodEffects<z.ZodObject<{
         category: string;
         topics?: string[] | undefined;
     }[];
+    kind: "profile-pack";
     level: {
         id: string;
         title: string;
     };
-    kind: "profile-pack";
     profile: {
         id: string;
         title: string;
@@ -191,11 +191,11 @@ export declare const IntentPlanSchema: z.ZodEffects<z.ZodObject<{
         category: string;
         topics?: string[] | undefined;
     }[];
+    kind: "profile-pack";
     level: {
         id: string;
         title: string;
     };
-    kind: "profile-pack";
     profile: {
         id: string;
         title: string;
@@ -232,11 +232,11 @@ export declare const IntentPlanSchema: z.ZodEffects<z.ZodObject<{
         category: string;
         topics?: string[] | undefined;
     }[];
+    kind: "profile-pack";
     level: {
         id: string;
         title: string;
     };
-    kind: "profile-pack";
     profile: {
         id: string;
         title: string;

@@ -13,7 +13,7 @@ The system SHALL provide a non-interactive command `sdm player sync` that copies
 #### Scenario: Sync into project without player
 
 - **WHEN** a methodology project has no `player/` directory and the user runs `sdm player sync`
-- **THEN** `player/index.html` and accompanying assets are created from the Specra template
+- **THEN** `player/index.html` and accompanying assets are created from the SDM template
 
 #### Scenario: Sync without force skips existing files
 

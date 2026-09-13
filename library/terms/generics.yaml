@@ -1,0 +1,16 @@
+id: generics
+term: Generics
+definition: >-
+  Механизм языка Java для параметризации типов (List<String>, Map<K,V>). Обеспечивает
+  типобезопасность без приведения типов.
+aliases: []
+skills:
+  - core-java
+kind: concept
+meta:
+  basis:
+    skills:
+      core-java: 5361d7e7364b7b91
+    capturedAt: "2026-09-13T08:56:16.201Z"
+    terms:
+      generics: d4d89c8ce2ce8921

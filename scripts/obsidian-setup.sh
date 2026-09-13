@@ -124,22 +124,22 @@ echo ""
 echo "  ── SDM projects in vault ──"
 echo ""
 
-SPECRA_PROJECTS=()
+SDM_PROJECTS=()
 while IFS= read -r -d '' f; do
   PROJECT_ROOT=$(dirname "$f")
   # read name from sdm.yaml
   NAME=$(grep -m1 '^name:' "$f" 2>/dev/null | sed 's/^name:[[:space:]]*//; s/^"//; s/"$//' || echo "")
   [[ -z "$NAME" ]] && NAME=$(basename "$PROJECT_ROOT")
-  SPECRA_PROJECTS+=("$PROJECT_ROOT")
+  SDM_PROJECTS+=("$PROJECT_ROOT")
   ok "$PROJECT_ROOT ($NAME)"  # actually name is $NAME
 done < <(find "$VAULT_DIR" -maxdepth 3 -name 'sdm.yaml' -not -path '*/node_modules/*' -not -path '*/\.*' -print0 2>/dev/null)
 
-SPECRA_COUNT=${#SPECRA_PROJECTS[@]}
-if [[ $SPECRA_COUNT -eq 0 ]]; then
+SDM_COUNT=${#SDM_PROJECTS[@]}
+if [[ $SDM_COUNT -eq 0 ]]; then
   info "No SDM projects found in vault."
   info "Create one: sdm init \"$VAULT_DIR/my-methodology\" --with-examples"
 else
-  ok "$SPECRA_COUNT SDM project(s) found"
+  ok "$SDM_COUNT SDM project(s) found"
 fi
 
 # --- 4. Создать/дополнить opencode.json -------------------------
@@ -148,14 +148,14 @@ echo "  ── opencode.json ──"
 echo ""
 
 OP_CONFIG="$VAULT_DIR/opencode.json"
-SPECRA_MCP_CMD="${SPECRA_PROJECTS[0]:-}"
+SDM_MCP_CMD="${SDM_PROJECTS[0]:-}"
 # multi-project: no SDM_PROJECT_ROOT, agent passes project per tool
-SPECRA_MCP_ROOT=""
+SDM_MCP_ROOT=""
 
-if [[ ${#SPECRA_PROJECTS[@]} -gt 0 ]]; then
+if [[ ${#SDM_PROJECTS[@]} -gt 0 ]]; then
   # single project — set default root for convenience
-  if [[ ${#SPECRA_PROJECTS[@]} -eq 1 ]]; then
-    SPECRA_MCP_ROOT="${SPECRA_PROJECTS[0]}"
+  if [[ ${#SDM_PROJECTS[@]} -eq 1 ]]; then
+    SDM_MCP_ROOT="${SDM_PROJECTS[0]}"
   fi
   # multi-project — leave unset, agent discovers via list_projects
 fi
@@ -180,8 +180,8 @@ OP_CONTENT='{
 }'
 
 # If single project, add SDM_PROJECT_ROOT
-if [[ -n "$SPECRA_MCP_ROOT" ]]; then
-  OP_CONTENT=$(echo "$OP_CONTENT" | sed 's|"command": \["sdm-mcp"\]|"command": ["sdm-mcp"],\n      "env": {\n        "SDM_PROJECT_ROOT": "'"$SPECRA_MCP_ROOT"'"\n      }|')
+if [[ -n "$SDM_MCP_ROOT" ]]; then
+  OP_CONTENT=$(echo "$OP_CONTENT" | sed 's|"command": \["sdm-mcp"\]|"command": ["sdm-mcp"],\n      "env": {\n        "SDM_PROJECT_ROOT": "'"$SDM_MCP_ROOT"'"\n      }|')
 fi
 
 if $DRY_RUN; then
@@ -190,8 +190,8 @@ if $DRY_RUN; then
 else
   echo "$OP_CONTENT" > "$OP_CONFIG"
   ok "written $OP_CONFIG"
-  if [[ -n "$SPECRA_MCP_ROOT" ]]; then
-    info "  sdm MCP default project: $SPECRA_MCP_ROOT"
+  if [[ -n "$SDM_MCP_ROOT" ]]; then
+    info "  sdm MCP default project: $SDM_MCP_ROOT"
   else
     info "  sdm MCP multi-project mode — agent discovers via list_projects"
   fi
@@ -220,7 +220,7 @@ The agent uses SDM skill **intent-loop** (clarify → plan → confirm → execu
 
 | Vault path | SDM domain |
 |---|---|
-| `ontology/skills/*.yaml` | Skills (навыки, граф) |
+| `ontology/*.yaml` | Skills (навыки, граф) |
 | `library/questions/*.yaml` | Questions (вопросы) |
 | `library/terms/*.yaml` | Terms (термины) |
 | `certifications/profiles/*.yaml` | Profiles (профили) |

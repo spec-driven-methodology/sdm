@@ -215,7 +215,7 @@ export function patchCertification(
     if (!skillExists(projectRoot, req.skill)) {
       throw new SdmError(
         "SKILL_NOT_FOUND",
-        `Requirement skill "${req.skill}" not found under ontology/skills/`,
+        `Requirement skill "${req.skill}" not found under ontology/`,
       );
     }
     if (bySkill.has(req.skill)) {
@@ -233,7 +233,7 @@ export function patchCertification(
     if (!skillExists(projectRoot, req.skill)) {
       throw new SdmError(
         "SKILL_NOT_FOUND",
-        `Requirement skill "${req.skill}" not found under ontology/skills/`,
+        `Requirement skill "${req.skill}" not found under ontology/`,
       );
     }
     const was = bySkill.has(req.skill);

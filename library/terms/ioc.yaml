@@ -1,0 +1,16 @@
+id: ioc
+term: IoC-контейнер
+definition: >-
+  Inversion of Control — принцип, при котором контейнер управляет жизненным циклом объектов (бинов)
+  и их зависимостями. Spring ApplicationContext — реализация.
+aliases: []
+skills:
+  - spring-framework
+kind: concept
+meta:
+  basis:
+    skills:
+      spring-framework: 8b0ebd2cf6c2e792
+    capturedAt: "2026-09-13T08:56:16.272Z"
+    terms:
+      ioc: 8d1d131969504d3c

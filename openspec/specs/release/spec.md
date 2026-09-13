@@ -2,11 +2,11 @@
 
 ## Purpose
 
-Release cut metadata for Specra SemVer versions (changelog sections and package versions).
+Release cut metadata for SDM SemVer versions (changelog sections and package versions).
 ## Requirements
 ### Requirement: Version 0.1.1 is cut from Unreleased
 
-The Specra monorepo SHALL publish release metadata for version `0.1.1` by moving the prior Unreleased notes into a dated changelog section and setting package versions to `0.1.1`.
+The SDM monorepo SHALL publish release metadata for version `0.1.1` by moving the prior Unreleased notes into a dated changelog section and setting package versions to `0.1.1`.
 
 #### Scenario: Changelog and packages align
 
@@ -17,7 +17,7 @@ The Specra monorepo SHALL publish release metadata for version `0.1.1` by moving
 
 ### Requirement: Version 0.1.2 is cut from Unreleased
 
-The Specra monorepo SHALL publish release metadata for version `0.1.2` including question list, cert gaps, and MCP stdio notes moved out of Unreleased, with package versions set to `0.1.2`.
+The SDM monorepo SHALL publish release metadata for version `0.1.2` including question list, cert gaps, and MCP stdio notes moved out of Unreleased, with package versions set to `0.1.2`.
 
 #### Scenario: Changelog and packages align for 0.1.2
 
@@ -27,7 +27,7 @@ The Specra monorepo SHALL publish release metadata for version `0.1.2` including
 
 ### Requirement: Version 0.1.3 is cut from Unreleased
 
-The Specra monorepo SHALL publish `0.1.3` with question generate notes moved from Unreleased and package versions set to `0.1.3`.
+The SDM monorepo SHALL publish `0.1.3` with question generate notes moved from Unreleased and package versions set to `0.1.3`.
 
 #### Scenario: Changelog and packages align for 0.1.3
 
@@ -37,7 +37,7 @@ The Specra monorepo SHALL publish `0.1.3` with question generate notes moved fro
 
 ### Requirement: Version 0.1.4 is cut from Unreleased
 
-The Specra monorepo SHALL publish `0.1.4` with cert patch and MCP install/config notes moved from Unreleased and package versions set to `0.1.4`.
+The SDM monorepo SHALL publish `0.1.4` with cert patch and MCP install/config notes moved from Unreleased and package versions set to `0.1.4`.
 
 #### Scenario: Changelog and packages align for 0.1.4
 
@@ -47,7 +47,7 @@ The Specra monorepo SHALL publish `0.1.4` with cert patch and MCP install/config
 
 ### Requirement: Version 0.1.5 is cut from Unreleased
 
-The Specra monorepo SHALL publish `0.1.5` with export test/matrix notes moved from Unreleased and package versions set to `0.1.5`.
+The SDM monorepo SHALL publish `0.1.5` with export test/matrix notes moved from Unreleased and package versions set to `0.1.5`.
 
 #### Scenario: Changelog and packages align for 0.1.5
 
@@ -57,7 +57,7 @@ The Specra monorepo SHALL publish `0.1.5` with export test/matrix notes moved fr
 
 ### Requirement: Version 0.1.6 is cut from Unreleased
 
-The Specra monorepo SHALL publish `0.1.6` with MCP test / import-safe server notes moved from Unreleased and package versions set to `0.1.6`.
+The SDM monorepo SHALL publish `0.1.6` with MCP test / import-safe server notes moved from Unreleased and package versions set to `0.1.6`.
 
 #### Scenario: Changelog and packages align for 0.1.6
 
@@ -67,7 +67,7 @@ The Specra monorepo SHALL publish `0.1.6` with MCP test / import-safe server not
 
 ### Requirement: Version 0.1.7 is cut from Unreleased
 
-The Specra monorepo SHALL publish `0.1.7` with export mermaid notes moved from Unreleased and package versions set to `0.1.7`.
+The SDM monorepo SHALL publish `0.1.7` with export mermaid notes moved from Unreleased and package versions set to `0.1.7`.
 
 #### Scenario: Changelog and packages align for 0.1.7
 
@@ -92,7 +92,7 @@ The project SHALL publish version 0.4.0 for the product-complete methodology cor
 
 ### Requirement: Release bump syncs workspace versions from SSOT
 
-When cutting a Specra release that changes product identity, the process SHALL set the root `package.json` `version` (stable `MAJOR.MINOR.PATCH` or prerelease `MAJOR.MINOR.PATCH-<stage>.<build>`) and run the version sync so all `packages/*/package.json` versions match, the lockfile reflects the bump, and internal workspace dependency pins do not retain a stale older identity. CLI/MCP sources MUST NOT require a separate hardcoded version edit for the cut. Intentional release cuts SHOULD use the documented bump scripts (stage/major/minor/patch/stable) rather than hand-editing four package files.
+When cutting a SDM release that changes product identity, the process SHALL set the root `package.json` `version` (stable `MAJOR.MINOR.PATCH` or prerelease `MAJOR.MINOR.PATCH-<stage>.<build>`) and run the version sync so all `packages/*/package.json` versions match, the lockfile reflects the bump, and internal workspace dependency pins do not retain a stale older identity. CLI/MCP sources MUST NOT require a separate hardcoded version edit for the cut. Intentional release cuts SHOULD use the documented bump scripts (stage/major/minor/patch/stable) rather than hand-editing four package files.
 
 #### Scenario: Post-bump packages and lock agree
 

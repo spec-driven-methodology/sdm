@@ -2,6 +2,7 @@ import { type Skill } from "./schemas.js";
 export interface AddSkillInput {
     id: string;
     name: string;
+    kind?: string;
     category?: string;
     description?: string;
     topics?: string[];
@@ -24,7 +25,7 @@ export interface SkillWriteResult {
     warnings?: SkillWriteWarning[];
 }
 /**
- * Create ontology/skills/<id>.yaml
+ * Create ontology/<id>.yaml
  */
 export declare function addSkill(projectRoot: string, input: AddSkillInput): SkillWriteResult;
 /**

@@ -1,0 +1,16 @@
+id: cicd
+term: CI/CD
+definition: >-
+  Continuous Integration / Continuous Delivery — практика автоматической сборки, тестирования и
+  развёртывания при каждом изменении кода.
+aliases: []
+skills:
+  - devops
+kind: concept
+meta:
+  basis:
+    skills:
+      devops: 6fca83073dd54a85
+    capturedAt: "2026-09-13T08:56:16.708Z"
+    terms:
+      cicd: ca5b674c5cdd3f36

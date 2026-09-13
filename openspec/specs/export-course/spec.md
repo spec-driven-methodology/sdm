@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Export a learning pack from methodology keys (profile/level/skill/topic/questions): TeachingContext, content controls, modules with lesson stubs, and practice question ids. Specra does not run an LMS or call an LLM for lesson prose.
+Export a learning pack from methodology keys (profile/level/skill/topic/questions): TeachingContext, content controls, modules with lesson stubs, and practice question ids. SDM does not run an LMS or call an LLM for lesson prose.
 
 ## Requirements
 
@@ -25,7 +25,7 @@ The system SHALL export a learning pack document with `schemaVersion` equal to `
 #### Scenario: Empty course is rejected
 
 - **WHEN** course export is requested and every lesson body is empty (stubs without prose)
-- **THEN** the command fails with `COURSE_ALL_EMPTY` and writes no consumer document — Specra does not produce empty educational materials
+- **THEN** the command fails with `COURSE_ALL_EMPTY` and writes no consumer document — SDM does not produce empty educational materials
 
 ### Requirement: Consumer upsert contract for learning packages
 
@@ -66,7 +66,7 @@ The system SHALL emit machine-readable quality warnings when TeachingContext is 
 
 ### Requirement: Content depth and format controls
 
-The system SHALL accept content controls for educational generation guidance: `depth` of `brief`, `standard`, or `detailed`, and `format` of `howto`, `notes`, `cheatsheet`, or `course` (or the same enums documented in CLI help). Agent-facing docs and skills SHOULD label formats in Russian as Инструкция / Конспект / Шпаргалка / Курс respectively. The deprecated value `concept` MUST be accepted and normalized to `notes`, and the export/plan JSON MUST include a warning with code `FORMAT_CONCEPT_DEPRECATED`. Controls SHALL be echoed in the course/plan JSON so an external agent can vary prose volume and style for the same skill/topic/question keys without Specra calling an LLM.
+The system SHALL accept content controls for educational generation guidance: `depth` of `brief`, `standard`, or `detailed`, and `format` of `howto`, `notes`, `cheatsheet`, or `course` (or the same enums documented in CLI help). Agent-facing docs and skills SHOULD label formats in Russian as Инструкция / Конспект / Шпаргалка / Курс respectively. The deprecated value `concept` MUST be accepted and normalized to `notes`, and the export/plan JSON MUST include a warning with code `FORMAT_CONCEPT_DEPRECATED`. Controls SHALL be echoed in the course/plan JSON so an external agent can vary prose volume and style for the same skill/topic/question keys without SDM calling an LLM.
 
 #### Scenario: Brief howto vs detailed howto share keys
 
@@ -119,7 +119,7 @@ The system SHALL support scoping modules to methodology gaps (`missing`/`thin` s
 
 ### Requirement: Agent-first CLI and boundary
 
-The system SHALL expose learning-material plan/export as domain CLI command `export learning` (and MCP tool `export_learning`) with machine-readable `--json` output and stable `SdmError` codes. The system SHALL also accept alias CLI `export course` and MCP `export_course` with the same behavior. Specra MUST NOT execute courses, track learner progress, or call an LLM to author lesson prose.
+The system SHALL expose learning-material plan/export as domain CLI command `export learning` (and MCP tool `export_learning`) with machine-readable `--json` output and stable `SdmError` codes. The system SHALL also accept alias CLI `export course` and MCP `export_course` with the same behavior. SDM MUST NOT execute courses, track learner progress, or call an LLM to author lesson prose.
 
 #### Scenario: JSON output for agents
 
@@ -129,7 +129,7 @@ The system SHALL expose learning-material plan/export as domain CLI command `exp
 #### Scenario: No LMS side effects
 
 - **WHEN** learning export completes
-- **THEN** no learner session, progress store, or external LMS API call is performed by Specra
+- **THEN** no learner session, progress store, or external LMS API call is performed by SDM
 
 ### Requirement: Practice questions align with assessment library
 
@@ -142,12 +142,12 @@ Practice items in the course document SHALL reference the same question library 
 
 ### Requirement: Portable agent workflow documented
 
-The repository SHALL document a portable agent skill that: clarifies depth/format/scope using the four formats (`howto`, `notes`, `cheatsheet`, `course`) and Russian labels; proposes format and depth; shows TeachingContext, overview stubs, glossary candidates, and quality warnings; waits for human confirmation before side-effecting generated prose exports; enforces a single prose locale with term definitions (no unexplained mixed-language jargon outside code fences and identifiers); fills overview and lesson bodies outside Specra using the course-vs-howto contracts; omits practice-anchor dumps from lesson bodies; optionally guides ontology enrichment via existing skill commands when warnings indicate thin context; and calls `export learning` (alias `export course`) — without treating Specra as an LMS. The workflow MUST NOT produce an export with empty lesson bodies: `export learning` fails with `COURSE_ALL_EMPTY` unless at least one lesson body is filled.
+The repository SHALL document a portable agent skill that: clarifies depth/format/scope using the four formats (`howto`, `notes`, `cheatsheet`, `course`) and Russian labels; proposes format and depth; shows TeachingContext, overview stubs, glossary candidates, and quality warnings; waits for human confirmation before side-effecting generated prose exports; enforces a single prose locale with term definitions (no unexplained mixed-language jargon outside code fences and identifiers); fills overview and lesson bodies outside SDM using the course-vs-howto contracts; omits practice-anchor dumps from lesson bodies; optionally guides ontology enrichment via existing skill commands when warnings indicate thin context; and calls `export learning` (alias `export course`) — without treating SDM as an LMS. The workflow MUST NOT produce an export with empty lesson bodies: `export learning` fails with `COURSE_ALL_EMPTY` unless at least one lesson body is filled.
 
 #### Scenario: Skill points to export not LMS
 
 - **WHEN** an agent follows the export-course skill
-- **THEN** the skill instructs use of Specra plan/export commands for structure, TeachingContext, and library anchors, and external generation for lesson prose
+- **THEN** the skill instructs use of SDM plan/export commands for structure, TeachingContext, and library anchors, and external generation for lesson prose
 
 #### Scenario: Detailed depth with thin context prompts enrichment
 
@@ -230,7 +230,7 @@ The course export schema SHALL allow optional per-lesson `footnotes` arrays of `
 
 ### Requirement: Glossary and lesson footnotes in course document
 
-The course export schema SHALL allow an optional document-level `glossary` array of `{ term, definition, aliases? }` and optional per-lesson `footnotes` arrays of `{ term, definition }`. Specra MAY seed glossary term candidates from scoped skill topics and TeachingContext; definitions MAY be empty for the agent to fill. Specra MUST NOT invent practice question content inside glossary entries.
+The course export schema SHALL allow an optional document-level `glossary` array of `{ term, definition, aliases? }` and optional per-lesson `footnotes` arrays of `{ term, definition }`. SDM MAY seed glossary term candidates from scoped skill topics and TeachingContext; definitions MAY be empty for the agent to fill. SDM MUST NOT invent practice question content inside glossary entries.
 
 #### Scenario: Glossary terms survive partial definition
 
@@ -246,7 +246,7 @@ The course export schema SHALL allow an optional document-level `glossary` array
 
 ### Requirement: Course format prose contract distinct from howto
 
-Portable agent documentation for `format=course` SHALL require: (1) filled overview lessons before or with skill lessons when overview stubs exist; (2) each skill/topic lesson begins with a plain-language definition of the topic for a beginner; (3) lesson headings reflect the lesson content and MUST NOT reuse a fixed howto quartet («Проблема / Модель / Пример / Ловушки» or English equivalents) as the default skeleton for every lesson; (4) lesson bodies MUST NOT include a «Якоря практики» (or equivalent) section that merely lists `practiceQuestionIds` already present on the module. The `howto` format MAY keep a short step/example structure. Specra core still MUST NOT call an LLM to author prose.
+Portable agent documentation for `format=course` SHALL require: (1) filled overview lessons before or with skill lessons when overview stubs exist; (2) each skill/topic lesson begins with a plain-language definition of the topic for a beginner; (3) lesson headings reflect the lesson content and MUST NOT reuse a fixed howto quartet («Проблема / Модель / Пример / Ловушки» or English equivalents) as the default skeleton for every lesson; (4) lesson bodies MUST NOT include a «Якоря практики» (or equivalent) section that merely lists `practiceQuestionIds` already present on the module. The `howto` format MAY keep a short step/example structure. SDM core still MUST NOT call an LLM to author prose.
 
 #### Scenario: Skill documents course vs howto skeleton
 
@@ -290,13 +290,13 @@ When a lesson stub has a non-empty `body`, the system SHALL strip fenced code bl
 
 ### Requirement: Static player may preview course packs
 
-The system MAY ship a static author-preview player that reads `sdm.export.course/v1` documents for lesson browsing. That preview MUST NOT constitute an LMS: Specra still MUST NOT track learner progress, run enrolled courses as a product surface, or call an LLM to author lesson prose as part of course export. Practice in the player, when offered, SHALL resolve question ids against assessment library payloads (e.g. a loaded `export test` pack), not invent question content inside the course document.
+The system MAY ship a static author-preview player that reads `sdm.export.course/v1` documents for lesson browsing. That preview MUST NOT constitute an LMS: SDM still MUST NOT track learner progress, run enrolled courses as a product surface, or call an LLM to author lesson prose as part of course export. Practice in the player, when offered, SHALL resolve question ids against assessment library payloads (e.g. a loaded `export test` pack), not invent question content inside the course document.
 
 #### Scenario: Preview does not imply LMS runtime
 
 - **WHEN** an author opens a course export in the static player
 - **THEN** the player may show modules and lessons for review
-- **AND** no learner progress store or external LMS API call is required or performed by Specra core export
+- **AND** no learner progress store or external LMS API call is required or performed by SDM core export
 
 #### Scenario: Practice ids remain library references
 

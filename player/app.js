@@ -1569,7 +1569,7 @@
       if (w.code === "KIT_SKILL_DESCRIPTION_EMPTY") {
         return {
           title: `Пустое описание навыка «${skill}»`,
-          detail: "Заполните описание навыка в онтологии (ontology/skills).",
+          detail: "Заполните описание навыка в онтологии (ontology/).",
         };
       }
       return { title: w.code, detail: w.message ?? "" };

@@ -50,23 +50,6 @@ export declare function toolPlayerSync(args: {
     project?: string;
     force?: boolean;
 }): Promise<ToolContent>;
-export declare function toolStudioSync(args: {
-    project?: string;
-    force?: boolean;
-}): Promise<ToolContent>;
-export declare function toolStudioPushView(args: {
-    project?: string;
-    viewJson: string;
-}): Promise<ToolContent>;
-export declare function toolStudioPushCoverage(args: {
-    project?: string;
-    profile: string;
-    level: string;
-}): Promise<ToolContent>;
-export declare function toolStudioPullAction(args: {
-    project?: string;
-    consume?: boolean;
-}): Promise<ToolContent>;
 export declare function toolSkillAdd(args: {
     project?: string;
     id: string;
@@ -305,7 +288,7 @@ export declare function toolContentStale(args: {
     profile?: string;
     level?: string;
 }): Promise<ToolContent>;
-export declare const TOOL_NAMES: readonly ["about", "suggest", "doctor", "audit", "quality_report", "init", "locate_project", "list_projects", "player_sync", "studio_sync", "studio_push_view", "studio_push_coverage", "studio_pull_action", "skill_add", "skill_link", "skill_graph", "skill_impact", "skill_suggest_links", "content_stale", "profile_create", "cert_create", "cert_patch", "cert_reweight", "cert_coverage", "cert_gaps", "question_add", "question_validate", "question_list", "question_deep_validate", "term_add", "term_list", "question_generate", "export_test", "export_matrix", "export_learning", "export_course", "export_mermaid", "export_confluence", "export_kit", "index_rebuild", "search", "topic_registry", "topic_sync", "course_heal"];
+export declare const TOOL_NAMES: readonly ["about", "suggest", "doctor", "audit", "quality_report", "init", "locate_project", "list_projects", "player_sync", "skill_add", "skill_link", "skill_graph", "skill_impact", "skill_suggest_links", "content_stale", "profile_create", "cert_create", "cert_patch", "cert_reweight", "cert_coverage", "cert_gaps", "question_add", "question_validate", "question_list", "question_deep_validate", "term_add", "term_list", "question_generate", "export_test", "export_matrix", "export_learning", "export_course", "export_mermaid", "export_confluence", "export_kit", "index_rebuild", "search", "topic_registry", "topic_sync", "course_heal"];
 export type ToolName = (typeof TOOL_NAMES)[number];
 /**
  * Invoke a tool handler by name (for tests). Does not start stdio.
@@ -355,23 +338,6 @@ export declare const TOOL_INPUT_SHAPES: {
     player_sync: {
         project: z.ZodOptional<z.ZodString>;
         force: z.ZodOptional<z.ZodBoolean>;
-    };
-    studio_sync: {
-        project: z.ZodOptional<z.ZodString>;
-        force: z.ZodOptional<z.ZodBoolean>;
-    };
-    studio_push_view: {
-        project: z.ZodOptional<z.ZodString>;
-        viewJson: z.ZodString;
-    };
-    studio_push_coverage: {
-        project: z.ZodOptional<z.ZodString>;
-        profile: z.ZodString;
-        level: z.ZodString;
-    };
-    studio_pull_action: {
-        project: z.ZodOptional<z.ZodString>;
-        consume: z.ZodOptional<z.ZodBoolean>;
     };
     skill_add: {
         project: z.ZodOptional<z.ZodString>;
@@ -625,6 +591,6 @@ export declare function zodFieldDescription(schema: z.ZodTypeAny): string | unde
 export declare function registerTools(server: McpServer): void;
 /** Product display strings for MCP initialize (UI title/description). */
 export declare const MCP_SERVER_TITLE = "SDM";
-export declare const MCP_SERVER_DESCRIPTION = "Methodology-as-Specs Framework";
+export declare const MCP_SERVER_DESCRIPTION = "Spec-Driven Methodology";
 export declare function createServer(version?: string): McpServer;
 //# sourceMappingURL=server.d.ts.map

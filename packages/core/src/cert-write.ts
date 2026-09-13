@@ -142,8 +142,8 @@ export function createCertification(
     }
 
     if (missingSkills.length > 0) {
-      const available = readdirSync(join(projectRoot, "ontology", "skills"))
-        .filter(name => name.endsWith(".yaml") || name.endsWith(".yml"))
+      const available = readdirSync(join(projectRoot, "ontology"))
+        .filter(name => !name.startsWith(".") && (name.endsWith(".yaml") || name.endsWith(".yml")))
         .map(name => name.replace(/\.ya?ml$/, ""));
       throw new SdmError(
         "SKILL_NOT_FOUND",

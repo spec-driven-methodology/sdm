@@ -6,56 +6,52 @@ import { readdirSync, readFileSync } from "node:fs";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import {
+  SdmError,
   addQuestion,
   addSkill,
+  addTerm,
   appendActionLog,
   buildAbout,
+  buildQualityReport,
   buildSuggest,
+  buildTopicRegistry,
   createCertification,
   createProfile,
-  patchCertification,
-  reweightCertification,
-  exportDocumentPayload,
   exportConfluence,
   exportCourse,
+  exportDocumentPayload,
   exportKit,
   exportMatrix,
   exportMermaid,
   exportTest,
   findProjectRoot,
+  generateQuestions,
   getProductVersion,
+  hasLegacyRolesDirectory,
+  healCourseWarnings,
+  inferEdgesForProject,
   initMethodologyProject,
   isMethodologyProject,
-  hasLegacyRolesDirectory,
-  locateProject,
-  listMethodologyProjects,
-  syncPlayerAssets,
-  syncStudioAssets,
-  pushStudioView,
-  pushStudioCoverage,
-  pullStudioAction,
   linkSkill,
+  listMethodologyProjects,
   listQuestions,
   listTerms,
-  addTerm,
+  locateProject,
   parseSkillIdList,
+  patchCertification,
   rebuildSemanticIndex,
-  searchSemanticIndex,
-  runMethodologyAudit,
-  buildQualityReport,
+  reweightCertification,
   runCertCoverage,
   runCertGaps,
+  runContentStale,
+  runMethodologyAudit,
   runSkillGraph,
   runSkillImpact,
-  runContentStale,
-  generateQuestions,
+  searchSemanticIndex,
+  syncPlayerAssets,
+  syncTopicRegistryFromSkills,
   validateQuestion,
   validateQuestionLibraryDeep,
-  inferEdgesForProject,
-  buildTopicRegistry,
-  syncTopicRegistryFromSkills,
-  healCourseWarnings,
-  SdmError,
   type Question,
   type TermKind,
 } from "@spec-driven-methodology/core";
@@ -301,72 +297,6 @@ export async function toolPlayerSync(args: {
     const result = syncPlayerAssets({
       projectRoot,
       force: args.force,
-    });
-    return okJson({ ok: true, ...result });
-  } catch (err) {
-    return errJson(err);
-  }
-}
-
-export async function toolStudioSync(args: {
-  project?: string;
-  force?: boolean;
-}): Promise<ToolContent> {
-  try {
-    const projectRoot = findProjectRoot(resolveStartDir(args.project));
-    const result = syncStudioAssets({
-      projectRoot,
-      force: args.force,
-    });
-    return okJson({ ok: true, ...result });
-  } catch (err) {
-    return errJson(err);
-  }
-}
-
-export async function toolStudioPushView(args: {
-  project?: string;
-  viewJson: string;
-}): Promise<ToolContent> {
-  try {
-    const projectRoot = findProjectRoot(resolveStartDir(args.project));
-    const result = pushStudioView({
-      projectRoot,
-      raw: args.viewJson,
-    });
-    return okJson({ ok: true, ...result });
-  } catch (err) {
-    return errJson(err);
-  }
-}
-
-export async function toolStudioPushCoverage(args: {
-  project?: string;
-  profile: string;
-  level: string;
-}): Promise<ToolContent> {
-  try {
-    const projectRoot = findProjectRoot(resolveStartDir(args.project));
-    const result = pushStudioCoverage({
-      projectRoot,
-      profile: args.profile,
-      level: args.level,
-    });
-    return okJson({ ok: true, ...result });
-  } catch (err) {
-    return errJson(err);
-  }
-}
-
-export async function toolStudioPullAction(args: {
-  project?: string;
-  consume?: boolean;
-}): Promise<ToolContent> {
-  try {
-    const projectRoot = findProjectRoot(resolveStartDir(args.project));
-    const result = pullStudioAction({
-      projectRoot,
-      consume: args.consume,
     });
     return okJson({ ok: true, ...result });
   } catch (err) {
@@ -1249,10 +1179,6 @@ export const TOOL_NAMES = [
   "locate_project",
   "list_projects",
   "player_sync",
-  "studio_sync",
-  "studio_push_view",
-  "studio_push_coverage",
-  "studio_pull_action",
   "skill_add",
   "skill_link",
   "skill_graph",
@@ -1314,18 +1240,6 @@ export async function runTool(
       return toolListProjects(args as Parameters<typeof toolListProjects>[0]);
     case "player_sync":
       return toolPlayerSync(args as Parameters<typeof toolPlayerSync>[0]);
-    case "studio_sync":
-      return toolStudioSync(args as Parameters<typeof toolStudioSync>[0]);
-    case "studio_push_view":
-      return toolStudioPushView(args as Parameters<typeof toolStudioPushView>[0]);
-    case "studio_push_coverage":
-      return toolStudioPushCoverage(
-        args as Parameters<typeof toolStudioPushCoverage>[0],
-      );
-    case "studio_pull_action":
-      return toolStudioPullAction(
-        args as Parameters<typeof toolStudioPullAction>[0],
-      );
     case "skill_add":
       return toolSkillAdd(args as Parameters<typeof toolSkillAdd>[0]);
     case "skill_link":
@@ -1571,23 +1485,6 @@ export const TOOL_INPUT_SHAPES = {
       .describe("Scan depth below workspaceDir (default 2)"),
   },
   player_sync: { project: projectParam, force: forceParam },
-  studio_sync: { project: projectParam, force: forceParam },
-  studio_push_view: {
-    project: projectParam,
-    viewJson: z.string().describe("Full studio view document as JSON string"),
-  },
-  studio_push_coverage: {
-    project: projectParam,
-    profile: profileParam,
-    level: levelParam,
-  },
-  studio_pull_action: {
-    project: projectParam,
-    consume: z
-      .boolean()
-      .optional()
-      .describe("Remove action file after successful read"),
-  },
   skill_add: {
     project: projectParam,
     id: z.string().describe("New skill id (filename stem)"),
@@ -1942,14 +1839,6 @@ export const TOOL_DESCRIPTIONS: Record<ToolName, string> = {
     "List SDM methodology projects (sdm.yaml) under a workspace directory. Multi-project: discover candidates to operate on.",
   player_sync:
     "Install or refresh player/ author preview assets (methodology YAML untouched)",
-  studio_sync:
-    "Install or refresh studio/ Methodology Studio assets (methodology YAML untouched)",
-  studio_push_view:
-    "Write sdm.studio.view/v1 JSON into .sdm/studio/current-view.json (bridge)",
-  studio_push_coverage:
-    "Build coverage/пробелы studio view from cert gaps (+ suggest) into bridge",
-  studio_pull_action:
-    "Read latest studio action from bridge (.sdm/studio/last-action.json)",
   skill_add:
     "Create an ontology skill YAML (id, name, optional category/topics); use skill_link for depends_on/related_to",
   skill_link: "Link depends_on / related_to on an existing skill",
@@ -2057,39 +1946,6 @@ export function registerTools(server: McpServer): void {
     TOOL_DESCRIPTIONS.player_sync,
     TOOL_INPUT_SHAPES.player_sync,
     async (args) => loggedTool("player_sync", args, () => toolPlayerSync(args)),
-  );
-
-  server.tool(
-    "studio_sync",
-    TOOL_DESCRIPTIONS.studio_sync,
-    TOOL_INPUT_SHAPES.studio_sync,
-    async (args) => loggedTool("studio_sync", args, () => toolStudioSync(args)),
-  );
-
-  server.tool(
-    "studio_push_view",
-    TOOL_DESCRIPTIONS.studio_push_view,
-    TOOL_INPUT_SHAPES.studio_push_view,
-    async (args) =>
-      loggedTool("studio_push_view", args, () => toolStudioPushView(args)),
-  );
-
-  server.tool(
-    "studio_push_coverage",
-    TOOL_DESCRIPTIONS.studio_push_coverage,
-    TOOL_INPUT_SHAPES.studio_push_coverage,
-    async (args) =>
-      loggedTool("studio_push_coverage", args, () =>
-        toolStudioPushCoverage(args),
-      ),
-  );
-
-  server.tool(
-    "studio_pull_action",
-    TOOL_DESCRIPTIONS.studio_pull_action,
-    TOOL_INPUT_SHAPES.studio_pull_action,
-    async (args) =>
-      loggedTool("studio_pull_action", args, () => toolStudioPullAction(args)),
   );
 
   server.tool(
@@ -2381,7 +2237,7 @@ export function registerTools(server: McpServer): void {
 
 /** Product display strings for MCP initialize (UI title/description). */
 export const MCP_SERVER_TITLE = "SDM";
-export const MCP_SERVER_DESCRIPTION = "Methodology-as-Specs Framework";
+export const MCP_SERVER_DESCRIPTION = "Spec-Driven Methodology";
 
 export function createServer(version = getProductVersion()): McpServer {
   const server = new McpServer({

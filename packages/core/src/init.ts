@@ -8,7 +8,6 @@ import {
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { copyPlayerTemplateInto } from "./player-sync.js";
-import { copyStudioTemplateInto } from "./studio-sync.js";
 import { writeYamlFile } from "./yaml.js";
 
 export interface InitOptions {
@@ -94,7 +93,7 @@ export function initMethodologyProject(options: InitOptions): InitResult {
   const skipped: string[] = [];
 
   const dirs = [
-    "ontology/skills",
+    "ontology",
     "ontology/categories",
     "library/questions",
     "library/terms",
@@ -152,7 +151,6 @@ export function initMethodologyProject(options: InitOptions): InitResult {
       ".sdm/cache/",
       ".sdm/index/",
       ".sdm/logs/",
-      ".sdm/studio/",
       ".DS_Store",
       "*.log",
       "",
@@ -171,11 +169,10 @@ export function initMethodologyProject(options: InitOptions): InitResult {
       ``,
       `## Layout`,
       ``,
-      `- \`ontology/\` — skill graph`,
+      `- \`ontology/\` — node graph (skills, concepts, topics; each node has \`kind\`)`,
       `- \`library/\` — questions bound to skills`,
       `- \`certifications/\` — profiles, levels, thresholds`,
       `- \`player/\` — author preview for \`export test\` / learning JSON (not a secure exam)`,
-      `- \`studio/\` — Methodology Studio: view/action shell for intent-loop (does not write YAML)`,
       `- \`.sdm/\` — local config, cache, optional vector index`,
       ``,
       `## Host setup (once per IDE workspace)`,
@@ -229,7 +226,7 @@ export function initMethodologyProject(options: InitOptions): InitResult {
       ``,
       `| Vault path | SDM domain |`,
       `|---|---|`,
-      `| \`ontology/skills/*.yaml\` | Skills (навыки, граф) |`,
+      `| \`ontology/*.yaml\` | Ontology nodes (skills/concepts/topics, \`kind\`) |`,
       `| \`library/questions/*.yaml\` | Questions (вопросы) |`,
       `| \`library/terms/*.yaml\` | Terms (термины) |`,
       `| \`certifications/profiles/*.yaml\` | Profiles (профили) |`,
@@ -267,7 +264,7 @@ export function initMethodologyProject(options: InitOptions): InitResult {
       `| **Create/edit methodology** | \`sdm\` \`skill_add\`, \`question_add\`, \`cert_create\` ... | **Always** \`project\` |`,
       `| **Coverage / gaps** | \`sdm\` \`cert_coverage\`, \`cert_gaps\` | **Always** \`project\` |`,
       `| **Export** | \`sdm\` \`export_test\`, \`export_course\` ... | **Always** \`project\` |`,
-      `| **Sync artifacts** | \`sdm\` \`player_sync\`, \`studio_sync\` | **Always** \`project\` |`,
+      `| **Sync artifacts** | \`sdm\` \`player_sync\` | **Always** \`project\` |`,
       ``,
       `## How agents operate`,
       ``,
@@ -292,7 +289,7 @@ export function initMethodologyProject(options: InitOptions): InitResult {
   );
 
   for (const rel of [
-    "ontology/skills/.gitkeep",
+    "ontology/.gitkeep",
     "ontology/categories/.gitkeep",
     "library/questions/.gitkeep",
     "library/terms/.gitkeep",
@@ -304,7 +301,6 @@ export function initMethodologyProject(options: InitOptions): InitResult {
   }
 
   copyPlayerTemplateInto(targetDir, created, skipped, force);
-  copyStudioTemplateInto(targetDir, created, skipped, force);
 
   if (options.withExamples) {
     const examplesSrc = join(templatesRoot(), "examples");

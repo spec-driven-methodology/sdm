@@ -4,11 +4,11 @@ export declare const SuggestLeverSchema: z.ZodObject<{
     mapsTo: z.ZodString;
     category: z.ZodEnum<["export", "threshold", "volume", "types", "other"]>;
 }, "strip", z.ZodTypeAny, {
-    category: "threshold" | "types" | "export" | "volume" | "other";
+    category: "threshold" | "types" | "export" | "other" | "volume";
     phrase: string;
     mapsTo: string;
 }, {
-    category: "threshold" | "types" | "export" | "volume" | "other";
+    category: "threshold" | "types" | "export" | "other" | "volume";
     phrase: string;
     mapsTo: string;
 }>;
@@ -24,11 +24,11 @@ export declare const SuggestItemSchema: z.ZodObject<{
         mapsTo: z.ZodString;
         category: z.ZodEnum<["export", "threshold", "volume", "types", "other"]>;
     }, "strip", z.ZodTypeAny, {
-        category: "threshold" | "types" | "export" | "volume" | "other";
+        category: "threshold" | "types" | "export" | "other" | "volume";
         phrase: string;
         mapsTo: string;
     }, {
-        category: "threshold" | "types" | "export" | "volume" | "other";
+        category: "threshold" | "types" | "export" | "other" | "volume";
         phrase: string;
         mapsTo: string;
     }>, "many">;
@@ -38,7 +38,7 @@ export declare const SuggestItemSchema: z.ZodObject<{
     why: string;
     requiresConfirm: boolean;
     levers: {
-        category: "threshold" | "types" | "export" | "volume" | "other";
+        category: "threshold" | "types" | "export" | "other" | "volume";
         phrase: string;
         mapsTo: string;
     }[];
@@ -50,7 +50,7 @@ export declare const SuggestItemSchema: z.ZodObject<{
     why: string;
     requiresConfirm: boolean;
     levers: {
-        category: "threshold" | "types" | "export" | "volume" | "other";
+        category: "threshold" | "types" | "export" | "other" | "volume";
         phrase: string;
         mapsTo: string;
     }[];
@@ -90,9 +90,9 @@ export declare const SuggestPayloadSchema: z.ZodObject<{
         hasExport: z.ZodBoolean;
         hasPlayer: z.ZodBoolean;
     }, "strip", z.ZodTypeAny, {
+        questionCount: number;
         hasProfile: boolean;
         hasLevel: boolean;
-        questionCount: number;
         hasExport: boolean;
         hasPlayer: boolean;
         gapSummary?: {
@@ -101,9 +101,9 @@ export declare const SuggestPayloadSchema: z.ZodObject<{
             thin: number;
         } | undefined;
     }, {
+        questionCount: number;
         hasProfile: boolean;
         hasLevel: boolean;
-        questionCount: number;
         hasExport: boolean;
         hasPlayer: boolean;
         gapSummary?: {
@@ -124,11 +124,11 @@ export declare const SuggestPayloadSchema: z.ZodObject<{
             mapsTo: z.ZodString;
             category: z.ZodEnum<["export", "threshold", "volume", "types", "other"]>;
         }, "strip", z.ZodTypeAny, {
-            category: "threshold" | "types" | "export" | "volume" | "other";
+            category: "threshold" | "types" | "export" | "other" | "volume";
             phrase: string;
             mapsTo: string;
         }, {
-            category: "threshold" | "types" | "export" | "volume" | "other";
+            category: "threshold" | "types" | "export" | "other" | "volume";
             phrase: string;
             mapsTo: string;
         }>, "many">;
@@ -138,7 +138,7 @@ export declare const SuggestPayloadSchema: z.ZodObject<{
         why: string;
         requiresConfirm: boolean;
         levers: {
-            category: "threshold" | "types" | "export" | "volume" | "other";
+            category: "threshold" | "types" | "export" | "other" | "volume";
             phrase: string;
             mapsTo: string;
         }[];
@@ -150,7 +150,7 @@ export declare const SuggestPayloadSchema: z.ZodObject<{
         why: string;
         requiresConfirm: boolean;
         levers: {
-            category: "threshold" | "types" | "export" | "volume" | "other";
+            category: "threshold" | "types" | "export" | "other" | "volume";
             phrase: string;
             mapsTo: string;
         }[];
@@ -165,9 +165,9 @@ export declare const SuggestPayloadSchema: z.ZodObject<{
         profile?: string | undefined;
     };
     snapshot: {
+        questionCount: number;
         hasProfile: boolean;
         hasLevel: boolean;
-        questionCount: number;
         hasExport: boolean;
         hasPlayer: boolean;
         gapSummary?: {
@@ -182,7 +182,7 @@ export declare const SuggestPayloadSchema: z.ZodObject<{
         why: string;
         requiresConfirm: boolean;
         levers: {
-            category: "threshold" | "types" | "export" | "volume" | "other";
+            category: "threshold" | "types" | "export" | "other" | "volume";
             phrase: string;
             mapsTo: string;
         }[];
@@ -197,9 +197,9 @@ export declare const SuggestPayloadSchema: z.ZodObject<{
         profile?: string | undefined;
     };
     snapshot: {
+        questionCount: number;
         hasProfile: boolean;
         hasLevel: boolean;
-        questionCount: number;
         hasExport: boolean;
         hasPlayer: boolean;
         gapSummary?: {
@@ -214,7 +214,7 @@ export declare const SuggestPayloadSchema: z.ZodObject<{
         why: string;
         requiresConfirm: boolean;
         levers: {
-            category: "threshold" | "types" | "export" | "volume" | "other";
+            category: "threshold" | "types" | "export" | "other" | "volume";
             phrase: string;
             mapsTo: string;
         }[];

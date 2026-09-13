@@ -8,7 +8,7 @@
 
 ### Requirement: Action log files in methodology project
 
-When logging is enabled and a methodology project root is known, Specra SHALL append NDJSON action records to `.sdm/logs/sdm.log`. Failed actions (`ok: false` or thrown SdmError/unexpected) SHALL also be appended to `.sdm/logs/error.log` (duplicate of the error record).
+When logging is enabled and a methodology project root is known, SDM SHALL append NDJSON action records to `.sdm/logs/sdm.log`. Failed actions (`ok: false` or thrown SdmError/unexpected) SHALL also be appended to `.sdm/logs/error.log` (duplicate of the error record).
 
 #### Scenario: Successful CLI action is logged
 

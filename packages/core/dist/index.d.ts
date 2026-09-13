@@ -7,9 +7,6 @@ export { DEFAULT_QUALITY_CONFIG, loadQualityConfig, effectiveDistractorMode, dis
 export { readYamlFile, writeYamlFile } from "./yaml.js";
 export { initMethodologyProject, isMethodologyProject, type InitOptions, type InitResult, } from "./init.js";
 export { syncPlayerAssets, copyPlayerTemplateInto, type SyncPlayerOptions, type SyncPlayerResult, } from "./player-sync.js";
-export { syncStudioAssets, copyStudioTemplateInto, type SyncStudioOptions, type SyncStudioResult, } from "./studio-sync.js";
-export { STUDIO_VIEW_SCHEMA, STUDIO_ACTION_SCHEMA, studioBridgePaths, pushStudioView, pullStudioAction, readStudioViewFile, writeStudioActionFile, startStudioServe, parseStudioViewDocument, parseStudioActionDocument, type StudioBridgePaths, type PushStudioViewResult, type PullStudioActionResult, type StartStudioServeOptions, type StudioServeHandle, } from "./studio-bridge.js";
-export { buildStudioCoverageView, pushStudioCoverage, type BuildStudioCoverageViewOptions, type PushStudioCoverageResult, } from "./studio-coverage.js";
 export { SdmError } from "./errors.js";
 export { findProjectRoot, locateProject, listMethodologyProjects, PROJECT_MANIFEST } from "./project-root.js";
 export { loadLevel, loadProfile, loadQuestions, assertProfileLevelMatch, hasLegacyRolesDirectory, parseLevelDocument, parseProfileDocument, profilePath, type LoadWarning, } from "./loaders.js";
@@ -56,6 +53,6 @@ export { TeamSchema, loadTeam, resolveLevelForTeam, teamFilePath, type Team, } f
 export { EXPORT_MERMAID_SCHEMA, exportMermaid, assembleMermaidDocument, mermaidNodeId, type ExportMermaidDocument, type ExportMermaidNode, type ExportMermaidEdge, type ExportMermaidOptions, type ExportMermaidRun, } from "./export-mermaid.js";
 export { appendActionLog, withActionLog, redactForLog, rotateLogFile, actionLogDir, loadLoggingSettings, isLoggingEnvDisabled, resolveProjectRootForLog, DEFAULT_LOG_MAX_BYTES, DEFAULT_LOG_MAX_FILES, type ActionLogEntry, type ActionLogRecord, type ActionLogSource, type LoggingSettings, } from "./action-log.js";
 export { IntentPlanSchema, validateIntentPlan, parseIntentPlanJson, type IntentPlan, type ValidateIntentPlanResult, } from "./intent-plan.js";
-export { ABOUT_CLI_COMMANDS, ABOUT_MCP_TOOLS, AboutPayloadSchema, AboutSkillSchema, buildAbout, formatAboutText, getProductVersion, listPortableSkills, resolveSpecraHome, type AboutPayload, type BuildAboutOptions, } from "./about.js";
+export { ABOUT_CLI_COMMANDS, ABOUT_MCP_TOOLS, AboutPayloadSchema, AboutSkillSchema, buildAbout, formatAboutText, getProductVersion, listPortableSkills, resolveSdmHome, type AboutPayload, type BuildAboutOptions, } from "./about.js";
 export { SuggestPayloadSchema, SuggestItemSchema, SuggestLeverSchema, buildSuggest, formatSuggestText, type SuggestPayload, type SuggestItem, type SuggestLever, type BuildSuggestOptions, } from "./suggest.js";
 //# sourceMappingURL=index.d.ts.map

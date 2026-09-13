@@ -203,7 +203,7 @@ describe("buildSuggest", () => {
       addOkQuestions(root, "docker", 3);
       addOkQuestions(root, "linux", 3);
       const skill = loadSkill(root, "docker");
-      writeYamlFile(join(root, "ontology", "skills", "docker.yaml"), {
+      writeYamlFile(join(root, "ontology", "docker.yaml"), {
         ...skill,
         topics: [...(skill.topics ?? []), "cgroups"],
       });

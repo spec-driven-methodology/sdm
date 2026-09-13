@@ -1,0 +1,16 @@
+id: microservices
+term: Микросервисы
+definition: >-
+  Архитектурный стиль, при котором приложение строится как набор слабо связанных, независимо
+  развёртываемых сервисов, каждый со своей бизнес-способностью.
+aliases: []
+skills:
+  - architecture
+kind: concept
+meta:
+  basis:
+    skills:
+      architecture: 311a6982cdaf7424
+    capturedAt: "2026-09-13T08:56:16.566Z"
+    terms:
+      microservices: 52dd792d5593f016

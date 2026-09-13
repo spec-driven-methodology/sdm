@@ -2,13 +2,13 @@
 
 ## Purpose
 
-Единый источник правды для продуктовой identity Specra (root `package.json`: stable `X.Y.Z` или `X.Y.Z-(alpha|beta|rc).N`), runtime readers и sync/check/bump при сборке и релизе.
+Единый источник правды для продуктовой identity SDM (root `package.json`: stable `X.Y.Z` или `X.Y.Z-(alpha|beta|rc).N`), runtime readers и sync/check/bump при сборке и релизе.
 
 ## Requirements
 
 ### Requirement: Product version single source of truth
 
-The Specra monorepo SHALL treat the root package `package.json` field `version` (package name `sdm`) as the sole product identity source of truth. That value MAY be stable `MAJOR.MINOR.PATCH` or prerelease `MAJOR.MINOR.PATCH-<stage>.<build>` as defined by this capability. `@spec-driven-methodology/core` SHALL expose a function that returns that string by resolving the Specra package root (same resolution family as `about` / `resolveSpecraHome`). CLI `sdm --version`, MCP server initialize `version`, and `about` payload `version` MUST all equal that value.
+The SDM monorepo SHALL treat the root package `package.json` field `version` (package name `sdm`) as the sole product identity source of truth. That value MAY be stable `MAJOR.MINOR.PATCH` or prerelease `MAJOR.MINOR.PATCH-<stage>.<build>` as defined by this capability. `@spec-driven-methodology/core` SHALL expose a function that returns that string by resolving the SDM package root (same resolution family as `about` / `resolveSdmHome`). CLI `sdm --version`, MCP server initialize `version`, and `about` payload `version` MUST all equal that value.
 
 #### Scenario: Runtime surfaces agree
 
@@ -66,16 +66,16 @@ The repository SHALL provide non-interactive npm scripts (or equivalent) that up
 
 ### Requirement: Build auto-increments on compile for prerelease identities
 
-When the product identity is in prerelease form, the default package `build` path SHALL increment the build number (and sync workspaces) before or as part of compilation, unless an explicit opt-out environment variable `SPECRA_NO_BUMP_BUILD=1` is set. When the identity is stable (no prerelease), the build path MUST NOT mutate the version.
+When the product identity is in prerelease form, the default package `build` path SHALL increment the build number (and sync workspaces) before or as part of compilation, unless an explicit opt-out environment variable `SDM_NO_BUMP_BUILD=1` is set. When the identity is stable (no prerelease), the build path MUST NOT mutate the version.
 
 #### Scenario: Prerelease build bumps identity
 
-- **WHEN** root version is `0.8.0-alpha.5` and `npm run build` runs without `SPECRA_NO_BUMP_BUILD`
+- **WHEN** root version is `0.8.0-alpha.5` and `npm run build` runs without `SDM_NO_BUMP_BUILD`
 - **THEN** after the build step the SSOT version is `0.8.0-alpha.6` (or higher by exactly one from the pre-build value)
 
 #### Scenario: Opt-out leaves version unchanged
 
-- **WHEN** root version is `0.8.0-alpha.5` and `npm run build` runs with `SPECRA_NO_BUMP_BUILD=1`
+- **WHEN** root version is `0.8.0-alpha.5` and `npm run build` runs with `SDM_NO_BUMP_BUILD=1`
 - **THEN** the SSOT version remains `0.8.0-alpha.5`
 
 #### Scenario: Stable build does not mutate version

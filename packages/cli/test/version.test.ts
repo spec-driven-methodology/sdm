@@ -32,7 +32,7 @@ describe("CLI product version SSOT", () => {
     const out = formatSdmVersionOutput(cli);
     assert.equal(
       out,
-      `${SDM_ASCII}\n\n${SDM_TAGLINE}\n\nframework ${cli}\nmcp ${getResolvedMcpVersion()}\n`,
+      `${SDM_ASCII}\n\n${SDM_TAGLINE}\n\ncore ${cli}\nmcp ${getResolvedMcpVersion()}\n`,
     );
   });
 });

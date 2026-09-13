@@ -25,7 +25,7 @@ Do **not** answer from memory alone. Do **not** frame SDM as an HR testing UI, L
 
 ## Positioning (paraphrase from `about`, do not invent)
 
-**EN tagline** (from `tagline`): Methodology-as-Specs Framework  
+**EN tagline** (from `tagline`): Spec-Driven Methodology  
 (Historical name note only: Spec + RA = Resource Assessment — not the live tagline.)
 
 Two levels (must stay consistent with `ABOUT.md` / `positioning.what`):

@@ -23,12 +23,12 @@ function uniq(values) {
 function assertDepsExist(projectRoot, ids, field) {
     for (const id of ids) {
         if (!skillExists(projectRoot, id)) {
-            throw new SdmError("SKILL_NOT_FOUND", `${field} target skill "${id}" not found under ontology/skills/`);
+            throw new SdmError("SKILL_NOT_FOUND", `${field} target skill "${id}" not found under ontology/`);
         }
     }
 }
 /**
- * Create ontology/skills/<id>.yaml
+ * Create ontology/<id>.yaml
  */
 export function addSkill(projectRoot, input) {
     const id = input.id.trim();
@@ -64,6 +64,7 @@ export function addSkill(projectRoot, input) {
         id,
         name: input.name,
         description,
+        kind: input.kind ?? "skill",
         category: input.category,
         depends_on: [],
         related_to: [],

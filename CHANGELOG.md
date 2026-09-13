@@ -6,6 +6,18 @@
 проект следует [Semantic Versioning](https://semver.org/lang/ru/)
 (до 1.0 API ещё может меняться).
 
+## [1.4.0] - 2026-09-13
+
+### Изменено
+
+- **EN tagline** → **Spec-Driven Methodology** (было Methodology-as-Specs Framework): `ABOUT.md` / `about.tagline`, CLI banner `--version`, MCP `initialize` description, `package.json` description, VERSIONING, player/kit html, `agents/explain-sdm`. Обновить локальный player: `sdm player sync --force`
+- Внутренняя функция `resolveSpecraHome` → `resolveSdmHome` (SDM-нейминг, без упоминаний Specra в коде)
+- **ASCII-арт** в CLI `--version` — перерисован с figlet-standard строчных `sdm` на заглавные **SDM** (`packages/cli/src/banner.ts`)
+- **Архитектура вопросов:** удалены дубли q-testing-002, q-testing-003, q-testing-007 (точные копии), q-architecture-003 (почти дубль). Часть `architecture` переведена в тип `open` (2 из 5), покрытие диверсифицировано. Добавлены glossary-термины (9 шт: JVM, Generics, IoC, DI, ACID, JUnit5, Микросервисы, CQRS, CI/CD)
+- **Экспорты:** перегенерирован `test-java-developer-senior.json` (26 вопросов, актуальный состав), удалён устаревший `test-java-developer-senior-8.json`
+- **`--version` label** — строка `framework` заменена на `core` (теперь `core 1.4.0 / mcp 1.4.0`)
+- **SDM Studio полностью удалён** (весь стек: UI `studio/`, шаблоны, `studio-bridge`, `studio-sync`, `studio-coverage` в core, CLI-команды, MCP-тулы, тесты, openspec-спеки). Вместо Studio — obsidian-sdm
+
 ## [1.3.0] - 2026-09-12
 
 ### Добавлено

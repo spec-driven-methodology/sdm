@@ -6,20 +6,19 @@
 `sdm --version` печатает:
 
 ```
-  ____
- / ___| …
-       |_|
+ ____   ____   __  __
+/ ___| |  _ \ |  \/  |
+\___ \ | | | || |\/| |
+ ___) || |_| || |  | |
+|____/ |____/ |_|  |_|
 
-Methodology-as-Specs Framework
+Spec-Driven Methodology
 
-framework 0.8.0-alpha.3
-mcp 0.8.0-alpha.3
-
-```
+core 0.8.0-alpha.3
 
 (пустые строки после логотипа, после tagline и после версий). Тот же логотип+tagline — в `sdm` / `--help` на TTY (не на каждом `--json`-вызове).
 
-- `framework` — product identity (SSOT / CLI);
+- `core` — product identity (SSOT / CLI);
 - `mcp` — `version` из **резолвнутого** `@spec-driven-methodology/mcp/package.json` (тот пакет, который подхватывает `mcp install`).  
   Если строки расходятся — CLI и MCP из разных установок; после `npm run build` / `link:cli` перезапустите MCP в Cursor.
 

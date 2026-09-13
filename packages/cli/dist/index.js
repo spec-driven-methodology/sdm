@@ -2,7 +2,7 @@
 import { Command } from "commander";
 import { readFileSync, readdirSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { addQuestion, addSkill, appendActionLog, buildAbout, buildSuggest, createCertification, createProfile, patchCertification, reweightCertification, exportDocumentPayload, exportCourse, exportMatrix, exportMermaid, exportTest, exportConfluence, exportKit, findProjectRoot, formatAboutText, formatSuggestText, getProductVersion, initMethodologyProject, isMethodologyProject, hasLegacyRolesDirectory, syncPlayerAssets, syncStudioAssets, pushStudioView, pushStudioCoverage, pullStudioAction, startStudioServe, linkSkill, listQuestions, listTerms, addTerm, generateQuestions, validateQuestion, validateQuestionLibraryDeep, inferEdgesForProject, healCourseWarnings, parseIntentPlanJson, parseSkillIdList, runCertCoverage, runCertGaps, runSkillGraph, runSkillImpact, runContentStale, runMethodologyAudit, buildQualityReport, formatQualityReportText, rebuildSemanticIndex, searchSemanticIndex, buildTopicRegistry, syncTopicRegistryFromSkills, addTopic, mergeRegistryLabelsIntoSkills, SdmError, } from "@spec-driven-methodology/core";
+import { addQuestion, addSkill, appendActionLog, buildAbout, buildSuggest, createCertification, createProfile, patchCertification, reweightCertification, exportDocumentPayload, exportCourse, exportMatrix, exportMermaid, exportTest, exportConfluence, exportKit, findProjectRoot, formatAboutText, formatSuggestText, getProductVersion, initMethodologyProject, isMethodologyProject, hasLegacyRolesDirectory, syncPlayerAssets, linkSkill, listQuestions, listTerms, addTerm, generateQuestions, validateQuestion, validateQuestionLibraryDeep, inferEdgesForProject, healCourseWarnings, parseIntentPlanJson, parseSkillIdList, runCertCoverage, runCertGaps, runSkillGraph, runSkillImpact, runContentStale, runMethodologyAudit, buildQualityReport, formatQualityReportText, rebuildSemanticIndex, searchSemanticIndex, buildTopicRegistry, syncTopicRegistryFromSkills, addTopic, mergeRegistryLabelsIntoSkills, SdmError, } from "@spec-driven-methodology/core";
 import { installAgentSkills, listAgentHosts, } from "./agent-hosts.js";
 import { registerCompletion } from "./completion.js";
 import { helpBannerText } from "./banner.js";
@@ -25,7 +25,7 @@ function parseRubricRows(raw) {
 const program = new Command();
 program
     .name("sdm")
-    .description("Methodology-as-Specs Framework")
+    .description("Spec-Driven Methodology")
     .version(formatSdmVersionOutput(getProductVersion()))
     .addHelpText("beforeAll", () => helpBannerText());
 const logMeta = new WeakMap();
@@ -149,7 +149,7 @@ program
     console.log("  library/          questions");
     console.log("  certifications/   profiles, levels & thresholds");
     console.log("  player/           author preview for export test/learning JSON");
-    console.log("  studio/           Methodology Studio (view/action; no YAML writes)");
+    console.log("  player/           author preview for export test/learning JSON");
     console.log("  .sdm/index/    optional vector index (search.provider)");
     console.log("");
     console.log("Next — wire the AI host (once per IDE workspace; not done by init):");
@@ -283,190 +283,6 @@ player
             }
         }
         process.exitCode = 0;
-    }
-    catch (err) {
-        emitError(err, Boolean(opts.json));
-    }
-});
-const studio = program
-    .command("studio")
-    .description("Methodology Studio (intent-loop view/action shell)");
-studio
-    .command("sync")
-    .description("Install or refresh studio/ from SDM templates (does not touch methodology YAML)")
-    .option("--force", "Overwrite existing files under studio/", false)
-    .option("--json", "Machine-readable JSON output for agents", false)
-    .action((opts) => {
-    try {
-        const projectRoot = findProjectRoot(process.cwd());
-        const result = syncStudioAssets({
-            projectRoot,
-            force: opts.force,
-        });
-        if (opts.json) {
-            console.log(JSON.stringify({
-                ok: true,
-                projectRoot: result.projectRoot,
-                studioDir: result.studioDir,
-                force: result.force,
-                created: result.created,
-                skipped: result.skipped,
-            }));
-        }
-        else {
-            console.log(`Studio sync → ${result.studioDir}`);
-            console.log(`  created: ${result.created.length}`);
-            console.log(`  skipped: ${result.skipped.length}`);
-            if (!opts.force && result.skipped.length > 0) {
-                console.log("  (use --force to overwrite existing studio files)");
-            }
-        }
-        process.exitCode = 0;
-    }
-    catch (err) {
-        emitError(err, Boolean(opts.json));
-    }
-});
-studio
-    .command("push-view")
-    .description("Write sdm.studio.view/v1 JSON into .sdm/studio/current-view.json (bridge)")
-    .argument("[file]", "Path to view JSON, or - for stdin")
-    .option("--json", "Machine-readable JSON output for agents", false)
-    .action(async (file, opts) => {
-    try {
-        const projectRoot = findProjectRoot(process.cwd());
-        let raw;
-        if (!file || file === "-") {
-            raw = await readStdinForStudio("No view on stdin. Pass a file path or pipe JSON.");
-        }
-        else {
-            raw = readFileSync(resolve(file), "utf8");
-        }
-        const result = pushStudioView({ projectRoot, raw });
-        if (opts.json) {
-            console.log(JSON.stringify({
-                ok: true,
-                projectRoot: result.projectRoot,
-                viewPath: result.viewPath,
-                schemaVersion: result.schemaVersion,
-            }));
-        }
-        else {
-            console.log(`Studio view → ${result.viewPath}`);
-        }
-        process.exitCode = 0;
-    }
-    catch (err) {
-        emitError(err, Boolean(opts.json));
-    }
-});
-studio
-    .command("push-coverage")
-    .description("Build coverage/пробелы view from cert gaps (+ suggest) into bridge current-view.json")
-    .requiredOption("--profile <profile>", "Profile id")
-    .requiredOption("--level <level>", "Level id")
-    .option("--json", "Machine-readable JSON output for agents", false)
-    .action((opts) => {
-    try {
-        const projectRoot = findProjectRoot(process.cwd());
-        const result = pushStudioCoverage({
-            projectRoot,
-            profile: opts.profile,
-            level: opts.level,
-        });
-        if (opts.json) {
-            console.log(JSON.stringify({
-                ok: true,
-                projectRoot: result.projectRoot,
-                viewPath: result.viewPath,
-                profile: result.profile,
-                level: result.level,
-                summary: result.summary,
-            }));
-        }
-        else {
-            console.log(`Studio coverage view → ${result.viewPath}`);
-            console.log(`  пробелы: не покрыто=${result.summary.missing}, слабо покрыто=${result.summary.thin}, покрыто=${result.summary.ok}`);
-        }
-        process.exitCode = 0;
-    }
-    catch (err) {
-        emitError(err, Boolean(opts.json));
-    }
-});
-studio
-    .command("pull-action")
-    .description("Read latest action from .sdm/studio/last-action.json (bridge)")
-    .option("--consume", "Remove the action file after a successful read", false)
-    .option("--json", "Machine-readable JSON output for agents", false)
-    .action((opts) => {
-    try {
-        const projectRoot = findProjectRoot(process.cwd());
-        const result = pullStudioAction({
-            projectRoot,
-            consume: opts.consume,
-        });
-        if (opts.json) {
-            console.log(JSON.stringify({
-                ok: true,
-                projectRoot: result.projectRoot,
-                actionPath: result.actionPath,
-                action: result.action,
-                consumed: result.consumed,
-            }));
-        }
-        else if (result.action) {
-            console.log(`Studio action type=${String(result.action.type)}`);
-            if (result.consumed)
-                console.log("  (consumed)");
-        }
-        else {
-            console.log("Studio action: (none)");
-        }
-        process.exitCode = 0;
-    }
-    catch (err) {
-        emitError(err, Boolean(opts.json));
-    }
-});
-studio
-    .command("serve")
-    .description("Localhost static studio/ + bridge API (127.0.0.1; no methodology writes)")
-    .option("--port <n>", "Port", "4173")
-    .option("--json", "Machine-readable JSON output for agents", false)
-    .action(async (opts) => {
-    try {
-        const projectRoot = findProjectRoot(process.cwd());
-        const port = Number(opts.port);
-        if (!Number.isFinite(port) || port <= 0) {
-            throw new SdmError("STUDIO_SERVE_BIND", `Invalid port: ${opts.port}`);
-        }
-        const handle = await startStudioServe({ projectRoot, port });
-        if (opts.json) {
-            console.log(JSON.stringify({
-                ok: true,
-                url: handle.url,
-                host: handle.host,
-                port: handle.port,
-                projectRoot,
-            }));
-        }
-        else {
-            console.log(`Studio serve → ${handle.url}`);
-            console.log("  bridge: GET /bridge/status|view  POST /bridge/action");
-            console.log("  static: /  (studio)  /player/  /exports/");
-            console.log("  stop: Ctrl+C");
-        }
-        const stop = async () => {
-            await handle.close();
-            process.exit(0);
-        };
-        process.on("SIGINT", () => {
-            void stop();
-        });
-        process.on("SIGTERM", () => {
-            void stop();
-        });
     }
     catch (err) {
         emitError(err, Boolean(opts.json));
@@ -1447,6 +1263,7 @@ skill
     .description("Add a skill to the ontology (agent-friendly, non-interactive)")
     .argument("<id>", "Skill id (filename stem)")
     .requiredOption("--name <name>", "Human-readable skill name")
+    .option("--kind <kind>", "Node kind (skill, concept, topic, talk...)", "skill")
     .option("--category <category>", "Category id (e.g. backend)")
     .option("--desc <text>", "Short description")
     .option("--description <text>", "Alias for --desc")
@@ -1459,6 +1276,7 @@ skill
         const result = addSkill(projectRoot, {
             id,
             name: opts.name,
+            kind: opts.kind,
             category: opts.category,
             description: opts.desc ?? opts.description,
             topics: opts.topic.length > 0 ? opts.topic : undefined,
@@ -2309,9 +2127,6 @@ question
 program.parseAsync(process.argv);
 function readStdin() {
     return readStdinWithCode("INTENT_PLAN_INVALID", "No plan on stdin. Pass --file <path> or pipe JSON.");
-}
-function readStdinForStudio(emptyMessage) {
-    return readStdinWithCode("STUDIO_VIEW_INVALID", emptyMessage);
 }
 function readStdinWithCode(code, emptyMessage) {
     return new Promise((resolvePromise, reject) => {

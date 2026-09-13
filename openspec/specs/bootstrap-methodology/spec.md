@@ -8,13 +8,13 @@ Portable agent skill documenting the greenfield methodology loop: profile create
 
 ### Requirement: Portable bootstrap-methodology skill
 
-The Specra repository SHALL ship a portable agent skill at `agents/bootstrap-methodology/SKILL.md` that instructs any AI agent to bootstrap methodology content using SDM CLI commands with `--json`, without hand-editing YAML when a command exists.
+The SDM repository SHALL ship a portable agent skill at `agents/bootstrap-methodology/SKILL.md` that instructs any AI agent to bootstrap methodology content using SDM CLI commands with `--json`, without hand-editing YAML when a command exists.
 
 #### Scenario: Greenfield profile/level loop
 
 - **WHEN** an agent follows `bootstrap-methodology` for a new profile and level
 - **THEN** the skill MUST prescribe this order: confirm project (`doctor` / `init` as appropriate) → `profile create` → `skill add` for required skills → `cert create --profile` with requirement triples → `question add` for seeded questions → `cert coverage --profile … --json`
-- **AND** each Specra invocation in the skill MUST show a `--json` form
+- **AND** each SDM invocation in the skill MUST show a `--json` form
 
 #### Scenario: Handoff to gap closing
 

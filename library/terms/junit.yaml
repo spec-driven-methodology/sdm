@@ -1,0 +1,16 @@
+id: junit
+term: JUnit 5
+definition: >-
+  Фреймворк для модульного тестирования Java-приложений. Предоставляет аннотации (@Test,
+  @BeforeEach, @AfterEach) и механизмы параметризации.
+aliases: []
+skills:
+  - testing
+kind: concept
+meta:
+  basis:
+    skills:
+      testing: 7e664384d55dd6a7
+    capturedAt: "2026-09-13T08:56:16.495Z"
+    terms:
+      junit: a0d5ee050a9589bf

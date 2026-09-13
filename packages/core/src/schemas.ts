@@ -4,6 +4,8 @@ export const SkillSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   description: z.string().default(""),
+  /** Тип узла онтологии: skill, concept, topic, talk... Открытый набор. */
+  kind: z.string().default("skill"),
   category: z.string().optional(),
   depends_on: z.array(z.string()).default([]),
   related_to: z.array(z.string()).default([]),

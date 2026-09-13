@@ -23,16 +23,24 @@ function listYamlFiles(dir: string): string[] {
   return results;
 }
 
+function skillsDir(projectRoot: string): string {
+  const primary = join(projectRoot, "ontology");
+  const legacy = join(projectRoot, "ontology", "skills");
+  // Prefer primary (ontology/), fall back to legacy (ontology/skills/)
+  if (existsSync(primary) && !existsSync(legacy)) return primary;
+  if (existsSync(legacy)) return legacy;
+  return primary;
+}
+
 export function skillFilePath(projectRoot: string, skillId: string): string {
-  return join(projectRoot, "ontology", "skills", `${skillId}.yaml`);
+  return join(skillsDir(projectRoot), `${skillId}.yaml`);
 }
 
 export function skillExists(projectRoot: string, skillId: string): boolean {
   if (existsSync(skillFilePath(projectRoot, skillId))) {
     return true;
   }
-  const skillsDir = join(projectRoot, "ontology", "skills");
-  for (const file of listYamlFiles(skillsDir)) {
+  for (const file of listYamlFiles(skillsDir(projectRoot))) {
     try {
       const parsed = SkillSchema.parse(readYamlFile(file));
       if (parsed.id === skillId) {
@@ -49,7 +57,7 @@ export function assertSkillExists(projectRoot: string, skillId: string): void {
   if (!skillExists(projectRoot, skillId)) {
     throw new SdmError(
       "SKILL_NOT_FOUND",
-      `Skill "${skillId}" not found under ontology/skills/`,
+      `Skill "${skillId}" not found under ontology/`,
     );
   }
 }
@@ -59,8 +67,7 @@ export function loadSkill(projectRoot: string, skillId: string): Skill {
   if (existsSync(preferred)) {
     return SkillSchema.parse(readYamlFile(preferred));
   }
-  const skillsDir = join(projectRoot, "ontology", "skills");
-  for (const file of listYamlFiles(skillsDir)) {
+  for (const file of listYamlFiles(skillsDir(projectRoot))) {
     try {
       const parsed = SkillSchema.parse(readYamlFile(file));
       if (parsed.id === skillId) {
@@ -72,16 +79,15 @@ export function loadSkill(projectRoot: string, skillId: string): Skill {
   }
   throw new SdmError(
     "SKILL_NOT_FOUND",
-    `Skill "${skillId}" not found under ontology/skills/`,
+    `Skill "${skillId}" not found under ontology/`,
   );
 }
 
-/** Load every valid skill YAML under ontology/skills (invalid files skipped). */
+/** Load every valid skill YAML under ontology/ (invalid files skipped). */
 export function loadAllSkills(projectRoot: string): Skill[] {
-  const skillsDir = join(projectRoot, "ontology", "skills");
   const skills: Skill[] = [];
   const seen = new Set<string>();
-  for (const file of listYamlFiles(skillsDir)) {
+  for (const file of listYamlFiles(skillsDir(projectRoot))) {
     try {
       const parsed = SkillSchema.parse(readYamlFile(file));
       if (seen.has(parsed.id)) {

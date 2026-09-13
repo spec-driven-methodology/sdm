@@ -93,11 +93,11 @@ The player UI and shipped player README (or equivalent short notice) SHALL state
 
 ### Requirement: Existing projects upgrade player via player sync
 
-For methodology projects created before the player scaffold existed, or when Specra ships a newer player template, authors SHALL use `sdm player sync` (optionally `--force`) rather than full `sdm init --force` to install or refresh `player/` without re-scaffolding the whole project.
+For methodology projects created before the player scaffold existed, or when SDM ships a newer player template, authors SHALL use `sdm player sync` (optionally `--force`) rather than full `sdm init --force` to install or refresh `player/` without re-scaffolding the whole project.
 
 #### Scenario: Docs mention player sync for upgrades
 
-- **WHEN** an author reads the player README or Specra README/CHANGELOG entry for the player
+- **WHEN** an author reads the player README or SDM README/CHANGELOG entry for the player
 - **THEN** `sdm player sync` is documented as the path to add or update the player in an existing project
 
 ### Requirement: Session UX options ship with player template
@@ -106,7 +106,7 @@ The shipped static player template SHALL include the session UX capabilities def
 
 #### Scenario: Sync refreshes session UX
 
-- **WHEN** Specra ships an updated player template with session UX and export library and the author runs `sdm player sync --force`
+- **WHEN** SDM ships an updated player template with session UX and export library and the author runs `sdm player sync --force`
 - **THEN** the project's `player/` assets include the new session option controls and the loaded-packages library UI
 
 ### Requirement: Shipped player supports course preview mode

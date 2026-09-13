@@ -14,6 +14,7 @@ import { writeYamlFile } from "./yaml.js";
 export interface AddSkillInput {
   id: string;
   name: string;
+  kind?: string;
   category?: string;
   description?: string;
   topics?: string[];
@@ -62,14 +63,14 @@ function assertDepsExist(projectRoot: string, ids: string[], field: string): voi
     if (!skillExists(projectRoot, id)) {
       throw new SdmError(
         "SKILL_NOT_FOUND",
-        `${field} target skill "${id}" not found under ontology/skills/`,
+        `${field} target skill "${id}" not found under ontology/`,
       );
     }
   }
 }
 
 /**
- * Create ontology/skills/<id>.yaml
+ * Create ontology/<id>.yaml
  */
 export function addSkill(projectRoot: string, input: AddSkillInput): SkillWriteResult {
   const id = input.id.trim();
@@ -112,6 +113,7 @@ export function addSkill(projectRoot: string, input: AddSkillInput): SkillWriteR
     id,
     name: input.name,
     description,
+    kind: input.kind ?? "skill",
     category: input.category,
     depends_on: [],
     related_to: [],

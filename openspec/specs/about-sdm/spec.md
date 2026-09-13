@@ -2,27 +2,27 @@
 
 ## Purpose
 
-Canonical product identity for agents and humans: positioning canon, `sdm about` / MCP `about`, and portable skill routing for «что такое Specra?» — without mixing with project `doctor`.
+Canonical product identity for agents and humans: positioning canon, `sdm about` / MCP `about`, and portable skill routing for «что такое SDM?» — without mixing with project `doctor`.
 
 ## Requirements
 
 ### Requirement: Positioning canon file exists
 
-The Specra package root SHALL ship a short `ABOUT.md` that states what Specra is (methodology-as-specs framework: ontology of skills → content library → profiles/thresholds → coverage audit and export; assessment and learning on one competency skeleton / эталон), what it is not (including that it is not primarily an HR testing UI, not an LMS, does not run candidate assessments as its primary product surface, and is not a full agent harness / model orchestrator), the agent-first usage model for competency owners, the English tagline `Methodology-as-Specs Framework`, and product boundaries for methodology infrastructure.
+The SDM package root SHALL ship a short `ABOUT.md` that states what SDM is (methodology-as-specs framework: ontology of skills → content library → profiles/thresholds → coverage audit and export; assessment and learning on one competency skeleton / эталон), what it is not (including that it is not primarily an HR testing UI, not an LMS, does not run candidate assessments as its primary product surface, and is not a full agent harness / model orchestrator), the agent-first usage model for competency owners, the English tagline `Methodology-as-Specs Framework`, and product boundaries for methodology infrastructure.
 
 #### Scenario: Canon is discoverable
 
-- **WHEN** an agent or human opens the Specra package root
+- **WHEN** an agent or human opens the SDM package root
 - **THEN** `ABOUT.md` is present alongside `AGENTS.md`
 
 #### Scenario: Canon rejects testing-platform framing
 
 - **WHEN** a reader follows `ABOUT.md` what-not guidance
-- **THEN** Specra MUST NOT be described as a primary HR testing platform or candidate test runner
+- **THEN** SDM MUST NOT be described as a primary HR testing platform or candidate test runner
 
 ### Requirement: Canonical English tagline is Methodology-as-Specs Framework
 
-The Specra package root `ABOUT.md` frontmatter `tagline` and the about payload field `tagline` SHALL equal exactly `Methodology-as-Specs Framework`. Live product identity MUST NOT use `Spec-based Methodology Framework` or `Spec-based Resource Assessment Framework` as the tagline. Historical etymology of Spec + RA MAY appear in prose as history only, not as the active tagline.
+The SDM package root `ABOUT.md` frontmatter `tagline` and the about payload field `tagline` SHALL equal exactly `Methodology-as-Specs Framework`. Live product identity MUST NOT use `Spec-based Methodology Framework` or `Spec-based Resource Assessment Framework` as the tagline. Historical etymology of Spec + RA MAY appear in prose as history only, not as the active tagline.
 
 #### Scenario: About payload tagline
 
@@ -36,7 +36,7 @@ The Specra package root `ABOUT.md` frontmatter `tagline` and the about payload f
 
 ### Requirement: Positioning states methodology-as-specs for assessment and learning
 
-`ABOUT.md` positioning (`what` / `whatNot` / `model`) SHALL describe Specra as a methodology-as-specs framework with the chain ontology of skills → content library → profiles/thresholds → coverage audit and export, with one competency skeleton (эталон) for assessment and learning, and SHALL identify competency owners as the human audience in the agent-first model. `whatNot` MUST continue to reject HR testing UI / LMS / candidate test-runner framing and MUST reject framing Specra as a full agent harness / model orchestrator. `model` MAY mention university, bootcamp, or similar settings only as example contexts for competency owners, not as a replacement audience type.
+`ABOUT.md` positioning (`what` / `whatNot` / `model`) SHALL describe SDM as a methodology-as-specs framework with the chain ontology of skills → content library → profiles/thresholds → coverage audit and export, with one competency skeleton (эталон) for assessment and learning, and SHALL identify competency owners as the human audience in the agent-first model. `whatNot` MUST continue to reject HR testing UI / LMS / candidate test-runner framing and MUST reject framing SDM as a full agent harness / model orchestrator. `model` MAY mention university, bootcamp, or similar settings only as example contexts for competency owners, not as a replacement audience type.
 
 #### Scenario: What covers pipeline and dual use
 
@@ -55,7 +55,7 @@ The Specra package root `ABOUT.md` frontmatter `tagline` and the about payload f
 
 ### Requirement: Positioning conveys эталон and system picture
 
-`ABOUT.md` positioning and prose SHALL present Specra as the **эталон** (единый источник правды) of competency methodology alongside the existing competency skeleton, and SHALL describe the system picture: methodology specs in repository files (git), the framework as schema/ops/coverage/quality boundaries, and the AI agent with a model as the primary executor (CLI/MCP as the agent tool surface). Quality of outcomes MAY be described as depending on specs × agent × model within that frame.
+`ABOUT.md` positioning and prose SHALL present SDM as the **эталон** (единый источник правды) of competency methodology alongside the existing competency skeleton, and SHALL describe the system picture: methodology specs in repository files (git), the framework as schema/ops/coverage/quality boundaries, and the AI agent with a model as the primary executor (CLI/MCP as the agent tool surface). Quality of outcomes MAY be described as depending on specs × agent × model within that frame.
 
 #### Scenario: What or model mentions эталон or source of truth
 
@@ -64,12 +64,12 @@ The Specra package root `ABOUT.md` frontmatter `tagline` and the about payload f
 
 #### Scenario: Canon describes specs framework agent
 
-- **WHEN** a reader opens `ABOUT.md` body sections that explain how Specra works
+- **WHEN** a reader opens `ABOUT.md` body sections that explain how SDM works
 - **THEN** the canon distinguishes repository specs, framework rules, and agent+model execution (not a hidden methodology database as the primary store)
 
 ### Requirement: whatNot rejects full agent harness
 
-`ABOUT.md` frontmatter `whatNot` and the about payload `positioning.whatNot` SHALL include a boundary that Specra is not a full agent harness / model orchestrator (CLI/MCP provide access to the methodology эталон, not multi-agent runtime orchestration).
+`ABOUT.md` frontmatter `whatNot` and the about payload `positioning.whatNot` SHALL include a boundary that SDM is not a full agent harness / model orchestrator (CLI/MCP provide access to the methodology эталон, not multi-agent runtime orchestration).
 
 #### Scenario: About payload lists harness boundary
 
@@ -78,8 +78,8 @@ The Specra package root `ABOUT.md` frontmatter `tagline` and the about payload f
 
 #### Scenario: Explain-sdm rejects harness framing
 
-- **WHEN** an agent follows `agents/explain-specra/SKILL.md`
-- **THEN** anti-patterns include framing Specra as a full agent harness / orchestrator
+- **WHEN** an agent follows `agents/explain-sdm/SKILL.md`
+- **THEN** anti-patterns include framing SDM as a full agent harness / orchestrator
 
 ### Requirement: Core about payload is project-independent
 
@@ -123,54 +123,28 @@ The about payload `capabilities.cli` and `capabilities.mcp` SHALL list shipped p
 - **WHEN** about builds `capabilities.skills` after the explain skill ships
 - **THEN** an entry with id `explain-sdm` is present
 
-### Requirement: About capabilities list studio sync
+### Requirement: Studio removed — obsidian-sdm replaces Methodology Studio
 
-When `sdm studio sync` ships as a public CLI command, the about payload `capabilities.cli` SHALL include the identifier `studio sync`. MCP tool `studio_sync` is NOT required in the same release if MCP is out of scope for that slice.
+Methodology Studio (`studio/`, `studio_sync`, `studio_push_view` etc.) is removed. The about payload `capabilities.cli` and `capabilities.mcp` MUST NOT list studio commands or tools. SDM agents interact through Obsidian (obsidian-sdm) instead.
 
-#### Scenario: About lists studio sync
+#### Scenario: Studio commands not in about
 
-- **WHEN** a client calls `sdm about --json` after studio sync ships
-- **THEN** `capabilities.cli` includes `studio sync`
-
-### Requirement: About capabilities list studio bridge commands
-
-When studio bridge CLI commands ship, the about payload `capabilities.cli` SHALL include `studio push-view`, `studio pull-action`, and `studio serve`.
-
-#### Scenario: About lists bridge commands
-
-- **WHEN** a client calls `sdm about --json` after the bridge ships
-- **THEN** `capabilities.cli` includes `studio push-view`, `studio pull-action`, and `studio serve`
-
-### Requirement: About capabilities list studio push-coverage
-
-When `sdm studio push-coverage` ships, the about payload `capabilities.cli` SHALL include `studio push-coverage`.
-
-#### Scenario: About lists push-coverage
-
-- **WHEN** a client calls `sdm about --json` after push-coverage ships
-- **THEN** `capabilities.cli` includes `studio push-coverage`
-
-### Requirement: About MCP capabilities list studio tools
-
-When studio MCP tools ship, the about payload `capabilities.mcp` SHALL include `studio_sync`, `studio_push_view`, `studio_push_coverage`, and `studio_pull_action`.
-
-#### Scenario: About lists studio MCP tools
-
-- **WHEN** a client calls `sdm about --json` after studio MCP tools ship
-- **THEN** `capabilities.mcp` includes those four tool names
+- **WHEN** a client calls `sdm about --json`
+- **THEN** `capabilities.cli` does NOT include `studio sync`, `studio push-view`, `studio push-coverage`, `studio pull-action`, or `studio serve`
+- **AND** `capabilities.mcp` does NOT include `studio_sync`, `studio_push_view`, `studio_push_coverage`, or `studio_pull_action`
 
 ### Requirement: Explain-sdm portable skill and AGENTS routing
 
-The repository SHALL ship `agents/explain-specra/SKILL.md` that instructs any AI agent: when the human asks what Specra is, what it can do, why to use it, or how to position it, the agent MUST call MCP `about` or `sdm about --json`, then paraphrase for the human. The agent MUST NOT invent CLI commands or methodology YAML layouts outside that payload, and MUST NOT frame Specra as an HR testing platform. `AGENTS.md` SHALL list `explain-sdm` and state this routing rule.
+The repository SHALL ship `agents/explain-sdm/SKILL.md` that instructs any AI agent: when the human asks what SDM is, what it can do, why to use it, or how to position it, the agent MUST call MCP `about` or `sdm about --json`, then paraphrase for the human. The agent MUST NOT invent CLI commands or methodology YAML layouts outside that payload, and MUST NOT frame SDM as an HR testing platform. `AGENTS.md` SHALL list `explain-sdm` and state this routing rule.
 
 #### Scenario: Agent discovers explain-sdm
 
 - **WHEN** an agent reads `AGENTS.md`
-- **THEN** `explain-sdm` is listed for product-identity / «что такое Specra» questions
+- **THEN** `explain-sdm` is listed for product-identity / «что такое SDM» questions
 
 #### Scenario: Skill prefers about tool
 
-- **WHEN** the human asks «что такое Specra и что умеет?»
+- **WHEN** the human asks «что такое SDM и что умеет?»
 - **THEN** the skill requires calling `about` / `sdm about --json` before answering
 
 ### Requirement: Next steps guide onboarding
@@ -188,7 +162,7 @@ Building the about payload MUST obtain `version` through the same `@spec-driven-
 
 #### Scenario: About matches CLI version string
 
-- **WHEN** an agent runs `sdm about --json` and `sdm --version` in the same Specra install
+- **WHEN** an agent runs `sdm about --json` and `sdm --version` in the same SDM install
 - **THEN** `about.version` equals the CLI version string
 
 ### Requirement: About capabilities list quality report

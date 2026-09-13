@@ -387,7 +387,7 @@ export function renderKitHtml(doc) {
       <div class="brand-row">
         <p class="brand">SDM</p>
         <p class="tagline">
-          <span class="tag-sep" aria-hidden="true"></span>Methodology-as-Specs Framework
+          <span class="tag-sep" aria-hidden="true"></span>Spec-Driven Methodology
         </p>
       </div>
     </header>
@@ -417,7 +417,7 @@ export function renderKitHtml(doc) {
       </table>
     </section>
     <footer>
-      <p class="brand-footer">SDM · Methodology-as-Specs Framework</p>
+      <p class="brand-footer">SDM · Spec-Driven Methodology</p>
       <p>Шпаргалка эксперта · revision ${escapeHtml(revision)} · ${escapeHtml(doc.id)}</p>
     </footer>
   </div>

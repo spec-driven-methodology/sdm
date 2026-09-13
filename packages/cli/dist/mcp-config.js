@@ -53,13 +53,13 @@ export function getResolvedMcpVersion() {
     }
 }
 /**
- * Multi-line `--version` text: ASCII wordmark, then framework + resolved MCP versions.
+ * Multi-line `--version` text: ASCII wordmark, then core + resolved MCP versions.
  */
 export function formatSdmVersionOutput(cliVersion) {
     const mcp = getResolvedMcpVersion();
     const body = mcp
-        ? `framework ${cliVersion}\nmcp ${mcp}`
-        : `framework ${cliVersion}\nmcp (not found)`;
+        ? `core ${cliVersion}\nmcp ${mcp}`
+        : `core ${cliVersion}\nmcp (not found)`;
     return withSdmBanner(body);
 }
 /**

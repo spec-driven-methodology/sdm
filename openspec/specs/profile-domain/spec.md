@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Canonical glossary: **Profile** replaces Role as the Specra assessment-track entity; on-disk layout, migration, doctor hints.
+Canonical glossary: **Profile** replaces Role as the SDM assessment-track entity; on-disk layout, migration, doctor hints.
 
 ## Requirements
 
@@ -13,7 +13,7 @@ The product SHALL use the term **Profile** (not Role) for the certification trac
 #### Scenario: Glossary in agent docs
 
 - **WHEN** an agent reads `AGENTS.md`
-- **THEN** it describes creating a **profile** (e.g. Java backend Middle) and MUST NOT present Role as a Specra entity name
+- **THEN** it describes creating a **profile** (e.g. Java backend Middle) and MUST NOT present Role as a SDM entity name
 
 ### Requirement: On-disk profile layout
 

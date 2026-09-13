@@ -78,8 +78,8 @@ export function createCertification(projectRoot, input) {
         }
     }
     if (missingSkills.length > 0) {
-        const available = readdirSync(join(projectRoot, "ontology", "skills"))
-            .filter(name => name.endsWith(".yaml") || name.endsWith(".yml"))
+        const available = readdirSync(join(projectRoot, "ontology"))
+            .filter(name => !name.startsWith(".") && (name.endsWith(".yaml") || name.endsWith(".yml")))
             .map(name => name.replace(/\.ya?ml$/, ""));
         throw new SdmError("SKILL_NOT_FOUND", `Skills not found: [${missingSkills.join(", ")}]. Available skills: [${available.slice(0, 10).join(", ")}${available.length > 10 ? ", ..." : ""}]`);
     }

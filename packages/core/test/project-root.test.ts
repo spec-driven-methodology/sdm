@@ -26,7 +26,7 @@ describe("findProjectRoot", () => {
   it("finds root walking up from a nested dir", () => {
     const root = mkdtempSync(join(tmpdir(), "sdm-root-"));
     const project = makeProject(root, "proj");
-    const nested = join(project, "ontology", "skills");
+    const nested = join(project, "ontology");
     mkdirSync(nested, { recursive: true });
     assert.equal(findProjectRoot(nested), project);
   });

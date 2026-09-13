@@ -1,0 +1,16 @@
+id: acid
+term: ACID
+definition: >-
+  Atomicity, Consistency, Isolation, Durability — набор свойств транзакций, гарантирующий надёжность
+  операций в реляционных БД.
+aliases: []
+skills:
+  - databases
+kind: concept
+meta:
+  basis:
+    skills:
+      databases: ff6ae5bb58f91237
+    capturedAt: "2026-09-13T08:56:16.412Z"
+    terms:
+      acid: ddd0387cedf0baf2

@@ -8,7 +8,7 @@ import {
   buildAbout,
   formatAboutText,
   getProductVersion,
-  resolveSpecraHome,
+  resolveSdmHome,
 } from "../src/about.js";
 
 const REPO_ROOT = resolve(
@@ -56,9 +56,9 @@ describe("buildAbout", () => {
     assert.match(model, /владельц|competency|hr|рекрутер|методолог/i);
   });
 
-  it("tagline is Methodology-as-Specs Framework", () => {
+  it("tagline is Spec-Driven Methodology", () => {
     const payload = buildAbout({ sdmHome: REPO_ROOT });
-    assert.equal(payload.tagline, "Methodology-as-Specs Framework");
+    assert.equal(payload.tagline, "Spec-Driven Methodology");
     assert.notEqual(payload.tagline, "Spec-based Methodology Framework");
     assert.notEqual(payload.tagline, "Spec-based Resource Assessment Framework");
   });
@@ -98,7 +98,7 @@ describe("buildAbout", () => {
     assert.match(text, /Не является/);
   });
 
-  it("resolveSpecraHome accepts explicit package root", () => {
-    assert.equal(resolveSpecraHome(REPO_ROOT), REPO_ROOT);
+  it("resolveSdmHome accepts explicit package root", () => {
+    assert.equal(resolveSdmHome(REPO_ROOT), REPO_ROOT);
   });
 });

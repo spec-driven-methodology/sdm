@@ -2,11 +2,11 @@
 
 ## Purpose
 
-Stdio MCP server exposing Specra domain operations as tools for AI hosts.
+Stdio MCP server exposing SDM domain operations as tools for AI hosts.
 ## Requirements
-### Requirement: Stdio MCP server exposes Specra domain tools
+### Requirement: Stdio MCP server exposes SDM domain tools
 
-The repository SHALL ship an `@spec-driven-methodology/mcp` package that runs an MCP server over stdio and exposes tools matching `TOOL_NAMES` / `ABOUT_MCP_TOOLS`, including: `about`, `suggest`, `doctor`, `audit`, `quality_report`, `init`, `player_sync`, `studio_sync`, `studio_push_view`, `studio_push_coverage`, `studio_pull_action`, `skill_add`, `skill_link`, `skill_graph`, `skill_impact`, `profile_create`, `cert_create`, `cert_patch`, `cert_reweight`, `cert_coverage`, `cert_gaps`, `question_add`, `question_validate`, `question_list`, `question_generate`, `export_test`, `export_matrix`, `export_learning`, `export_course`, `export_mermaid`, `export_confluence`, `index_rebuild`, `search`, and `content_stale`. The server MUST NOT expose `studio_serve` (CLI-only HTTP static serve). Tools SHALL call `@spec-driven-methodology/core`.
+The repository SHALL ship an `@spec-driven-methodology/mcp` package that runs an MCP server over stdio and exposes tools matching `TOOL_NAMES` / `ABOUT_MCP_TOOLS`, including: `about`, `suggest`, `doctor`, `audit`, `quality_report`, `init`, `player_sync`, `skill_add`, `skill_link`, `skill_graph`, `skill_impact`, `profile_create`, `cert_create`, `cert_patch`, `cert_reweight`, `cert_coverage`, `cert_gaps`, `question_add`, `question_validate`, `question_list`, `question_generate`, `export_test`, `export_matrix`, `export_learning`, `export_course`, `export_mermaid`, `export_confluence`, `index_rebuild`, `search`, and `content_stale`. Methodology Studio tools (`studio_sync`, `studio_push_view`, etc.) are removed — obsidian-sdm replaces Studio. Tools SHALL call `@spec-driven-methodology/core`.
 
 #### Scenario: Tool returns JSON payload
 
@@ -18,10 +18,10 @@ The repository SHALL ship an `@spec-driven-methodology/mcp` package that runs an
 - **WHEN** the MCP server is running
 - **THEN** operational logs MUST go to stderr, not stdout
 
-#### Scenario: Tool list includes quality and studio bridge tools
+#### Scenario: Tool list includes quality and player tools
 
 - **WHEN** a host lists SDM MCP tools
-- **THEN** the set MUST include `quality_report`, `player_sync`, `studio_sync`, `studio_push_view`, `studio_push_coverage`, and `studio_pull_action`, and MUST NOT include `studio_serve`
+- **THEN** the set MUST include `quality_report` and `player_sync`, and MUST NOT include `studio_serve` or any `studio_*` tool
 
 #### Scenario: Tool list includes export and generate
 
@@ -137,7 +137,7 @@ The `@spec-driven-methodology/mcp` server SHALL expose tool `about` that returns
 
 #### Scenario: about matches CLI contract
 
-- **WHEN** a host calls `about` and separately runs `sdm about --json` from the same Specra install
+- **WHEN** a host calls `about` and separately runs `sdm about --json` from the same SDM install
 - **THEN** both payloads share the same field set for version, positioning, capabilities, nextSteps, and pointers
 
 ### Requirement: Tool list includes about
@@ -172,19 +172,9 @@ When a host lists SDM MCP tools, the set MUST include `suggest`.
 - **WHEN** a host lists SDM MCP tools
 - **THEN** the set includes `suggest`
 
-### Requirement: MCP studio bridge tools
+### Requirement: MCP studio bridge tools removed
 
-The `@spec-driven-methodology/mcp` server SHALL expose tools `studio_sync`, `studio_push_view`, `studio_push_coverage`, and `studio_pull_action` that call `@spec-driven-methodology/core` studio helpers (same semantics as CLI `studio sync`, `push-view`, `push-coverage`, `pull-action`). The tool list MUST NOT require a `studio_serve` MCP tool. Each tool SHALL accept optional `project` like other methodology tools and return JSON text with `ok: true` on success or `ok: false` with SdmError code on failure.
-
-#### Scenario: Tool list includes studio bridge tools
-
-- **WHEN** a host lists SDM MCP tools
-- **THEN** the set includes `studio_sync`, `studio_push_view`, `studio_push_coverage`, and `studio_pull_action`
-
-#### Scenario: studio_push_coverage success
-
-- **WHEN** a host calls `studio_push_coverage` with valid `profile` and `level` on a methodology project
-- **THEN** the result JSON has `ok: true` and a coverage view was written to the studio bridge path
+Methodology Studio is removed; MCP server MUST NOT expose `studio_sync`, `studio_push_view`, `studio_push_coverage`, or `studio_pull_action`. obsidian-sdm replaces the Studio interaction layer.
 
 ### Requirement: export_test supports skill and question filters
 
@@ -212,14 +202,14 @@ The MCP tool `export_test` SHALL accept optional `includeSkills` and `excludeSki
 The `@spec-driven-methodology/mcp` stdio server SHALL advertise MCP initialize `serverInfo` with:
 
 - `name`: logical id `sdm`
-- `title`: `Specra`
+- `title`: `SDM`
 - `description`: human string that includes `Methodology-as-Specs Framework` and the full product identity from SSOT (e.g. with a `v` prefix), including stage and build when present
 - `version`: equal to the product identity SSOT (root `package.json` via `@spec-driven-methodology/core` helper), including stage and build when present
 
-#### Scenario: Initialize reports Specra title and current version
+#### Scenario: Initialize reports SDM title and current version
 
-- **WHEN** an MCP host completes initialize with the Specra server
-- **THEN** `serverInfo.title` is `Specra`, `serverInfo.name` is `sdm`, and `serverInfo.version` equals root package version (e.g. `0.8.0-alpha.143`)
+- **WHEN** an MCP host completes initialize with the SDM server
+- **THEN** `serverInfo.title` is `SDM`, `serverInfo.name` is `sdm`, and `serverInfo.version` equals root package version (e.g. `0.8.0-alpha.143`)
 
 #### Scenario: Description includes tagline and full identity
 

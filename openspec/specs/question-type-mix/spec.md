@@ -50,7 +50,7 @@ When both a homogeneous `--type` (or equivalent) and a `--mix` preset are provid
 
 ### Requirement: Deferred types documented as inactive
 
-Product docs and/or agent skills updated by this change SHALL state that `matching`, `sorting`, `dropdown_answer`, and code auto-validation are out of the active mix set. `dropdown_answer` SHALL be described as a consumer UI presentation of a single-answer question, not a Specra domain type in this change.
+Product docs and/or agent skills updated by this change SHALL state that `matching`, `sorting`, `dropdown_answer`, and code auto-validation are out of the active mix set. `dropdown_answer` SHALL be described as a consumer UI presentation of a single-answer question, not a SDM domain type in this change.
 
 #### Scenario: Skills do not instruct inventing deferred types
 

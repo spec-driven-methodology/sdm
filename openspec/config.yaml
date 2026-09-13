@@ -1,7 +1,7 @@
 schema: spec-driven
 
 context: |
-  Specra — Methodology-as-Specs Framework.
+  SDM — Methodology-as-Specs Framework.
   RU one-liner: фреймворк methodology-as-specs: онтология навыков →
   библиотека контента → профили/пороги → аудит покрытия и экспорт.
   One competency skeleton (эталон / single source of truth) for assessment
@@ -23,7 +23,7 @@ context: |
 
   Usage model (agent-first):
   - Primary UX: AI agent (any vendor), like OpenSpec for humans.
-  - Competency owners state intent and review; agent calls Specra tools.
+  - Competency owners state intent and review; agent calls SDM tools.
   - CLI is the stable contract for agents and CI, not a flag-heavy manual UI.
   - Prefer domain operations (cert coverage, question add --to-skill, gaps)
     over generic CRUD naming.
@@ -34,13 +34,13 @@ context: |
   - AI question generation comes after reliable coverage/gaps/add primitives.
   - Portable agent skills live in agents/ + AGENTS.md (source of truth).
   - Do NOT put end-user methodology skills only under .cursor/ — IDE adapters
-    are optional mirrors. Workspace .cursor is for Specra core development only.
+    are optional mirrors. Workspace .cursor is for SDM core development only.
 
   Product boundaries:
-  - Specra stores, links, audits, and exports methodology specs
+  - SDM stores, links, audits, and exports methodology specs
     (skills, questions, learning materials, certifications).
-  - Specra does NOT run candidate tests or act as an LMS as a primary surface.
-  - Specra is NOT a full agent harness / model orchestrator.
+  - SDM does NOT run candidate tests or act as an LMS as a primary surface.
+  - SDM is NOT a full agent harness / model orchestrator.
   - Consumers: AI agents, testing systems, HR platforms, education exports
     (MCP/API/CLI).
 
@@ -49,7 +49,7 @@ context: |
   2. library/ — questions (and learning content) bound to skills
   3. certifications/ — profiles, levels, thresholds
 
-  Baseline main specs: project-root, cert-coverage, coverage-blueprint, question-add, question-validate, skill-write, skill-graph, skill-graph-cli, cert-write, cert-reweight, profile-write, profile-domain, core-tests, bootstrap-methodology, bootstrap-role-pack, intent-loop, agent-skills-install, release, question-list, cert-gaps, mcp-server, mcp-host-install, getting-started, action-logging, question-generate, question-type-mix, cert-patch, export-test, export-test-player, player-sync, player-session-ux, player-export-library, player-course-reader, methodology-studio, studio-sync, studio-bridge, studio-export-form, studio-coverage, question-expected-answer, export-matrix, export-course, export-kit, mcp-tests, export-mermaid, methodology-audit, quality-report, corpus-manifest, semantic-index, cert-teams, export-confluence, about-sdm, guide-suggest, distractor-quality, product-version, content-staleness, library-terms.
+  Baseline main specs: project-root, cert-coverage, coverage-blueprint, question-add, question-validate, skill-write, skill-graph, skill-graph-cli, cert-write, cert-reweight, profile-write, profile-domain, core-tests, bootstrap-methodology, bootstrap-role-pack, intent-loop, agent-skills-install, release, question-list, cert-gaps, mcp-server, mcp-host-install, getting-started, action-logging, question-generate, question-type-mix, cert-patch, export-test, export-test-player, player-sync, player-session-ux, player-export-library, player-course-reader, question-expected-answer, export-matrix, export-course, export-kit, mcp-tests, export-mermaid, methodology-audit, quality-report, corpus-manifest, semantic-index, cert-teams, export-confluence, about-sdm, guide-suggest, distractor-quality, product-version, content-staleness, library-terms.
 
   Development workflow: OpenSpec inside this repo — full pipeline via workspace
   /opsx:cycle (ground → propose → apply → verify → archive), or step-by-step

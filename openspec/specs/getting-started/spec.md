@@ -2,13 +2,13 @@
 
 ## Purpose
 
-OSS-онбординг Specra: clone → build → methodology → подключение MCP с акцентом на GigaCode, smoke `doctor`, затем intent-first работа через агента.
+OSS-онбординг SDM: clone → build → methodology → подключение MCP с акцентом на GigaCode, smoke `doctor`, затем intent-first работа через агента.
 
 ## Requirements
 
 ### Requirement: Getting started guide exists
 
-The repository SHALL ship `GETTING_STARTED.md` at the product root with a copy-paste happy path in Russian for installing Specra from git and verifying MCP.
+The repository SHALL ship `GETTING_STARTED.md` at the product root with a copy-paste happy path in Russian for installing SDM from git and verifying MCP.
 
 #### Scenario: Guide is discoverable from README
 
@@ -48,12 +48,12 @@ The getting-started path SHALL include: clone → `npm install` / build / link f
 
 ### Requirement: Onboarding checklist includes portable skills
 
-`GETTING_STARTED.md` smoke / setup checklist SHALL require that the agent host can see Specra portable skills after wire (at least `intent-loop`), not only that MCP `doctor` works. The guide SHALL present `mcp install` as installing skills by default (and mention `--no-skills` only as opt-out), or explicitly list `agent install` as a required sibling step if documenting an older split path.
+`GETTING_STARTED.md` smoke / setup checklist SHALL require that the agent host can see SDM portable skills after wire (at least `intent-loop`), not only that MCP `doctor` works. The guide SHALL present `mcp install` as installing skills by default (and mention `--no-skills` only as opt-out), or explicitly list `agent install` as a required sibling step if documenting an older split path.
 
 #### Scenario: Skills item on checklist
 
 - **WHEN** a reader finishes the guide’s install checklist
-- **THEN** the checklist includes verifying Specra skills (e.g. `intent-loop`) are available in the host after wire
+- **THEN** the checklist includes verifying SDM skills (e.g. `intent-loop`) are available in the host after wire
 
 ### Requirement: Init templates point at host wire
 
@@ -64,18 +64,13 @@ The getting-started path SHALL include: clone → `npm install` / build / link f
 - **WHEN** a user runs `sdm init` in an empty directory
 - **THEN** the created `README.md` (or AGENTS.md / printed Next steps) mentions `mcp install` (or host wire) and that portable skills come with that step by default
 
-### Requirement: Init layout documents studio beside player
+### Requirement: Init layout documents player
 
-When Methodology Studio ships, `sdm init` generated project `README.md` (layout section) SHALL list `studio/` as the authoring preview/shell for intent-loop view/action documents, distinct from `player/` (export preview). The guide path MAY mention Studio as optional visual review; it MUST NOT present Studio as an LMS or as a replacement for the agent executor.
-
-#### Scenario: New project README mentions studio
-
-- **WHEN** a user runs `sdm init` in an empty directory after studio templates ship
-- **THEN** the created `README.md` layout lists `studio/` in addition to `player/`
+`player/` is the authoring preview for export test/learning JSON. Methodology Studio is removed; SDM agents interact through obsidian-sdm instead.
 
 ### Requirement: Human path is intent-first
 
-`GETTING_STARTED.md` SHALL present the primary post-install user journey as: open an AI agent → describe a methodology intent in natural language → answer clarifying questions → confirm a plan → review the result. The guide MUST NOT require the human to type Specra domain CLI flags as the main happy path.
+`GETTING_STARTED.md` SHALL present the primary post-install user journey as: open an AI agent → describe a methodology intent in natural language → answer clarifying questions → confirm a plan → review the result. The guide MUST NOT require the human to type SDM domain CLI flags as the main happy path.
 
 #### Scenario: Intent example in guide
 
@@ -89,7 +84,7 @@ Getting-started and README SHALL state that SDM CLI commands are for AI agents a
 #### Scenario: Role split is explicit
 
 - **WHEN** a non-developer reader opens `GETTING_STARTED.md`
-- **THEN** they see that they talk to the agent in natural language while the agent calls Specra tools
+- **THEN** they see that they talk to the agent in natural language while the agent calls SDM tools
 
 ### Requirement: Experimental GigaCode caveats are documented
 

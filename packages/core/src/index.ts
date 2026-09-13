@@ -85,37 +85,6 @@ export {
   type SyncPlayerResult,
 } from "./player-sync.js";
 
-export {
-  syncStudioAssets,
-  copyStudioTemplateInto,
-  type SyncStudioOptions,
-  type SyncStudioResult,
-} from "./studio-sync.js";
-
-export {
-  STUDIO_VIEW_SCHEMA,
-  STUDIO_ACTION_SCHEMA,
-  studioBridgePaths,
-  pushStudioView,
-  pullStudioAction,
-  readStudioViewFile,
-  writeStudioActionFile,
-  startStudioServe,
-  parseStudioViewDocument,
-  parseStudioActionDocument,
-  type StudioBridgePaths,
-  type PushStudioViewResult,
-  type PullStudioActionResult,
-  type StartStudioServeOptions,
-  type StudioServeHandle,
-} from "./studio-bridge.js";
-
-export {
-  buildStudioCoverageView,
-  pushStudioCoverage,
-  type BuildStudioCoverageViewOptions,
-  type PushStudioCoverageResult,
-} from "./studio-coverage.js";
 
 export { SdmError } from "./errors.js";
 
@@ -588,7 +557,7 @@ export {
   formatAboutText,
   getProductVersion,
   listPortableSkills,
-  resolveSpecraHome,
+  resolveSdmHome,
   type AboutPayload,
   type BuildAboutOptions,
 } from "./about.js";

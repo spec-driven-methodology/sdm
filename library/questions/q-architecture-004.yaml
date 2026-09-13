@@ -1,21 +1,32 @@
 id: q-architecture-004
 skill: architecture
 difficulty: 0.63
-type: single_choice
+type: open
 text: >-
-  Какой паттерн обеспечивает изоляцию доменной логики от деталей инфраструктуры (БД, веб-фреймворк)
-  и упрощает юнит-тестирование без базы данных?
-options:
-  - Repository
-  - Service Layer
-  - Use Case / Interactor
-  - DTO
-correct: 3
+  Объясните, как паттерн Use Case / Interactor изолирует доменную логику от
+  инфраструктуры (БД, веб-фреймворк) и почему это упрощает юнит-тестирование без базы данных.
+  Приведите пример кода на Java или псевдокоде.
+evidence: skill
+min_depth: 0.5
+expected:
+  - Use Case изолирует бизнес-правила от фреймворка через границы (interfaces)
+  - Домен не зависит от БД или HTTP — зависимости инвертированы
+  - В тесте достаточно заглушить (mock) интерфейс границы, не поднимая DB/Spring
+rubric:
+  - score: 0
+    description: Не называет Use Case / Interactor или путает с Repository/Service Layer
+  - score: 1
+    description: Упоминает Use Case, но не объясняет механизм изоляции (интерфейс/порт/адаптер)
+  - score: 2
+    description: Чётко описывает границу порта (inbound/outbound interface) и как тест подменяет адаптер
+  - score: 3
+    description: Показывает пример кода — порт + use case + тест с mock, без фреймворка
 topics: []
-red_flags: []
-rubric: []
+red_flags:
+  - Сводит ответ к разделению на слои без Dependency Inversion
+  - Утверждает, что Spring Boot сам изолирует логику
 meta:
   basis:
     skills:
       architecture: 311a6982cdaf7424
-    capturedAt: "2026-09-11T21:37:46.593Z"
+    capturedAt: "2026-09-13T08:55:02.249Z"

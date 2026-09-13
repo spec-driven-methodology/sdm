@@ -1,21 +1,32 @@
 id: q-architecture-005
 skill: architecture
 difficulty: 0.63
-type: single_choice
+type: open
 text: >-
-  Какой паттерн проектирования лучше всего подходит для реализации CQRS (Command Query
-  Responsibility Segregation) в микросервисной архитектуре?
-options:
-  - MediatR
-  - Clean Architecture
-  - Hexagonal Architecture
-  - Event Sourcing
-correct: 1
+  Объясните, как паттерн CQRS (Command Query Responsibility Segregation) сочетается с
+  паттерном MediatR/Mediator в микросервисной архитектуре. Какие задачи решает каждый из них
+  и в чём их различие?
+evidence: skill
+min_depth: 0.5
+expected:
+  - CQRS разделяет операции чтения (Query) и записи (Command) на разные модели
+  - MediatR (Mediator pattern) обеспечивает маршрутизацию команд/запросов от контроллера к обработчику
+  - "Вместе: CQRS — разделение моделей, MediatR — dispatching без жёстких зависимостей"
+rubric:
+  - score: 0
+    description: Не различает CQRS и MediatR или путает их
+  - score: 1
+    description: Понимает CQRS как разделение read/write, но не знает MediatR
+  - score: 2
+    description: Описывает оба паттерна и их зоны ответственности
+  - score: 3
+    description: Объясняет, почему CQRS без MediatR приводит к жёстким связям, и показывает пример регистрации обработчика
 topics: []
-red_flags: []
-rubric: []
+red_flags:
+  - Утверждает, что CQRS и MediatR — одно и то же
+  - Говорит, что CQRS требует отдельной базы для чтения и записи
 meta:
   basis:
     skills:
       architecture: 311a6982cdaf7424
-    capturedAt: "2026-09-11T21:38:31.866Z"
+    capturedAt: "2026-09-13T08:55:02.249Z"

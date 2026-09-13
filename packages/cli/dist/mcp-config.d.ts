@@ -29,7 +29,7 @@ export declare function resolveMcpPackageJson(): string | null;
  */
 export declare function getResolvedMcpVersion(): string | null;
 /**
- * Multi-line `--version` text: ASCII wordmark, then framework + resolved MCP versions.
+ * Multi-line `--version` text: ASCII wordmark, then core + resolved MCP versions.
  */
 export declare function formatSdmVersionOutput(cliVersion: string): string;
 /**
