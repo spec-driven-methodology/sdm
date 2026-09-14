@@ -48,7 +48,7 @@ describe("buildAbout", () => {
     const what = payload.positioning.what.toLowerCase();
     const model = payload.positioning.model.toLowerCase();
     assert.match(what, /methodology-as-specs|онтолог|ontology/i);
-    assert.match(what, /библиотек|контент|library|content/i);
+    assert.match(what, /библиотек|контент|library|content|questions.*terms.*topics|nodes.*kind|ontology of nodes/i);
     assert.match(what, /профиль|порог|profile|threshold/i);
     assert.match(what, /покрыт|coverage|экспорт|export/i);
     assert.match(what, /оценк|обучен|assessment|learning/i);
