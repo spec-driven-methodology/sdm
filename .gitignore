@@ -7,3 +7,8 @@
 
 node_modules/
 packages/*/dist/
+
+# Copied at prepack for npm publishing (SSOT in root)
+packages/core/ABOUT.md
+packages/core/AGENTS.md
+packages/core/agents/

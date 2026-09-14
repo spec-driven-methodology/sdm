@@ -1,14 +1,5 @@
-import {
-  cpSync,
-  existsSync,
-  lstatSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  rmSync,
-  symlinkSync,
-  writeFileSync,
-} from "node:fs";
+import { cpSync, existsSync, lstatSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { createRequire } from "node:module";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -103,6 +94,18 @@ export function resolveAgentsRoot(explicit?: string): string {
     if (hasPortableSkills(root)) {
       return root;
     }
+  }
+
+  // npm-installed @spec-driven-methodology/core ships agents/ next to dist (files: agents)
+  try {
+    const require = createRequire(import.meta.url);
+    const corePkg = require.resolve("@spec-driven-methodology/core/package.json");
+    const root = join(dirname(corePkg), "agents");
+    if (hasPortableSkills(root)) {
+      return root;
+    }
+  } catch {
+    // core package not installed — fall through to the error below
   }
 
   throw new SdmError(
