@@ -1,132 +1,132 @@
-# Obsidian-интеграция SDM
+# SDM — Obsidian Integration
 
-Интеграция SDM с **Obsidian** позволяет методологу работать с методологией
-(**навыки, вопросы, профили, уровни, экспорты**) через AI-агента, не выходя из
-vault — используя готовые плагины экосистемы Obsidian.
+SDM integration with **Obsidian** lets a methodologist work with methodology
+(**skills, questions, profiles, levels, exports**) through an AI agent without
+leaving the vault — using existing Obsidian ecosystem plugins.
 
-**Форм-фактор:** не отдельный Obsidian-плагин SDM, а комбинация существующих
-компонентов + лёгкий setup-скрипт, который настраивает всё за пользователя.
+**Form factor:** not a separate SDM Obsidian plugin, but a combination of existing
+components + a lightweight setup script that configures everything for the user.
 
 ```
 Obsidian vault
-├── Cortex (MCP-server, порт 27182)   — доступ к файлам vault
-├── OpenCode plugin (терминал)        — запуск агента внутри Obsidian
-├── AGENTS.md                          — SDM-воркфлоу для агента
-└── opencode.json                      — конфиг MCP (SDM + Cortex)
+├── Cortex (MCP-server, port 27182)   — access to vault files
+├── OpenCode plugin (terminal)         — runs the agent inside Obsidian
+├── AGENTS.md                          — SDM workflow for the agent
+└── opencode.json                      — MCP config (SDM + Cortex)
 
-External MCP-клиенты (альтернатива OpenCode в Obsidian):
-  MultiTool, Claude Desktop, Cursor — подключаются к тем же серверам
+External MCP clients (alternative to OpenCode in Obsidian):
+  MultiTool, Claude Desktop, Cursor — connect to the same servers
 ```
 
-## Компоненты
+## Components
 
-| Компонент | Роль | Откуда |
+| Component | Role | Source |
 |---|---|---|
-| **Cortex** | MCP-сервер **внутри Obsidian**: opencode-агент читает/пишет файлы vault | Community Plugins (поиск «Cortex») |
-| **OpenCode plugin** | Встраивает CLI OpenCode в сайдбар Obsidian | Community Plugins (поиск «OpenCode») |
-| **SDM MCP** | Методология: навыки, вопросы, профили, экспорт | SDM (standalone) |
-| **opencode.json** | Связывает SDM + Cortex в одном клиенте | Создаётся setup-скриптом |
-| **AGENTS.md** | Инструкции агенту: воркфлоу, маршрутизация чтение/запись | Создаётся setup-скриптом |
+| **Cortex** | MCP server **inside Obsidian**: the agent reads/writes vault files | Community Plugins (search "Cortex") |
+| **OpenCode plugin** | Embeds OpenCode CLI in the Obsidian sidebar | Community Plugins (search "OpenCode") |
+| **SDM MCP** | Methodology: skills, questions, profiles, export | SDM (standalone) |
+| **opencode.json** | Connects SDM + Cortex in one client | Created by setup script |
+| **AGENTS.md** | Agent instructions: workflow, read/write routing | Created by setup script |
 
-## Установка
+## Installation
 
-### 1. Требования
+### 1. Requirements
 
 - **Obsidian** 1.5.0+ (desktop)
 - **Node.js** ≥ 20.19
-- **SDM** собран и **`sdm-mcp`** в PATH (`npm run link:cli`)
+- **SDM** built and **`sdm-mcp`** in PATH (`npm run link:cli`)
 - **OpenCode CLI** (`npm install -g opencode-ai` / `brew install opencode`)
 
-### 2. Установить плагины Obsidian
+### 2. Install Obsidian plugins
 
-> **Важно: не перепутайте плагины.** В Community Plugins есть два похожих плагина:
-> - **Cortex** (автор DoktorDaveJoos) — MCP-сервер внутри Obsidian, порт 27182. **Нужен нам.**
->   Не имеет своего UI, не требует Codex.
-> - **Cortex Chat** (другой автор) — AI-чат в сайдбаре Obsidian со своим UI (папка `_cortex/`).
->   **Не нужен SDM.** У него Codex — опциональный локальный fallback, но нам это не требуется.
+> **Important: don't confuse the plugins.** The Community Plugins list has two similar plugins:
+> - **Cortex** (author DoktorDaveJoos) — MCP server inside Obsidian, port 27182. **This is the one we need.**
+>   No dedicated UI, no Codex requirement.
+> - **Cortex Chat** (different author) — AI chat in the Obsidian sidebar with its own UI (`_cortex/` folder).
+>   **Not needed by SDM.** It has Codex as an optional local fallback, but we don't require it.
 
-1. **Cortex** — Settings → Community plugins → Browse → «Cortex» (автор DoktorDaveJoos) → Install → Enable
-2. **OpenCode** (опционально, для работы внутри Obsidian) — Browse → «OpenCode» → Install → Enable
+1. **Cortex** — Settings → Community plugins → Browse → "Cortex" (author DoktorDaveJoos) → Install → Enable
+2. **OpenCode** (optional, for working inside Obsidian) — Browse → "OpenCode" → Install → Enable
 
-Cortex автоматически стартует MCP-сервер на порту `27182` при запуске Obsidian.
+Cortex automatically starts the MCP server on port `27182` when Obsidian launches.
 
-### 3. Запустить setup-скрипт
+### 3. Run the setup script
 
 ```bash
-# из корня vault
+# from the vault root
 ./scripts/obsidian-setup.sh
 
-# или явно указать vault
+# or specify the vault explicitly
 ./scripts/obsidian-setup.sh /path/to/vault
 
-# превью без записи
+# preview without writing
 ./scripts/obsidian-setup.sh --dry-run /path/to/vault
 ```
 
-Скрипт делает:
+The script:
 
-1. Проверяет зависимости: `node`, `sdm-mcp`, `opencode`
-2. Находит vault (walk-up до `.obsidian/`)
-3. Находит SDM-проекты в vault (файлы `sdm.yaml`)
-4. Создаёт `opencode.json` с **SDM + Cortex** MCP
-5. Кладёт `AGENTS.md` в корень vault
-6. Проверяет, что порт Cortex `27182` свободен / занят
+1. Checks dependencies: `node`, `sdm-mcp`, `opencode`
+2. Finds the vault (walk-up to `.obsidian/`)
+3. Finds SDM projects in the vault (`sdm.yaml` files)
+4. Creates `opencode.json` with **SDM + Cortex** MCP
+5. Places `AGENTS.md` in the vault root
+6. Checks that Cortex port `27182` is free / in use
 
-### 4. Перезапустить OpenCode
+### 4. Restart OpenCode
 
-После установки:
-- OpenCode в Obsidian: перезапустите плагин или перезагрузите Obsidian
-- OpenCode CLI: перезапустите сессию
+After installation:
+- OpenCode in Obsidian: restart the plugin or reload Obsidian
+- OpenCode CLI: restart the session
 
-Проверка: спросите агента `list_folders` (Cortex) и `doctor` (SDM).
+Verification: ask the agent `list_folders` (Cortex) and `doctor` (SDM).
 
-## Удаление / откат
+## Uninstall / rollback
 
-Если что-то пошло не так, или нужно снять интеграцию (в т.ч. для повторного тестирования «поставил → удалил») — используйте cleanup:
+If something went wrong, or you need to remove the integration (including for repeated "install → remove → reinstall" testing), use the cleanup:
 
 ```bash
-# из корня vault — удалить всё, что создал setup (с backup)
+# from vault root — remove everything the setup created (with backup)
 ./scripts/obsidian-setup.sh --undo
 
-# то же самое, но без создания backup
+# same, but without creating a backup
 ./scripts/obsidian-cleanup.sh --purge
 ```
 
-Что удаляется:
+What is removed:
 
-| Артефакт | Поведение |
+| Artifact | Behavior |
 |---|---|
-| `opencode.json` | Удаляется всегда; backup `opencode.json.bak.<timestamp>` если не `--purge` |
-| `AGENTS.md` | Удаляется **только** если создан setup-скриптом (заголовок `# AI agents — SDM`). Если файл был ваш — пропускается с предупреждением |
-| Глобальные MCP-конфиги (Claude Desktop, Cursor, Windsurf) | **Не трогаются** — только предупреждение |
+| `opencode.json` | Always removed; backup `opencode.json.bak.<timestamp>` if not `--purge` |
+| `AGENTS.md` | Removed **only** if created by the setup script (header `# AI agents — SDM`). If it was your file — skipped with a warning |
+| Global MCP configs (Claude Desktop, Cursor, Windsurf) | **Not touched** — only a warning is shown |
 
-**Безопасность:** скрипт не удаляет:
-- SDM-проекты (`sdm.yaml`, `ontology/`, `library/`, `certifications/`) — это ваш контент
-- Плагины Obsidian (Cortex, OpenCode) — удаляются стандартно через Settings → Community plugins
-- Ничего за пределами vault
+**Safety:** the script does not delete:
+- SDM projects (`sdm.yaml`, `ontology/`, `library/`, `certifications/`) — that's your content
+- Obsidian plugins (Cortex, OpenCode) — removed via Settings → Community plugins
+- Anything outside the vault
 
-Проверка после отката: файлы `opencode.json` и `AGENTS.md` отсутствуют.
+Verification after rollback: files `opencode.json` and `AGENTS.md` are absent.
 
 ## Multi-project
 
-Vault может содержать **несколько** SDM-проектов:
+A vault can contain **multiple** SDM projects:
 
 ```
 vault/
 ├── java-backend/     ← sdm.yaml (name: java-backend)
 ├── qa-automation/    ← sdm.yaml (name: qa-automation)
-└── some-notes/       ← не SDM
+└── some-notes/       ← not SDM
 ```
 
-В этом случае `opencode.json` **не** задаёт `SDM_PROJECT_ROOT`. Агент:
+In this case `opencode.json` does **not** set `SDM_PROJECT_ROOT`. The agent:
 
-1. Вызывает `list_projects(workspaceDir: "<vault-root>")` — список всех проектов
-2. Вызывает `locate_project(dir: "<path>")` — к какому проекту относится путь
-3. Передаёт `project: "<root>"` во **все** SDM MCP инструменты
+1. Calls `list_projects(workspaceDir: "<vault-root>")` — lists all projects
+2. Calls `locate_project(dir: "<path>")` — finds which project a path belongs to
+3. Passes `project: "<root>"` to **all** SDM MCP tools
 
-Правило: **чтение vault — через Cortex; запись методологии — через SDM, всегда с `project`.**
+Rule: **vault reading — through Cortex; methodology writing — through SDM, always with `project`.**
 
-## Формат opencode.json
+## opencode.json format
 
 ```json
 {
@@ -149,44 +149,44 @@ vault/
 }
 ```
 
-### Модели
+### Models
 
-SDM-агент работает через OpenCode. Модель задаётся в `opencode.json`:
+The SDM agent works through OpenCode. The model is configured in `opencode.json`:
 
-| Провайдер | `provider` | `name` | `baseURL` |
+| Provider | `provider` | `name` | `baseURL` |
 |---|---|---|---|
 | DeepSeek | `openai-compatible` | `deepseek-chat` | `https://api.deepseek.com/v1` |
-| Ollama (локально) | `openai-compatible` | `llama3.1` | `http://localhost:11434/v1` |
+| Ollama (local) | `openai-compatible` | `llama3.1` | `http://localhost:11434/v1` |
 | OpenAI | `openai` | `gpt-4o` | — |
 | OpenRouter | `openai-compatible` | `deepseek/deepseek-chat` | `https://openrouter.ai/api/v1` |
 
-API-ключ задаётся в переменной окружения (`DEEPSEEK_API_KEY`, `OPENAI_API_KEY` и т.д.).
+API key is set via environment variable (`DEEPSEEK_API_KEY`, `OPENAI_API_KEY`, etc.).
 
-## Формат AGENTS.md
+## AGENTS.md format
 
-Setup-скрипт кладёт в vault `AGENTS.md` со SDM-воркфлоу:
+The setup script places `AGENTS.md` in the vault with SDM workflow:
 
-- **Data model (vault ↔ SDM)** — таблица соответствия путей и доменов
-- **Multi-project workflow** — discovery (`list_projects` / `locate_project`), правило «всегда `project`»
-- **Read vs. write routing** — таблица: чтение через Cortex, запись через SDM
-- **Common workflows** — типовые запросы и соответствующие MCP-инструменты
+- **Data model (vault ↔ SDM)** — path-to-domain mapping table
+- **Multi-project workflow** — discovery (`list_projects` / `locate_project`), "always `project`" rule
+- **Read vs. write routing** — table: reading via Cortex, writing via SDM
+- **Common workflows** — typical requests and corresponding MCP tools
 
-## Модель работы (как пользователь)
+## Workflow (as a user)
 
-1. Открыть Obsidian, открыть панель/терминал OpenCode
-2. Написать намерение: «Хочу основу профиля Java-разработчик, уровень Middle, направление backend»
-3. Агент: `locate_project` → `profile_create` → ... → результат
+1. Open Obsidian, open the OpenCode panel / terminal
+2. Describe your intent: "I want a foundation for a Java Developer profile, Middle level, backend focus"
+3. The agent: `locate_project` → `profile_create` → ... → result
 
-Чтение vault (заметки, документы, существующие YAML) — через Cortex.
-Запись методологии (навыки, вопросы, профили, экспорт) — через SDM MCP.
+Vault reading (notes, documents, existing YAML) — through Cortex.
+Methodology writing (skills, questions, profiles, export) — through SDM MCP.
 
 ## Troubleshooting
 
-| Симптом | Причина | Решение |
+| Symptom | Cause | Solution |
 |---|---|---|
-| `list_folders` не работает | Cortex не запущен | Открыть Obsidian, включить плагин Cortex |
-| `doctor` не работает | `sdm-mcp` не в PATH | `npm run link:cli` в репозитории SDM |
-| Порт `27182` занят | Другой MCP-плагин (например `aaronsb/obsidian-mcp-plugin`) | Сменить порт в настройках Cortex или удалить конфликтующий плагин |
-| Агент не видит SDM MCP | OpenCode не перезапущен | Перезапустить OpenCode / Obsidian |
-| `PROJECT_ROOT_NOT_FOUND` | Не передан `project` в multi-project | Использовать `locate_project` → передать `project` |
-| Модель не отвечает | Нет API-ключа | Задать `DEEPSEEK_API_KEY` / `OPENAI_API_KEY` |
+| `list_folders` doesn't work | Cortex is not running | Open Obsidian, enable the Cortex plugin |
+| `doctor` doesn't work | `sdm-mcp` not in PATH | `npm run link:cli` in the SDM repository |
+| Port `27182` is busy | Another MCP plugin (e.g. `aaronsb/obsidian-mcp-plugin`) | Change the port in Cortex settings or remove the conflicting plugin |
+| Agent doesn't see SDM MCP | OpenCode was not restarted | Restart OpenCode / Obsidian |
+| `PROJECT_ROOT_NOT_FOUND` | `project` was not passed in multi-project mode | Use `locate_project` → pass `project` |
+| Model doesn't respond | No API key | Set `DEEPSEEK_API_KEY` / `OPENAI_API_KEY` |

@@ -35,11 +35,11 @@ Do **not** pipe through `jq`, Node post-filters, or hand-edit JSON to drop types
 
 | Human intent (examples) | Agent call |
 |-------------------------|------------|
-| «без текстовых / без свободного ответа» | `--exclude-type open` / `excludeTypes: ["open"]` |
-| «только одиночный выбор» | `--include-type single_choice` |
-| «только с выбором (single+multi)» | `--include-type single_choice --include-type multi_choice` |
-| «только skill X / QA-skills без общих» | `--include-skill …` / `includeSkills` (or `--exclude-skill`) |
-| «только эти вопросы / эти id» | `--include-question <id>` / `includeQuestions` |
+| «without text / without free-form answer» | `--exclude-type open` / `excludeTypes: ["open"]` |
+| «only single choice» | `--include-type single_choice` |
+| «only choice (single+multi)» | `--include-type single_choice --include-type multi_choice` |
+| «only skill X / QA-skills without general ones» | `--include-skill …` / `includeSkills` (or `--exclude-skill`) |
+| «only these questions / these ids» | `--include-question <id>` / `includeQuestions` |
 
 Domain type for short text is **`open`** (not `text`). Valid types: `single_choice`, `multi_choice`, `open`, `code`. Do not combine include and exclude on the same dimension (type or skill). Pipeline: skill → adaptive → type → question id.
 

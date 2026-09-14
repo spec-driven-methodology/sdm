@@ -1,37 +1,37 @@
-# ADR-000: Нейминг SDM (Spec-Driven Methodology)
+# ADR-000: SDM Naming (Spec-Driven Methodology)
 
-Статус: **Принято** (2026-09-12)
-Контекст: ребрендинг SDM → SDM перед PGConf.Академия 2026 (16.11.2026) и защитой доклада (24.09.2026).
+Status: **Accepted** (2026-09-12)
+Context: rebranding SDM → SDM ahead of PGConf.Academy 2026 (16.11.2026) and the talk deadline (24.09.2026).
 
-## Решение
+## Decision
 
-| Слой | Имя | Примечание |
+| Layer | Name | Notes |
 |---|---|---|
-| Методология | **SDM (Spec-Driven Methodology)** | официальное имя практики |
+| Methodology | **SDM (Spec-Driven Methodology)** | official practice name |
 | GitHub org | `spec-driven-methodology` | https://github.com/spec-driven-methodology |
-| npm scope | `@spec-driven-methodology` | зарегистрирован (2026-09-12) |
-| Пакеты (npm) | `@spec-driven-methodology/core`, `.../cli`, `.../mcp` | |
-| Бинарники | `sdm`, `sdm-mcp` | короткие, для терминала |
-| Репозитории | `methodology`, `sdm-core`, `sdm-cli`, `sdm-mcp` | в org `spec-driven-methodology` |
-| CHANGELOG | ведётся без упоминания «sdm» | функциональность сохраняется, история git новая |
+| npm scope | `@spec-driven-methodology` | registered (2026-09-12) |
+| Packages (npm) | `@spec-driven-methodology/core`, `.../cli`, `.../mcp` | |
+| Binaries | `sdm`, `sdm-mcp` | short, for terminal use |
+| Repositories | `methodology`, `sdm-core`, `sdm-cli`, `sdm-mcp` | under `spec-driven-methodology` org |
+| CHANGELOG | maintained without mentioning "sdm" | functionality preserved, git history is new |
 
-## Мотивация
+## Motivation
 
-- **SDM** — описательное имя (практика), композируется с чужими префиксами: `postgrespro-sdm`, `hse-sdm`. SDM — имя собственное (бренд), не композируется (`postgrespro-sdm-kit` звучит странно).
-- Один неймспейс везде (GitHub = npm = пакеты) — убирает путаницу «два имени для двух уровней».
-- Бинарники короткие — удобство в терминале; длинное имя org живёт в URL и неймспейсе, не в командах.
-- Новая git-история в `sdm/` — чистое начало, без технического долга ребрендинга в истории SDM.
+- **SDM** is a descriptive name (practice), composes with others' prefixes: `postgrespro-sdm`, `hse-sdm`. SDM is a proper name (brand), does not compose (`postgrespro-sdm-kit` sounds odd).
+- Single namespace everywhere (GitHub = npm = packages) — removes confusion of "two names for two levels".
+- Short binary names — convenient in terminal; long org name lives in URL and namespace, not in commands.
+- New git history in `sdm/` — clean start, no tech debt from the rebranding history.
 
-## Отвергнутые варианты
+## Rejected alternatives
 
-- `sdm` / `@spec-driven-methodology/*` — бренд, не композируется, путает методологию и реализацию
-- `@sdm` — скоуп занят на npm
-- `sdm-cli`/`sdm-mcp` без скоупа — заняты/засорены чужими проектами на npm
-- `spec-driven-methodology-mcp` — слишком длинно для бинарника/репозитория
+- `sdm` / `@spec-driven-methodology/*` — brand, does not compose, confuses methodology and implementation
+- `@sdm` — scope taken on npm
+- `sdm-cli`/`sdm-mcp` without scope — taken/cluttered by other projects on npm
+- `spec-driven-methodology-mcp` — too long for binary/repository name
 
-## Следствия
+## Consequences
 
-- Все упоминания SDM в публичных текстах (README, docs, заявка) заменяются на SDM.
-- Код из `specra/` переносится в `sdm/` с переименованием: `@specra/*` → `@spec-driven-methodology/*`, бинарник `specra` → `sdm`.
-- CHANGELOG сохраняет функциональные записи прошлых версий (исторический артефакт, содержит упоминания SDM).
-- История git в `sdm/` начинается заново (схлопывание/перенос не требуется — новая директория).
+- All SDM mentions in public texts (README, docs, talk submission) are replaced with SDM.
+- Code from `specra/` is moved to `sdm/` with renaming: `@specra/*` → `@spec-driven-methodology/*`, binary `specra` → `sdm`.
+- CHANGELOG retains functional records of past versions (historical artifact, contains SDM references).
+- Git history in `sdm/` starts fresh (squashing/migration not needed — new directory).

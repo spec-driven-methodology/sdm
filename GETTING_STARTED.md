@@ -1,48 +1,48 @@
-# Быстрый старт SDM (GigaCode + MCP)
+# SDM Quick Start
 
-**SDM (Spec-Driven Methodology)** — методология обращения с методическими артефактами как со спецификациями: онтология → профиль → покрытие → экспорт; основной UX — через AI-агента (intent → plan → confirm → CLI/MCP), не ручной набор флагов.
+**SDM (Spec-Driven Methodology)** treats methodology artifacts as specifications: ontology → profile → coverage → export; the primary UX is through an AI agent (intent → plan → confirm → CLI/MCP), not manual flag typing.
 
-Цель: скачать sdm-cli, собрать CLI/MCP, создать methodology-проект и подключить **GigaCode**, чтобы агент видел tools SDM.
+Goal: download sdm-cli, build CLI/MCP, create a methodology project, and wire your agent host so it sees SDM tools.
 
-Пакеты пока **не** публикуются в npm — установка из git (GitHub: `spec-driven-methodology/sdm-cli`).
+Packages are **not** published to npm yet — install from git (GitHub: `spec-driven-methodology/sdm`).
 
-## 1. Требования
+## 1. Requirements
 
-- **Node.js** ≥ 20.19 и npm
+- **Node.js** ≥ 20.19 and npm
 - **git**
-- **GigaCode CLI** (experimental-адаптер SDM; конфиг по умолчанию `~/.gigacode/settings.json`)
+- One of the supported agent hosts: Cursor, MultiTool/OpenCode, or GigaCode
 
-## 2. Clone, сборка, link
+## 2. Clone, build, link
 
 ```bash
-git clone <url-репозитория-sdm.git>
+git clone <sdm-repo-url>
 cd sdm
 npm install
 npm run link:cli       # build + link CLI/MCP (prerelease: auto …-alpha.N)
-# или без bump identity:
+# or without bumping identity:
 npm run link:refresh   # compile + link CLI/MCP + completion
-# + переустановить MCP в хосты:
+# + reinstall MCP into hosts:
 # npm run link:refresh -- --mcp
 ```
 
-Проверка:
+Verify:
 
 ```bash
-sdm --version          # ASCII SDM + core … / mcp … (см. VERSIONING.md)
+sdm --version          # ASCII SDM + core … / mcp … (see VERSIONING.md)
 sdm mcp hosts --json
 ```
 
-Ожидайте две строки версий с одинаковой identity (`core` и `mcp`). Формат и bump: [`VERSIONING.md`](./VERSIONING.md).
+Expect two version lines with the same identity (`core` and `mcp`). Format and bump: [`VERSIONING.md`](./VERSIONING.md).
 
-Tab-completion ставится при `build` / `link:cli` / `link:refresh`. `link:cli` на prerelease ещё поднимает `…-alpha.N`; `link:refresh` — нет. После первого раза: `source ~/.zshrc` (или новый терминал), затем `sdm `<Tab> / `sk`<Tab>.
+Tab-completion installs on `build` / `link:cli` / `link:refresh`. `link:cli` on prerelease bumps `…-alpha.N`; `link:refresh` does not. After first run: `source ~/.zshrc` (or new terminal), then `sdm `<Tab> / `sk`<Tab>.
 
-Ожидайте в списке хостов `gigacode` (experimental) и `cursor`.
+Expect to see `cursor`, `gigacode` (experimental), and `multitool` in the host list.
 
-Если clone перенесёте в другой путь — снова `link:refresh -- --mcp` (или `build` + `mcp install`), иначе в settings останутся старые абсолютные пути. После refresh перезапустите MCP в хосте и сверьте `about` / `--version`.
+If you move the clone to another path — run `link:refresh -- --mcp` again (or `build` + `mcp install`), otherwise old absolute paths remain in settings. After refresh, restart MCP in the host and check `about` / `--version`.
 
-## 3. Methodology-проект
+## 3. Methodology project
 
-Отдельный каталог (не обязательно внутри репозитория SDM):
+A separate directory (not necessarily inside the SDM repo):
 
 ```bash
 mkdir ~/my-methodology && cd ~/my-methodology
@@ -50,126 +50,121 @@ sdm init --with-examples
 sdm doctor
 ```
 
-Ожидайте: `OK: SDM project at …`. Примеры synthetic (`java-developer` / `middle`) — без реальных данных.
+Expect: `OK: SDM project at …`. Examples are synthetic (`java-developer` / `middle`) — no real data.
 
-## 4. Подключить MCP + skills к GigaCode (основной путь)
+## 4. Wire MCP + skills to your host
 
-`sdm init` создаёт methodology, но **не** ставит MCP/skills в IDE. Wire — отдельно.
-
-```bash
-# превью: путь settings, mcpEntry (без привязки к одному methodology)
-sdm mcp config --host gigacode --json
-
-# один MCP на хост + portable skills (intent-loop, …) по умолчанию
-# не передавайте --project — multi-project; tool arg project = methodology
-sdm mcp install --hosts gigacode --json
-# пишет mcpServers.SDM (ключ сайдбара; protocol name остаётся sdm)
-# только MCP без skills: добавьте --no-skills
-# skills отдельно (если уже ставили MCP раньше): sdm agent install --hosts gigacode --json
-```
-
-Если settings лежат не в `~/.gigacode`:
+`sdm init` creates a methodology project but does **not** install MCP/skills into your IDE. Wiring is a separate step.
 
 ```bash
-sdm mcp install --hosts gigacode --gigacode-home /path/to/.gigacode --json
+# preview: settings path, mcpEntry (no single methodology binding)
+sdm mcp config --host cursor --json
+
+# single MCP per host + portable skills (intent-loop, …) installed by default
+# don't pass --project — multi-project; pass tool arg project = methodology
+sdm mcp install --hosts cursor --cursor-root <ide-workspace-root> --json
+# other hosts:
+sdm mcp install --hosts multitool --json       # MultiTool / OpenCode
+sdm mcp install --hosts gigacode --json        # GigaCode (experimental)
+
+# MCP only without skills: add --no-skills
+# skills separately (if MCP was already installed): sdm agent install --hosts cursor --json
 ```
 
-Или явно: `--config /path/to/settings.json` (только путь MCP; skills всё равно ставятся, если нет `--no-skills`).
+Claude Desktop is not a supported `--hosts` target; wire SDM manually if you use it.
 
-**Не** вставляйте пути к `packages/mcp/dist/index.js` вручную — только через CLI.
-Повторный `mcp install` без `--project` снимает устаревший `SDM_PROJECT_ROOT`.
+Do **not** hand-edit paths to `packages/mcp/dist/index.js` — use the CLI only.
+Running `mcp install` again without `--project` removes any stale `SDM_PROJECT_ROOT`.
 
-## 5. Reload в GigaCode
+## 5. Reload in your host
 
-Перезапустите GigaCode / перезагрузите MCP **и skills** (как принято в вашей сборке CLI, часто команда вроде `/mcp`).
+Restart the agent host / reload MCP **and skills** (how to do this depends on your host — often `/mcp` or a settings panel command).
 
-Убедитесь, что сервер SDM в списке MCP и tools доступны, и что видны portable skills.
+Verify the SDM server is listed in MCP and tools are available, and that portable skills are visible.
 
-## 6. Smoke-чеклист
+## 6. Smoke checklist
 
-- [ ] В GigaCode вызывается MCP tool **`doctor`** с arg `project` = абсолютный путь к methodology → успех
-- [ ] (опционально) агент или CLI: `sdm doctor` в каталоге methodology
-- [ ] Сводный отчёт качества: MCP **`quality_report`** или `sdm quality report --profile … --level … --json` (матрица ●○○); для папки сырых `.md` — `--sources <dir>` до bootstrap
-- [ ] (опционально) актуальность контента: MCP **`content_stale`** или `sdm content stale --profile … --level … --json` после правок онтологии
-- [ ] В списке MCP tools есть `quality_report` и `content_stale` (если нет — rebuild + reload MCP в хосте)
-- [ ] Агент видит portable skills SDM (`intent-loop`, `quality-report`, `close-staleness`, …) после `mcp install` (или отдельного `agent install`)
+- [ ] The MCP tool **`doctor`** is callable with arg `project` = absolute path to methodology → success
+- [ ] (optional) agent or CLI: `sdm doctor` in the methodology directory
+- [ ] Quality summary report: MCP **`quality_report`** or `sdm quality report --profile … --level … --json` (●○○ matrix); for raw `.md` sources — `--sources <dir>` before bootstrap
+- [ ] (optional) Content staleness: MCP **`content_stale`** or `sdm content stale --profile … --level … --json` after ontology edits
+- [ ] MCP tools include `quality_report` and `content_stale` (if not — rebuild + reload MCP in the host)
+- [ ] The agent sees portable SDM skills (`intent-loop`, `quality-report`, `close-staleness`, …) after `mcp install` (or standalone `agent install`)
 
-## 6.1. Дальше — как пользователь (без CLI)
+## 6.1. Next — as a user (no CLI)
 
-**CLI и флаги — для агента и CI, не для методолога.** Вы пишете намерение агенту.
+**CLI and flags are for the agent and CI, not for the methodologist.** You describe your intent to the agent.
 
-Пример:
+Example:
 
-> Хочу основу профиля Java-разработчик, уровень Middle, направление backend. Сначала уточни детали и покажи план, без записи до моего подтверждения.
+> I want a foundation for a Java Developer profile, Middle level, backend focus. First clarify details and show a plan — don't write anything until I confirm.
 
-Агент должен вести цикл **intent-loop**: уточнения → план → confirm → исполнение → результат (покрытие / что создано).
+The agent should run the **intent-loop**: clarification → plan → confirm → execution → result (coverage / what was created).
 
-Сущность методологии: **профиль** (Profile), не «роль» как job title.
+Methodology entity: **profile**, not a job title "role".
 
-Skill: [`agents/intent-loop/`](./agents/intent-loop/SKILL.md). Для агентов (приложение): [`AGENTS.md`](./AGENTS.md).
+Skill: [`agents/intent-loop/`](./agents/intent-loop/SKILL.md). For agents (appendix): [`AGENTS.md`](./AGENTS.md).
 
-### 6.2. Мульти-проект: одна MCP для N папок методологии
+### 6.2. Multi-project: one MCP for N methodology folders
 
-Один сервер SDM MCP (один `mcp install`) работает с любым количеством проектов. Агент для каждого вызова:
+One SDM MCP server (one `mcp install`) works with any number of projects. On each call the agent:
 
-1. Узнаёт текущий проект: **`locate_project({ dir: <рабочая директория пользователя> })`** → получает `root` + `name`
-2. Передаёт `project: <root>` во все остальные MCP-инструменты
+1. Discovers the current project: **`locate_project({ dir: <user's working directory> })`** → gets `root` + `name`
+2. Passes `project: <root>` to all other MCP tools
 
-При переключении между папками — снова `locate_project`. Инструменты `locate_project` и `list_projects` доступны в MCP с версии 1.1.0.
+When switching between directories — call `locate_project` again. `locate_project` and `list_projects` are available in MCP since version 1.1.0.
 
 ## 7. Troubleshooting
 
-| Симптом / код | Что сделать |
-|---------------|-------------|
-| `MCP_NOT_FOUND` | `npm run build` в clone SDM; проверить, что `@spec-driven-methodology/mcp` собирается |
-| `HOSTS_REQUIRED` | Указать `--hosts gigacode` (в non-TTY нельзя вызывать install без hosts) |
+| Symptom / code | What to do |
+|---|---|
+| `MCP_NOT_FOUND` | `npm run build` in the SDM clone; check that `@spec-driven-methodology/mcp` builds |
+| `HOSTS_REQUIRED` | Pass `--hosts <names>` (e.g. `cursor,gigacode,multitool`) in non-TTY |
 | `UNKNOWN_HOST` | `sdm mcp hosts --json` |
-| `VALIDATION_FAILED` | Починить JSON в `settings.json` / указать `--config` |
-| `doctor` / Not a SDM project | Передать tool arg `project` (или optional `SDM_PROJECT_ROOT`) на каталог с `sdm.yaml` |
-| После переноса clone MCP «битый» | Снова `mcp install --hosts gigacode` (пути к dist перезапишутся) |
-| `AGENTS_NOT_FOUND` | `agent install`: указать `--agents-root` или `SDM_HOME` |
-| `npm install` падает за proxy | Настроить registry/proxy в окружении; SDM это не обходит |
+| `VALIDATION_FAILED` | Fix JSON in `settings.json` / pass `--config` |
+| `doctor` / Not a SDM project | Pass tool arg `project` (or optional `SDM_PROJECT_ROOT`) to the directory with `sdm.yaml` |
+| MCP is "broken" after moving the clone | Run `mcp install --hosts <name>` again (paths to dist are rewritten) |
+| `AGENTS_NOT_FOUND` | `agent install`: specify `--agents-root` or `SDM_HOME` |
+| `npm install` fails behind proxy | Set registry/proxy in your environment; SDM does not bypass it |
 
-Адаптер **gigacode** — experimental: путь и формат settings могут отличаться в вашей сборке CLI.
+## 8. Action log
 
-## 8. Журнал действий
+SDM writes NDJSON logs in the methodology project:
 
-В methodology-проекте SDM пишет NDJSON в:
+- `.sdm/logs/sdm.log` — all CLI/MCP calls
+- `.sdm/logs/error.log` — errors only (duplicate from the main stream)
 
-- `.sdm/logs/sdm.log` — все вызовы CLI/MCP
-- `.sdm/logs/error.log` — только ошибки (дубль из общего потока)
+Rotation by size (see optional `logging` block in `sdm.yaml`). Disable: `SDM_LOG=0`. The `.sdm/logs/` directory is in `.gitignore`.
 
-Ротация по размеру (см. опциональный блок `logging` в `sdm.yaml`). Выключить: `SDM_LOG=0`. Каталог `.sdm/logs/` в `.gitignore`.
-
-## 9. Другие хосты (Cursor)
+## 9. Other hosts (MultiTool, GigaCode)
 
 ```bash
-# --cursor-root = корень IDE workspace (не обязательно каталог methodology)
-sdm mcp install --hosts cursor --cursor-root /path/to/ide-workspace --json
+sdm mcp install --hosts multitool --json
+sdm mcp install --hosts gigacode --json
 ```
 
-Список адаптеров: `sdm mcp hosts --json` / `sdm agent hosts --json`.
+List all adapters: `sdm mcp hosts --json` / `sdm agent hosts --json`.
 
-Подробнее по продукту: [`README.md`](./README.md), changelog: [`CHANGELOG.md`](./CHANGELOG.md).
+Product details: [`README.md`](./README.md), changelog: [`CHANGELOG.md`](./CHANGELOG.md).
 
-## 10. Obsidian-интеграция (плагин не нужен)
+## 10. Obsidian integration (no plugin needed)
 
-SDM не требует собственного Obsidian-плагина. Используются **Cortex** (MCP-мост к vault) и **OpenCode** (агент внутри Obsidian).
+SDM does not require its own Obsidian plugin. Use **Cortex** (MCP bridge to vault) and **OpenCode** (agent inside Obsidian).
 
 ```bash
-# из корня vault — всё настроит одной командой
+# from the vault root — one command sets everything up
 ./scripts/obsidian-setup.sh
 
-# откат (удаление созданных артефактов, с backup)
+# rollback (removes created artifacts, with backup)
 ./scripts/obsidian-setup.sh --undo
 ```
 
-Скрипт: проверяет зависимости → находит vault → сканирует SDM-проекты → пишет `opencode.json` (SDM + Cortex) → кладёт `AGENTS.md`. Подробнее: `docs/obsidian-integration.md`.
+The script: checks dependencies → locates vault → scans for SDM projects → writes `opencode.json` (SDM + Cortex) → places `AGENTS.md`. Details: `docs/obsidian-integration.md`.
 
-Откат: `--undo` удаляет созданные `opencode.json` и `AGENTS.md` (с backup по умолчанию, `--purge` без backup). Удаляются только vault-локальные артефакты; глобальные MCP-конфиги (Claude Desktop, Cursor) только предупреждаются.
+Rollback: `--undo` removes `opencode.json` and `AGENTS.md` (with backup by default, `--purge` without backup). Only vault-local artifacts are removed; global MCP configs (Cursor, etc.) are warned about but not touched.
 
-**Установка плагинов Obsidian (один раз):**
-- **Cortex** (поиск в Community Plugins) — MCP-сервер внутри Obsidian на порту 27182
-- **OpenCode** (поиск в Community Plugins) — терминал OpenCode в сайдбаре
+**Installing Obsidian plugins (once):**
+- **Cortex** (search Community Plugins) — MCP server inside Obsidian on port 27182
+- **OpenCode** (search Community Plugins) — OpenCode terminal in the sidebar
 
-Multi-project: vault может содержать несколько `sdm.yaml`. Агент через `list_projects` / `locate_project` находит нужный проект и передаёт `project` в каждый MCP-вызов.
+Multi-project: a vault may contain multiple `sdm.yaml` files. The agent uses `list_projects` / `locate_project` to find the right project and passes `project` to each MCP call.

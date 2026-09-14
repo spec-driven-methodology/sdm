@@ -1,78 +1,78 @@
 # SDM export player
 
-Авторский preview для пакетов:
+Author preview for packages:
 
 - `sdm export test` → `sdm.export.test/v1`
 - `sdm export learning` (alias `export course`) → `sdm.export.course/v1`
 - `sdm export kit` → `sdm.export.kit/v1`
 
-**Не защищённый экзамен и не LMS** — author preview артефактов эталона. Ответы/проза лежат в JSON. Прогресс обучения не сохраняется.
+**Not a secure exam and not an LMS** — author preview of canonical artifacts. Answers/prose are in JSON. Learning progress is not saved.
 
-## Установка / обновление
+## Install / update
 
 ```bash
-sdm player sync          # только отсутствующие файлы
-sdm player sync --force  # обновить player/ из шаблонов SDM
+sdm player sync          # only missing files
+sdm player sync --force  # update player/ from SDM templates
 ```
 
-Не трогает `ontology/`, `library/`, `certifications/`, `sdm.yaml`.
+Does not touch `ontology/`, `library/`, `certifications/`, `sdm.yaml`.
 
-## Режимы: Тесты | Курсы | Шпаргалки
+## Modes: Tests | Courses | Cheat Sheets
 
-На главной переключатель вкладок:
+The main page has a tab switcher:
 
-| Вкладка | Документ | Действие |
+| Tab | Document | Action |
 |---|---|---|
-| **Тесты** | `sdm.export.test/v1` | библиотека → **Начать** → сессия с проверкой |
-| **Курсы** | `sdm.export.course/v1` | библиотека → **Открыть** → листание уроков |
-| **Шпаргалки** | `sdm.export.kit/v1` | библиотека → **Открыть** → модули, вопросы эксперту, чеклист |
+| **Tests** | `sdm.export.test/v1` | library → **Start** → session with checking |
+| **Courses** | `sdm.export.course/v1` | library → **Open** → page-through lessons |
+| **Cheat Sheets** | `sdm.export.kit/v1` | library → **Open** → modules, expert questions, checklist |
 
-HTML kit (`export kit --format html`) — отдельный файл для интервьюера; во вкладку **Шпаргалки** загружайте **JSON** kit.
+HTML kit (`export kit --format html`) — separate file for interviewers; upload **JSON** kit to the **Cheat Sheets** tab.
 
-Пустой блок «Нет вопросов для интервьюера» значит: в библиотеке есть только тестовые вопросы с вариантами — добавьте **открытые вопросы с объяснениями** в Библиотеку SDM и пересоберите шпаргалку.
+Empty "No interviewer questions" block means: the library only contains test questions with options — add **open-ended questions with explanations** to the SDM Library and rebuild the cheat sheet.
 
-Библиотеки раздельные (разные ключи `localStorage`, тот же project scope по пути к `player/`). Параметры сессии (shuffle / timer) видны только на вкладке Тесты.
+Libraries are separate (different `localStorage` keys, same project scope via `player/` path). Session options (shuffle / timer) are only visible on the Tests tab.
 
-Список `exports/*.json` (HTTP) классифицируется по `schemaVersion` и фильтруется текущей вкладкой.
+The list of `exports/*.json` (HTTP) is classified by `schemaVersion` and filtered by the current tab.
 
-## Тесты
+## Tests
 
-Объём N задаёт **автор** при экспорте, не плеер:
+Volume N is set by the **author** at export time, not the player:
 
 ```bash
 sdm export test --profile <profile> --level <level> > exports/test.json
-# выборка:
+# sampling:
 sdm export test --profile <profile> --level <level> --adaptive --seed 42 --per-skill 3
 ```
 
-1. Откройте `player/index.html` (удобнее через локальный static server — виден список `exports/*.json`).
-2. Вкладка **Тесты** → загрузите JSON (список / drag-drop / picker) → **Загруженные тесты**.
-3. У пакета **Начать** (рядом **Удалить**). Повторная загрузка того же имени обновляет запись.
-4. Опции сессии (глобальные в `localStorage` origin): автопереход, shuffle вопросов/вариантов, лимит времени.
-5. Статистика в конце (в т.ч. weighted vs threshold).
-6. На главную — **SDM** или крошка «Главная».
+1. Open `player/index.html` (easier via a local static server — the list of `exports/*.json` is visible).
+2. **Tests** tab → load JSON (list / drag-drop / picker) → **Loaded tests**.
+3. On a pack: **Start** (next to **Delete**). Re-uploading the same name updates the record.
+4. Session options (global in `localStorage` of the origin): auto-advance, shuffle questions/options, time limit.
+5. Statistics at the end (including weighted vs threshold).
+6. Back to main — **SDM** or the "Main" breadcrumb.
 
-## Курсы
+## Courses
 
 ```bash
 sdm export learning --profile <profile> --level <level> --depth standard --format course \
   --locale ru --json > exports/course.json
-# formats: howto|notes|cheatsheet|course (Инструкция / Конспект / Шпаргалка / Курс)
+# formats: howto|notes|cheatsheet|course
 # level + format=course → leading module kind=overview + glossary term candidates
 ```
 
-1. Вкладка **Курсы** → загрузите course JSON → **Открыть**.
-2. Outline модулей слева (модуль **О курсе** первым, если `kind: overview`); урок справа. **Назад** / **Далее** листают уроки по порядку.
-3. Пустой `body` → stub «Нет текста урока»; структура всё равно листается.
-4. Meta: depth / format / locale; блок warnings из экспорта, если есть.
-5. **Сноски** — под текстом **текущего** урока: явные `lessons[].footnotes`, иначе термины из `glossary`, относящиеся к topic/тексту урока. Полный блок **Термины курса** (`glossary`) — один раз в конце оглавления (раздел «Справочник»), не на каждой странице.
-6. **Практика модуля:** только из `practiceQuestionIds` (секция «Якоря практики» в body не нужна и не используется UI). Course JSON **не** содержит полных вопросов — только id.
-   - Если на вкладке Тесты уже загружен paired `export test` с этими id → кнопка **Пройти практику** запускает фильтрованную test-сессию.
-   - Иначе id показаны текстом; загрузите test pack и откройте курс снова.
+1. **Courses** tab → load course JSON → **Open**.
+2. Module outline on the left (module **About the Course** first, if `kind: overview`); lesson on the right. **Back** / **Next** navigate lessons in order.
+3. Empty `body` → stub "No lesson text"; structure still navigable.
+4. Meta: depth / format / locale; warnings block from export, if any.
+5. **Footnotes** — under the **current** lesson's text: explicit `lessons[].footnotes`, otherwise terms from `glossary` related to the topic/lesson text. The full **Course Glossary** (`glossary`) block — once at the end of the table of contents (section "Reference"), not on every page.
+6. **Module practice:** only from `practiceQuestionIds` (the "Practice Anchors" section in body is not needed and not used by the UI). Course JSON does **not** contain full questions — only ids.
+   - If the **Tests** tab already has a paired `export test` with these ids → the **Take Practice** button starts a filtered test session.
+   - Otherwise ids are shown as text; load a test pack and re-open the course.
 
-## Качество вариантов (методология)
+## Answer quality (methodology)
 
-Bias «верный первый / самый длинный» закрывается так:
+Bias "first correct / longest option" is addressed by:
 
-- runtime: опция плеера и/или `sdm export test --shuffle-options --seed <n>`
-- библиотека: `quality.distractorQuality: soft|strict` в `sdm.yaml` + `sdm audit --json`
+- runtime: player option and/or `sdm export test --shuffle-options --seed <n>`
+- library: `quality.distractorQuality: soft|strict` in `sdm.yaml` + `sdm audit --json`

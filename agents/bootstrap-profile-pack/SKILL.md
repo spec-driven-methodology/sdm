@@ -3,8 +3,8 @@ name: sdm-bootstrap-profile-pack
 description: >-
   HITL pack: propose a profile/level foundation plan (skills, cert, seed questions),
   wait for explicit user confirm, then execute SDM CLI/MCP until a usable base
-  exists. Use when the user says «создай основу профиля», «bootstrap Go junior»,
-  «pack для новой специализации», or wants a greenfield profile with approval before writes.
+  exists. Use when the user says «create a profile foundation», «bootstrap Go junior»,
+  «pack for a new specialization», or wants a greenfield profile with approval before writes.
 license: Apache-2.0
 compatibility: Requires SDM CLI (`sdm`) on PATH; methodology project (sdm.yaml).
 metadata:
@@ -75,7 +75,7 @@ SDM does **not** call an LLM. You (the agent) propose skills/questions; SDM vali
 }
 ```
 
-4. **STOP.** Ask for explicit confirmation (e.g. «подтверди план» / `confirm` / `apply`).  
+4. **STOP.** Ask for explicit confirmation (e.g. «confirm the plan» / `confirm` / `apply`).  
    - If the user edits the plan → update JSON and ask again.  
    - **MUST NOT** run `profile create`, `skill add`, `skill link`, `cert create`, `question add`, or other write ops before confirm.  
    - Read-only (`doctor`, `question list`, `cert gaps` on existing data) is allowed.
@@ -171,7 +171,7 @@ Tell the human:
 
 - What was created (skills, profile/level, question ids)
 - Coverage snapshot
-- Next intents: close remaining gaps ([`../close-coverage/SKILL.md`](../close-coverage/SKILL.md)), more generate ([`../generate-questions/SKILL.md`](../generate-questions/SKILL.md)), audit, export ([`../export-methodology/SKILL.md`](../export-methodology/SKILL.md)), or NL edits («добавь skill X», «подними depth»)
+- Next intents: close remaining gaps ([`../close-coverage/SKILL.md`](../close-coverage/SKILL.md)), more generate ([`../generate-questions/SKILL.md`](../generate-questions/SKILL.md)), audit, export ([`../export-methodology/SKILL.md`](../export-methodology/SKILL.md)), or NL edits («add skill X», «raise depth»)
 
 Further work: human prompts in natural language → you call the matching SDM commands/skills. No second pack required.
 

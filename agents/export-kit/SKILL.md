@@ -2,7 +2,7 @@
 name: sdm-export-kit
 description: >-
   Export expert interview kit from profile+level: skill cards, open/code probes,
-  glossary, checklist. Use when the human asks for шпаргалку эксперта, interview
+  glossary, checklist. Use when the human asks for expert cheat sheet, interview
   kit, HTML for interviewer like colleague cheat sheet — NOT export learning
   --format cheatsheet (that is learner prose for courses). HTML is render only;
   SSOT is methodology YAML. MCP export_kit with format html returns html field.
@@ -23,10 +23,10 @@ Kit is for **competency owners / interviewers** — not candidate testing, not L
 
 | Human asks | Use | Do NOT use |
 |------------|-----|------------|
-| Шпаргалка для эксперта / интервьюера / HR на интервью | **`export kit`** | `export learning --format cheatsheet` |
-| HTML как у коллег (одна страница для интервью) | **`export kit --format html`** | hand-edit `reference/index.html` |
-| Учебный конспект / шпаргалка **для обучаемого** | `export learning` | `export kit` |
-| Тест кандидата (single/multi choice) | `export test` | `export kit` |
+| Cheat sheet for an expert / interviewer / HR at an interview | **`export kit`** | `export learning --format cheatsheet` |
+| HTML like colleagues have (one page for the interview) | **`export kit --format html`** | hand-edit `reference/index.html` |
+| Study notes / cheat sheet **for the learner** | `export learning` | `export kit` |
+| Candidate test (single/multi choice) | `export test` | `export kit` |
 
 Schema: `sdm.export.kit/v1`. Stable slot id: `kit-{profile}-{level}`.
 
@@ -106,11 +106,11 @@ Optional: `"strict": true` — fail when `KIT_NO_PROBE_QUESTION`, `KIT_EXPLANATI
    # → { ok, format: "html", document, html, warnings, ... }
    ```
 
-5. **Author preview** in player (tab **Шпаргалки**):
+5. **Author preview** in player (tab **Cheat sheets**):
 
    ```bash
    sdm player sync --force --json
-   # open player/index.html → tab Шпаргалки → load exports/kit-*.json
+   # open player/index.html → tab Cheat sheets → load exports/kit-*.json
    ```
 
 6. If warnings (`KIT_NO_PROBE_QUESTION`, `KIT_EXPLANATION_MISSING`): add open/code questions with `explanation` via `question add` / `generate-questions`, then re-export.

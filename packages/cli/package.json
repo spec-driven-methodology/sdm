@@ -28,5 +28,8 @@
   "engines": {
     "node": ">=20.19.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "Apache-2.0"
 }

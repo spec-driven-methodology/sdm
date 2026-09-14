@@ -2,68 +2,66 @@
 name: SDM
 tagline: "Spec-Driven Methodology"
 what: >-
-  SDM — фреймворк methodology-as-specs: онтология навыков → библиотека
-  контента → профили/пороги → аудит покрытия и экспорт. Один скелет
-  компетенций (эталон / единый источник правды) для оценки и обучения.
+  SDM — a methodology-as-specs framework: skill ontology → content library →
+  profiles/thresholds → coverage audit and export. A single competency skeleton
+  (canonical / single source of truth) for assessment and learning.
 whatNot:
-  - Не платформа для тестирования кандидатов и не HR UI
-  - Не LMS; не проводит тесты и не анализирует ответы кандидатов как основной продукт
-  - Не полный harness / оркестратор агентов — CLI/MCP дают доступ к эталону, не runtime моделей
-  - Не замена OpenSpec для разработки кода
+  - Not a candidate testing platform or HR UI
+  - Not an LMS; does not administer tests or analyze candidate answers as a primary product
+  - Not a full agent harness / orchestrator — CLI/MCP expose the canonical, not a model runtime
+  - Not a replacement for OpenSpec for code development
 model: >-
-  Agent-first: владельцы компетенций (HR, рекрутеры, методологи, аналитики,
-  профильные специалисты; контексты — университет, bootcamp, онбординг)
-  формулируют намерение и ревьюят; AI-агент с моделью вызывает CLI/MCP (`--json`);
-  SDM — эталон в YAML + Zod (файлы в git) и рамка правил, не ручной CRUD
-  и не скрытая БД методологии.
+  Agent-first: competency owners (HR, recruiters, methodologists, analysts,
+  domain experts; contexts — university, bootcamp, onboarding)
+  formulate intent and review; the AI agent with a model calls CLI/MCP (`--json`);
+  SDM is the canonical in YAML + Zod (files in git) and a rule framework, not
+  manual CRUD and not a hidden methodology database.
 ---
 
-# SDM — кратко
+# SDM — Overview
 
-**SDM** — фреймворк **methodology-as-specs**: онтология навыков → библиотека
-контента → профили/пороги → аудит покрытия и экспорт. Один скелет компетенций
-(**эталон** / единый источник правды) для оценки и обучения. Это не система
-проведения тестов и не LMS.
+**SDM** is a **methodology-as-specs** framework: skill ontology → content
+library → profiles/thresholds → coverage audit and export. A single competency
+skeleton (**canonical** / single source of truth) for assessment and learning.
+It is not a test administration system or LMS.
 
-EN tagline: **Spec-Driven Methodology**.
-Имя исторически читалось как Spec + RA (Resource Assessment); RA — только
-этимология, не живой слоган.
+## What it is
 
-## Что это
+- **What:** a methodology-as-specs framework (ontology → library → profiles/thresholds → coverage and export)
+- **Why:** one competency canonical for **assessment** and **learning**; export to agents and external systems (surfaces: test, learning, matrix, …)
+- **Who:** competency owners — HR, recruiters, methodologists, analysts, domain experts (contexts: university, bootcamp, onboarding)
+- Skill ontology (`ontology/`)
+- Question library and learning content on the same graph (`library/`, `export learning`, `export kit`)
+- Profiles / levels / thresholds (`certifications/`)
+- Coverage, gaps, summary `quality report` (●○○), detailed audit, content staleness (`content stale` / `meta.basis`), export for agents and consumers
+- Export test / learning JSON for agents; Methodology Studio removed (obsidian-sdm)
 
-- **Что:** фреймворк methodology-as-specs (онтология → библиотека → профили/пороги → покрытие и экспорт)
-- **Зачем:** один эталон компетенций для **оценки** и для **обучения**; экспорт агентам и внешним системам (поверхности: тест, обучение, матрица, …)
-- **Кто:** владельцы компетенций — HR, рекрутеры, методологи, аналитики, профильные специалисты (контексты: университет, bootcamp, онбординг)
-- Онтология навыков (`ontology/`)
-- Библиотека вопросов и учебный контент поверх того же графа (`library/`, `export learning`, `export kit`)
-- Профили / уровни / пороги (`certifications/`)
-- Coverage, gaps, сводный `quality report` (●○○), детальный audit, актуальность контента (`content stale` / `meta.basis`), export для агентов и потребителей
-- Export test / learning JSON for agents; Methodology Studio удалён (obsidian-sdm)
+### Specs · Framework · Agent
 
-### Спеки · фреймворк · агент
-
-| Часть | Роль |
+| Part | Role |
 |-------|------|
-| **Спеки** | Эталон в файлах репозитория (git), не в скрытой БД |
-| **Фреймворк** | Границы и «как»: схема, операции, покрытие, качество |
-| **Агент + модель** | Исполнение; CLI/MCP — руки агента внутри рамки |
+| **Specs** | Canonical in repository files (git), not a hidden database |
+| **Framework** | Boundaries and "how": schema, operations, coverage, quality |
+| **Agent + model** | Execution; CLI/MCP are the agent's hands within the framework |
 
-Качество результата зависит от спек × агента × модели; рамка ограничивает вред.
+Result quality depends on specs × agent × model; the framework limits harm.
 
-## Чем не является
+## What it is not
 
-- HR-тестовой платформой или LMS
-- Полным harness / оркестратором агентов (нет orchestration моделей; CLI/MCP — доступ к эталону)
-- UI для кандидатов (статический `player/` — author preview, не экзамен)
-- Местом «ручного набора флагов» как главного UX — основной путь через агента
+- Not an HR testing platform or LMS
+- Not a full agent harness / orchestrator (no model orchestration; CLI/MCP provide access to the canonical)
+- Not a candidate UI (static `player/` is an author preview, not an exam)
+- Not a place for "manual flag typing" as the primary UX — the main path is through an agent
 
-## Как работать
+How SDM differs from "just an agent with a model": [docs/WHY_SDM.md](docs/WHY_SDM.md)
 
-1. Спросить агента на языке методологии («основа профиля Java Middle backend»).
-2. Агент ведёт intent-loop → plan → confirm → CLI/MCP.
-3. Проверять результат через `doctor`, `cert coverage`, сводный `quality report` (матрица ●○○; для сырых `.md` — `--sources`), `content stale` после правок онтологии, детальный `audit`, затем экспорт теста или обучения.
+## How to work
 
-**Контроль из одной точки:** правка навыка или требования → `impact` / покрытие → пересборка артефактов под поверхности; один банк — разные срезы профилей; валидация до экспорта.
+1. Ask the agent in methodology language ("foundation for a Java Middle backend profile").
+2. The agent runs intent-loop → plan → confirm → CLI/MCP.
+3. Verify results via `doctor`, `cert coverage`, summary `quality report` (●○○ matrix; for raw `.md` — `--sources`), `content stale` after ontology edits, detailed `audit`, then export test or learning.
 
-Подробности для агентов: `AGENTS.md`, `agents/*/SKILL.md`. Возможности версии: `CHANGELOG.md`.
-Для вопросов «что такое SDM?» агент вызывает `sdm about --json` / MCP `about`.
+**Single-point control:** edit a skill or requirement → `impact` / coverage → rebuild artifacts for surfaces; one bank — different profile slices; validation before export.
+
+Details for agents: `AGENTS.md`, `agents/*/SKILL.md`. Version capabilities: `CHANGELOG.md`.
+For "what is SDM?" questions, the agent calls `sdm about --json` / MCP `about`.

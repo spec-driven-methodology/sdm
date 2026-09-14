@@ -12,7 +12,7 @@ description: >
 ## When to use
 
 - Skill / level / requirements changed and derived content may be outdated
-- Suggest lever «Проверить устаревший контент»
+- Suggest lever «Check stale content»
 - Distinguishing **coverage gaps** (missing questions) from **stale** (content exists but basis mismatch)
 
 Wire `schemaVersion` (e.g. `sdm.export.test/v1`) is **not** content freshness — use `meta.basis`.

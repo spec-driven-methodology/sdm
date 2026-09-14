@@ -1,26 +1,26 @@
 # AI agents — SDM methodology workspace
 
-This is a **SDM methodology project** (`sdm.yaml`).
+This is an **SDM methodology project** (`sdm.yaml`).
 
 ## Human UX (methodologists)
 
 Humans describe **intent** in natural language. Example:
 
-> Хочу основу профиля Java-разработчик, уровень Middle, направление backend.
+> I want a foundation for a Java Developer profile, Middle level, backend focus.
 
 Load skill **intent-loop** (clarify → plan → confirm → execute → result).
-Domain entity: **Profile** (профиль), not Role.
+Domain entity: **Profile**, not Role.
 
 ## Data model (vault ↔ SDM)
 
 | Vault path | SDM domain |
 |---|---|
-| `ontology/*.yaml` | Skills (навыки, граф) |
-| `library/questions/*.yaml` | Questions (вопросы) |
-| `library/terms/*.yaml` | Terms (термины) |
-| `certifications/profiles/*.yaml` | Profiles (профили) |
-| `certifications/levels/*.yaml` | Levels (уровни) |
-| `exports/*.json` | Export artifacts (тесты, курсы, шпаргалки) |
+| `ontology/*.yaml` | Skills (skill graph) |
+| `library/questions/*.yaml` | Questions |
+| `library/terms/*.yaml` | Terms |
+| `certifications/profiles/*.yaml` | Profiles |
+| `certifications/levels/*.yaml` | Levels |
+| `exports/*.json` | Export artifacts (tests, courses, cheat sheets) |
 
 ## Host wire (IDE)
 
@@ -53,7 +53,7 @@ The project root is the directory containing `sdm.yaml`, returned by `locate_pro
 | **Create/edit methodology** | `sdm` `skill_add`, `question_add`, `cert_create` ... | **Always** `project` |
 | **Coverage / gaps** | `sdm` `cert_coverage`, `cert_gaps` | **Always** `project` |
 | **Export** | `sdm` `export_test`, `export_course` ... | **Always** `project` |
-| **Sync artifacts** | \`sdm\` \`player_sync\` | **Always** \`project\` |
+| **Sync artifacts** | `sdm` `player_sync` | **Always** `project` |
 
 ## Obsidian integration
 

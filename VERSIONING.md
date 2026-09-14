@@ -1,9 +1,9 @@
-# Версионирование SDM
+# SDM Versioning
 
-Единый источник правды — поле `version` в корневом `package.json` (пакет `sdm`).  
-`sdm about` / MCP `about` и MCP initialize (`serverInfo.version` + description) читают эту строку через `getProductVersion()`.
+Single source of truth — the `version` field in the root `package.json` (the `sdm` package).  
+`sdm about` / MCP `about` and MCP initialize (`serverInfo.version` + description) read this string through `getProductVersion()`.
 
-`sdm --version` печатает:
+`sdm --version` prints:
 
 ```
  ____   ____   __  __
@@ -16,61 +16,61 @@ Spec-Driven Methodology
 
 core 0.8.0-alpha.3
 
-(пустые строки после логотипа, после tagline и после версий). Тот же логотип+tagline — в `sdm` / `--help` на TTY (не на каждом `--json`-вызове).
+(blank lines after the logo, after the tagline, and after versions). Same logo+tagline appears in `sdm` / `--help` on TTY (not on each `--json` call).
 
 - `core` — product identity (SSOT / CLI);
-- `mcp` — `version` из **резолвнутого** `@spec-driven-methodology/mcp/package.json` (тот пакет, который подхватывает `mcp install`).  
-  Если строки расходятся — CLI и MCP из разных установок; после `npm run build` / `link:cli` перезапустите MCP в Cursor.
+- `mcp` — `version` from the **resolved** `@spec-driven-methodology/mcp/package.json` (the package that `mcp install` picks up).  
+  If the lines diverge — CLI and MCP come from different installations; after `npm run build` / `link:cli`, restart MCP in the host.
 
-## Формат
+## Format
 
 ```
-MAJOR.MINOR.PATCH                 # stable, например 0.9.0
-MAJOR.MINOR.PATCH-<stage>.<build> # prerelease, например 0.8.0-alpha.143
+MAJOR.MINOR.PATCH                 # stable, e.g. 0.9.0
+MAJOR.MINOR.PATCH-<stage>.<build> # prerelease, e.g. 0.8.0-alpha.143
 ```
 
 - `<stage>`: `alpha` | `beta` | `rc`
-- `<build>`: целое ≥ 1 — номер сборки **внутри стадии** (дата не входит в identity)
+- `<build>`: integer ≥ 1 — build number **within stage** (date is not part of identity)
 
-## Команды
+## Commands
 
 ```bash
-npm run version              # показать текущую identity
+npm run version              # show current identity
 npm run version:build        # …-alpha.N → …-alpha.(N+1)
-npm run version:prerelease   # то же, что version:build
+npm run version:prerelease   # same as version:build
 npm run version:major|minor|patch
-npm run version:alpha|beta|rc   # поставить стадию, build = 1
-npm run version:stable          # убрать prerelease → X.Y.Z
-npm run version:sync            # выровнять packages/* (+ lockfile)
+npm run version:alpha|beta|rc   # set stage, build = 1
+npm run version:stable          # remove prerelease → X.Y.Z
+npm run version:sync            # sync packages/* (+ lockfile)
 npm run version:sync -- 0.8.0-alpha.10 --no-lock
-npm run version:check           # drift / invalid identity (входит в verify)
+npm run version:check           # drift / invalid identity (part of verify)
 ```
 
-Все bump-команды синхронизируют workspace-пакеты. Для `build` / `prerelease` lockfile не трогается (быстрее); для semver/stage — обновляется.
+All bump-commands sync workspace packages. For `build` / `prerelease`, lockfile is not touched (faster); for semver/stage — it is updated.
 
-## Auto-bump при сборке
+## Auto-bump on build
 
-`npm run build` сначала вызывает `bump-version.mjs auto`:
+`npm run build` first calls `bump-version.mjs auto`:
 
-- если identity **prerelease** — увеличивает `<build>` и пишет packages;
-- если **stable** — ничего не меняет;
-- если `SDM_NO_BUMP_BUILD=1` — skip.
+- if identity is **prerelease** — increments `<build>` and writes packages;
+- if **stable** — no change;
+- if `SDM_NO_BUMP_BUILD=1` — skip.
 
-`npm run verify` использует `compile` (без auto-bump), чтобы CI/локальный verify не пачкал git на каждом прогоне.
+`npm run verify` uses `compile` (no auto-bump), so CI / local verify doesn't dirty git on each run.
 
-`npm run compile` — только TypeScript build + completion, без смены версии.
+`npm run compile` — only TypeScript build + completion, no version change.
 
-После локального `npm run build` / `link:cli` перезапустите MCP в Cursor — в Installed MCP Servers должна смениться `v0.8.0-alpha.N`.
+After a local `npm run build` / `link:cli`, restart MCP in the host — the Installed MCP Servers should show `v0.8.0-alpha.N`.
 
-Чтобы обновить global `npm link` **без** auto-bump prerelease:
+To update the global `npm link` **without** auto-bump prerelease:
 
 ```bash
 npm run link:refresh              # compile + link CLI/MCP + completion
 npm run link:refresh -- --mcp     # + mcp install (cursor,gigacode; cursor-root = ..)
 ```
 
-`link:cli` по-прежнему идёт через `build` (на prerelease поднимает `…-alpha.N`).
+`link:cli` still goes through `build` (on prerelease bumps `…-alpha.N`).
 
-## AI / агенты
+## AI / agents
 
-Можно сказать: «увеличь build», «переведи в beta», «сделай stable» — агент вызывает соответствующий `npm run version:*`.
+You can say: "bump the build", "move to beta", "make stable" — the agent calls the corresponding `npm run version:*`.

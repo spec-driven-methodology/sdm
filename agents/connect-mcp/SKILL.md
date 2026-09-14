@@ -2,7 +2,7 @@
 name: sdm-connect-mcp
 description: >-
   Connect SDM MCP to an AI host (GigaCode first, also Cursor) without
-  hand-editing absolute paths. Use when the user says «подключи SDM MCP»,
+  hand-editing absolute paths. Use when the user says «connect SDM MCP»,
   «enable SDM MCP», or asks to wire settings / mcp.json. Default
   `mcp install` also mirrors portable skills (`intent-loop`, …).
 license: Apache-2.0

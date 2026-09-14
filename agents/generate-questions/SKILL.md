@@ -52,7 +52,7 @@ Do **not** pass `--type` together with `--mix`. Do **not** invent deferred types
    Use `context.agentPrompt`, `typeMix`, and `drafts[]` (honor `mustCoverTopic` / `avoidNearIds`). Do **not** write YAML.
 4. **Fill drafts** — replace placeholders per `draft.type`: choice → `options`/`correct`; `open` → short answer + `--expected`. Avoid duplicating `context.existingTexts`. Prefer `draft.mustCoverTopic` / `context.gap.uncoveredTopics` and `missingDifficultyBand`; pass `--topic` on validate/add.
    - For choice types: write **distractors of comparable length and surface plausibility** to the correct option (not joke shorts when the correct answer is a full sentence). Vary `correct` position (do not always put the right answer first).
-   - **Locale / terms:** match the methodology language (usually Russian). Prefer Russian stems in `text` / `options`. If an English term is unavoidable (e.g. LLM), explain it in `explanation` on first use — do not leave bare jargon as the only teaching. Same spirit as [`export-course`](../export-course/SKILL.md) locale rules.
+   - **Locale / terms:** match the methodology language (usually Russian). Prefer local-language stems in `text` / `options`. If a foreign term is unavoidable (e.g. LLM), explain it in `explanation` on first use — do not leave bare jargon as the only teaching. Same spirit as [`export-course`](../export-course/SKILL.md) locale rules.
 5. **Validate (dry-run)** — before write:
    ```bash
    sdm question validate --to-skill "<skill>" --type … --difficulty … --text "…" \

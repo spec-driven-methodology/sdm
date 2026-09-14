@@ -3,7 +3,7 @@ name: sdm-intent-loop
 description: >-
   OpenSpec-shaped methodology loop for non-developer humans: intake natural-language
   intent → clarify → structured plan → confirm → execute via SDM CLI/MCP → result.
-  Use when the user describes what they want (e.g. «основа профиля Java Middle backend»)
+  Use when the user describes what they want (e.g. «foundation of a Java Middle backend profile»)
   rather than naming CLI flags. Primary entry for greenfield and ambiguous intents.
 license: Apache-2.0
 compatibility: Requires SDM CLI on PATH and/or SDM MCP; methodology project (sdm.yaml).
@@ -17,7 +17,7 @@ metadata:
 Work in a **methodology project**. Prefer MCP tools when available, else `sdm … --json`.  
 Do **not** ask the human to type CLI flags. Do **not** hand-edit YAML when a command exists.
 
-**Domain language:** assessment track entity is **Profile** (профиль), not Role.  
+**Domain language:** assessment track entity is **Profile** (profile), not Role.  
 Map `plan.profile.id` → CLI/MCP `--profile`. Never teach humans the word Role as a SDM entity.
 
 **When to use:** human speaks intent; you run clarify → plan → confirm → execute → result.
@@ -45,7 +45,7 @@ For **profile-pack** (greenfield foundation), need at least:
 | Direction / category hint | `backend` |
 | Seed depth | questions per skill (default **3**) |
 | Export test pack? | default **no** |
-| Weight shares | requirements `weight` must sum ≈ **1**; on create SDM may normalize once (show in plan). **depth** = required mastery; **weight** = share of final score — do not conflate «усилить» |
+| Weight shares | requirements `weight` must sum ≈ **1**; on create SDM may normalize once (show in plan). **depth** = required mastery; **weight** = share of final score — do not conflate «strengthen» |
 | Add skill later | new weight needs explicit donors (`cert patch --from` / `cert reweight`) — never silent renormalize |
 
 If the human already provided everything, skip or ask 0–1 confirmations only.  
@@ -94,7 +94,7 @@ Other intents (no full pack JSON required): route after a short plan sentence + 
 | Intent | Next skill |
 |--------|------------|
 | Close gaps on existing profile/level | [`../close-coverage/SKILL.md`](../close-coverage/SKILL.md) |
-| Export test/matrix (incl. «без текстовых» → `--exclude-type open`) | [`../export-methodology/SKILL.md`](../export-methodology/SKILL.md) |
+| Export test/matrix (incl. «without text answers» → `--exclude-type open`) | [`../export-methodology/SKILL.md`](../export-methodology/SKILL.md) |
 | Audit hygiene | [`../audit-methodology/SKILL.md`](../audit-methodology/SKILL.md) |
 | Explore graph | [`../explore-ontology/SKILL.md`](../explore-ontology/SKILL.md) |
 
@@ -102,14 +102,14 @@ For export intents with type / skill / question-id preferences: map NL to `expor
 
 ### 4. Confirm
 
-**STOP.** Ask for explicit confirmation («подтверди план» / `confirm` / `apply`).  
+**STOP.** Ask for explicit confirmation («confirm the plan» / `confirm` / `apply`).  
 On edits → update plan → confirm again.  
 **MUST NOT** write before confirm.
 
 ### 5. Execute
 
 For `profile-pack`, follow [`../bootstrap-profile-pack/SKILL.md`](../bootstrap-profile-pack/SKILL.md) Phase B.
-Map plan fields: `profile` ↔ pack’s role fields until rename completes.  
+Map plan fields: `profile` ↔ pack's role fields until rename completes.  
 Write gate includes profile/profile create when that command exists (`split-role-create-from-cert` / profile variant).
 
 ### 6. Result (human-facing)
@@ -118,7 +118,7 @@ Report in natural language / structured summary — **not** a flag tutorial:
 
 1. What was created (profile, level, skills, question ids)
 2. Coverage / gaps snapshot (`hasMissing` / `hasThin`)
-3. **Next steps:** call MCP `suggest` / `sdm suggest --profile … --level … --json` (skill [`../guide-suggest/SKILL.md`](../guide-suggest/SKILL.md)) and offer 1–3 actions + levers (export, player, gaps). Do **not** list MCP tool names as the primary «что дальше?». Same when the human only asks «что дальше?» without a new concrete intent.
+3. **Next steps:** call MCP `suggest` / `sdm suggest --profile … --level … --json` (skill [`../guide-suggest/SKILL.md`](../guide-suggest/SKILL.md)) and offer 1–3 actions + levers (export, player, gaps). Do **not** list MCP tool names as the primary «what's next?». Same when the human only asks «what's next?» without a new concrete intent.
 
 Optional machine envelope:
 
@@ -131,7 +131,7 @@ Optional machine envelope:
   "level": "middle",
   "created": { "skills": [], "questions": [] },
   "gaps": { "hasMissing": false, "hasThin": true },
-  "nextIntents": ["Закрой thin по sql"]
+  "nextIntents": ["Close thin on sql"]
 }
 ```
 

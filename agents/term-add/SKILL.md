@@ -17,7 +17,7 @@ Add **library/terms** entries — not skill descriptions.
 ```bash
 sdm term add mcp \
   --term "MCP" \
-  --definition "Model Context Protocol — стандарт интеграции инструментов с LLM." \
+  --definition "Model Context Protocol — a standard for integrating tools with LLMs." \
   --alias "Model Context Protocol" \
   --skill ai-llm-basics \
   --kind concept

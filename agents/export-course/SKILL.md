@@ -3,7 +3,7 @@ name: sdm-export-course
 description: >-
   Build SDM educational materials from methodology keys (profile/level/skill/topic/questions):
   TeachingContext brief → HITL → optional ontology enrichment → agent prose → export learning.
-  Use when the human asks for учебный материал, курс, конспект, howto for learners.
+  Use when the human asks for study material, course, notes, howto for learners.
   For expert/HR interview cheat sheet (open probes, one HTML page) use ../export-kit/SKILL.md
   (export kit) — NOT export learning --format cheatsheet.
 license: Apache-2.0
@@ -27,22 +27,22 @@ Schema stays `sdm.export.course/v1`. CLI canon: `sdm export learning` (alias `ex
 
 | Control | Values | Human examples |
 |---------|--------|----------------|
-| Scope | profile+level / `--from-gaps` / `--skill` / `--topic` / `--from-questions` | «по профилю AI QA Middle», «только промпт», «по вопросу q-…» |
-| `depth` | `brief` \| `standard` \| `detailed` | «короткая…» → `brief`; «с деталями и примерами» → `detailed` |
-| `format` | see table below | «как сделать» → `howto`; «конспект» → `notes`; «курс» → `course` |
-| Practice | default on | «без практики» → `--no-practice` |
+| Scope | profile+level / `--from-gaps` / `--skill` / `--topic` / `--from-questions` | «by the AI QA Middle profile», «only the prompt», «by question q-…» |
+| `depth` | `brief` \| `standard` \| `detailed` | «short…» → `brief`; «with details and examples» → `detailed` |
+| `format` | see table below | «how to do it» → `howto`; «notes» → `notes`; «course» → `course` |
+| Practice | default on | «no practice» → `--no-practice` |
 | Locale | `--locale` or human language | prose must stay in **one** language |
 
 ### Format contracts (what you produce)
 
 | `format` | RU label | On exit (`meta.layout`) | Prose contract |
 |----------|----------|-------------------------|----------------|
-| `howto` | Инструкция | `single_doc` — one lesson stub per module | Short steps + example in the target language; **may** use a compact step skeleton. No long course narrative. |
-| `notes` | Конспект | `single_doc` | Lecture/topic notes: theses, definitions, key distinctions; not a full course |
-| `cheatsheet` | Шпаргалка (учебная) | `single_doc` | Lists/tables for **learners**; agent fills prose — not expert interview kit |
+| `howto` | Instruction | `single_doc` — one lesson stub per module | Short steps + example in the target language; **may** use a compact step skeleton. No long course narrative. |
+| `notes` | Notes | `single_doc` | Lecture/topic notes: theses, definitions, key distinctions; not a full course |
+| `cheatsheet` | Cheat sheet (study) | `single_doc` | Lists/tables for **learners**; agent fills prose — not expert interview kit |
 
 **Expert interview kit** (open/code probes, glossary, HTML for interviewer): [`../export-kit/SKILL.md`](../export-kit/SKILL.md) — `export kit`, not this skill.
-| `course` | Курс | `modular_course` | See **Course contract** below — **not** a copy of howto headings |
+| `course` | Course | `modular_course` | See **Course contract** below — **not** a copy of howto headings |
 
 Deprecated: `--format concept` → normalized to `notes` + warning `FORMAT_CONCEPT_DEPRECATED`. Prefer `notes`.
 
@@ -50,74 +50,74 @@ Same keys (skill/topic/question) + different `depth`/`format` → different pros
 
 ### Course contract (`format=course`)
 
-Level-scoped packs (`--profile` + `--level`) include a leading module `kind: overview` (`skill: course-overview`) with stubs: что это за курс / как устроен / для кого / что не входит. **Fill overview lessons first** (or together with skill lessons) before calling the pack complete.
+Level-scoped packs (`--profile` + `--level`) include a leading module `kind: overview` (`skill: course-overview`) with stubs: what this course is / how it is organized / who it is for / what is out of scope. **Fill overview lessons first** (or together with skill lessons) before calling the pack complete.
 
 For each skill/topic lesson:
 
 1. Start with a **plain-language definition** of the topic for a beginner (not an empty heading).
 2. Then: why it matters → explanation with **content-specific** headings → concrete example/scenario → what to practice next.
-3. Headings MUST reflect that lesson’s content. Do **not** reuse a fixed quartet («Проблема / Модель / Пример / Ловушки» or English equivalents) as the default skeleton for every lesson.
-4. Do **not** add a «Якоря практики» (or similar) section that only repeats `modules[].practiceQuestionIds` — practice is shown by the player / consumer from those ids.
+3. Headings MUST reflect that lesson’s content. Do **not** reuse a fixed quartet («Problem / Model / Example / Pitfalls» or English equivalents) as the default skeleton for every lesson.
+4. Do **not** add a «Practice anchors» (or similar) section that only repeats `modules[].practiceQuestionIds` — practice is shown by the player / consumer from those ids.
 5. Fill `glossary[].definition` for seeded terms you use; add `lessons[].footnotes` on first use of opaque terms when helpful.
 
 ### Human-readable titles and labels (mandatory for learner-facing packs)
 
-Learner-facing surfaces (player Курсы, exported course) show **titles**, not raw slugs:
+Learner-facing surfaces (player Courses, exported course) show **titles**, not raw slugs:
 
-- **Lesson stub titles** MUST be learner-facing. Rename a topic slug when you fill the lesson: keep the stub `id`/`topic` as the slug, but set `title` to a human label. Examples: `dockerfile` → «Dockerfile и сборка образа», `http-client` → «HTTP-клиент для LLM», `transactions` → «Транзакции в Spring», `domain-event` → «Доменные события».
-- **Prefer `topic_labels` at the ontology layer**: when a skill's topics are consistently English slugs, add `topic_labels` to the skill YAML (via `skill add --force` or a direct YAML edit through the engine) so every future export gets the label automatically and player/agents don't rely on guesswork. Example: `topic_labels: { "http-client": "HTTP-клиент для LLM" }`.
-- **Glossary entries** keep the slug as `term` (stable identity + matching), and the human label goes into `aliases`, e.g. `{ term: "http-client", aliases: ["HTTP-клиент для LLM"], definition: "…" }`.
-- Stub titles that are already plain Russian/good labels are fine as-is. Do not invent fake humanization for code identifiers; identifiers stay Latin inside fenced code.
+- **Lesson stub titles** MUST be learner-facing. Rename a topic slug when you fill the lesson: keep the stub `id`/`topic` as the slug, but set `title` to a human label. Examples: `dockerfile` → «Dockerfile and building the image», `http-client` → «HTTP client for LLM», `transactions` → «Transactions in Spring», `domain-event` → «Domain events».
+- **Prefer `topic_labels` at the ontology layer**: when a skill's topics are consistently English slugs, add `topic_labels` to the skill YAML (via `skill add --force` or a direct YAML edit through the engine) so every future export gets the label automatically and player/agents don't rely on guesswork. Example: `topic_labels: { "http-client": "HTTP client for LLM" }`.
+- **Glossary entries** keep the slug as `term` (stable identity + matching), and the human label goes into `aliases`, e.g. `{ term: "http-client", aliases: ["HTTP client for LLM"], definition: "…" }`.
+- Stub titles that are already plain labels are fine as-is. Do not invent fake humanization for code identifiers; identifiers stay Latin inside fenced code.
 
 **Bad:** lesson stub titled `http-client`, glossary term `http-client` with no alias, body heading «domain-event».
 
-**Good:** stub titled «HTTP-клиент для LLM», glossary `{ term: "http-client", aliases: ["HTTP-клиент для LLM"], definition: "…" }`.
+**Good:** stub titled «HTTP client for LLM», glossary `{ term: "http-client", aliases: ["HTTP client for LLM"], definition: "…" }`.
 
-**Bad (howto pasted into course):** every lesson = Проблема / Модель / Пример / Ловушки / Якоря практики.
+**Bad (howto pasted into course):** every lesson = Problem / Model / Example / Pitfalls / Practice anchors.
 
 ### Grounding project examples (no unexplained project jargon)
 
 Courses generated against a real codebase (like agentplatform) must be readable without the project in front of the reader. A learner does not know the project's classes, tables, or event names by heart.
 
-- **Introduce every project artifact on first use**: say what it is and its role before referencing it. Not «Read model обновляется из событий», but «Read model (отдельная таблица чтения `task_view`, построенная под запросы) обновляется из доменных событий: когда публикуется `AgentTaskCreated`, проекция вставляет строку в read model».
-- **Команда против факта**: if you reference a code class (`AgentTask`, `TaskRepository`, `JpaTaskRepository`), give one line on what it is (агрегат задачи / порт репозитория / JPA-адаптер). Use `glossary` or a `footnote` for the first mention when a term is opaque.
-- **Cut the «В проекте» section when it teaches nothing**: if the project example does not add a distinction a learner couldn't get from a general example, replace it with a generic concrete example (request/response, SQL, code snippet) and drop the project reference.
+- **Introduce every project artifact on first use**: say what it is and its role before referencing it. Not «The read model is updated from events», but «The read model (a dedicated read table `task_view`, built for queries) is updated from domain events: when `AgentTaskCreated` is published, the projection inserts a row into the read model».
+- **Command vs fact**: if you reference a code class (`AgentTask`, `TaskRepository`, `JpaTaskRepository`), give one line on what it is (task aggregate / repository port / JPA adapter). Use `glossary` or a `footnote` for the first mention when a term is opaque.
+- **Cut the «In the project» section when it teaches nothing**: if the project example does not add a distinction a learner couldn't get from a general example, replace it with a generic concrete example (request/response, SQL, code snippet) and drop the project reference.
 - **Keep project examples pointed**: prefer one small end-to-end walkthrough per lesson (create task → outbox → relay → Kafka → consumer → read model) over scattered mentions of many classes. A single repeated canonical example is easier to follow than five disconnected ones.
-- **Общая картина**: when topics are shuffled, each lesson should anchor back to the same mental model (the course's canonical architecture) — one sentence «этот приём живёт в слое инфраструктуры, рядом с outbox-релеем, который мы разобрали в уроке про Kafka» helps the reader assemble the picture.
+- **The big picture**: when topics are shuffled, each lesson should anchor back to the same mental model (the course's canonical architecture) — one sentence «this technique lives in the infrastructure layer, next to the outbox relay we covered in the lesson on Kafka» helps the reader assemble the picture.
 
-**Bad:** «Read model обновляется из событий: AgentTaskCreated → проекция обновляет таблицу чтения» (непонятно, что такое read model и откуда таблица).
+**Bad:** «The read model is updated from events: AgentTaskCreated → the projection updates the read table» (unclear what a read model is and where the table comes from).
 
-**Good:** «Read model — отдельная модель чтения, заточенная под запросы (в проекте — таблица `task_view`). Она не хранит бизнес-правил и пересобирается из событий: когда агрегат создаёт задачу, публикуется доменное событие `AgentTaskCreated`; проекция-слушатель ловит его и вставляет строку в `task_view`».
+**Good:** «A read model is a separate read model tuned for queries (in the project — the `task_view` table). It holds no business rules and is rebuilt from events: when the aggregate creates a task, the domain event `AgentTaskCreated` is published; a listener projection catches it and inserts a row into `task_view`».
 
-**Good (course lesson sketch, RU):**
+**Good (course lesson sketch):**
 
 ```markdown
-# Недетерминизм ответов
+# Non-determinism of answers
 
-Недетерминизм — свойство генеративной модели давать **разные формулировки**
-на один и тот же вопрос при повторных прогонах.
+Non-determinism is a property of a generative model that produces **different wordings**
+for the same question on repeated runs.
 
-## Зачем это важно тестировщику
+## Why this matters to a tester
 
-Один «удачный» ответ не доказывает стабильность качества. Нужны критерии
-приёмки и повторные прогоны ключевых кейсов.
+One «lucky» answer does not prove stable quality. You need acceptance
+criteria and repeated runs of key cases.
 
-## Как проверять на практике
+## How to check in practice
 
-1. Зафиксируйте рубрику (факты и отказы — жёстко; формулировки — гибко).
-2. Прогоните кейс 2–3 раза.
-3. Расхождение по фактам или политике — дефект; другая формулировка при том же смысле — обычно нет.
+1. Fix the rubric (facts and refusals — strictly; wordings — flexibly).
+2. Run the case 2–3 times.
+3. A discrepancy in facts or policy is a defect; a different wording with the same meaning usually is not.
 
-## Пример
+## Example
 
-Три раза спросить про запретную тему: каждый раз должен быть отказ по политике продукта.
+Ask three times about a forbidden topic: each time there must be a refusal under the product policy.
 ```
 
 ### Locale and terms (mandatory)
 
 - Prose language = `--locale` if set, else the human's language / methodology language.
-- Do **not** leave unexplained foreign jargon as the only teaching of a concept (*primer*, *acceptable use*, *grounding* without Russian definition).
-- On first use: Russian definition inline and/or `glossary` / `footnotes`. Latin **identifiers** OK: skill/question ids, CLI flags, API names, fenced code.
+- Do **not** leave unexplained foreign jargon as the only teaching of a concept (*primer*, *acceptable use*, *grounding* without a local-language definition).
+- On first use: inline definition and/or `glossary` / `footnotes`. Latin **identifiers** OK: skill/question ids, CLI flags, API names, fenced code.
 - Soft SDM warning `PROSE_LOCALE_MIXED` if filled bodies mix scripts outside fences — fix before delivery.
 - Speak to the methodologist in their language too.
 
@@ -127,7 +127,7 @@ Courses generated against a real codebase (like agentplatform) must be readable 
 2. **Propose** format + depth (+ scope) → **wait for human confirm**.
 3. **Generate lesson bodies** outside SDM based on the methodology keys:
    - Review skill descriptions, topics, questions (via `skill list`, `cert coverage`, individual skill/queston reads)
-   - Write markdown bodies matching `controls.depth` / `controls.format` / locale. Neutral expert tone (no «привет / молодец / ты» unless asked).
+   - Write markdown bodies matching `controls.depth` / `controls.format` / locale. Neutral expert tone (no «hi / well done / you» unless asked).
    - Fill overview module first (if `format=course` and level-scoped).
    - Fill `glossary[].definition` for terms you use; add `lessons[].footnotes` on first use of opaque terms.
    - **Hint**: use `sdm list skills --json`, `sdm cert coverage --profile P --level L --json`, and read individual skill/question YAMLs to gather TeachingContext without an export call.
@@ -139,7 +139,7 @@ Courses generated against a real codebase (like agentplatform) must be readable 
    ```
    MCP: `export_learning` (alias `export_course`).
 5. **Write final JSON** to `exports/` for the consumer. The document includes `schemaVersion: sdm.export.course/v1`, `id`, `meta.revision`.
-6. Optional next: same scope → `export test`; author preview in `player/` (**Курсы**, after `player sync --force`); `suggest` for levers.
+6. Optional next: same scope → `export test`; author preview in `player/` (**Courses**, after `player sync --force`); `suggest` for levers.
 
 ## Guardrails
 
