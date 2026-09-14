@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 (before 1.0 the API may still change).
 
+## [2.0.0] - 2026-09-14
+
+### Changed
+
+- **Complete rebrand to SDM (Spec-Driven Methodology)** — all public packages renamed to `@spec-driven-methodology/*`, binary `sdm`, no Specra references in code (`52d515b`, up to `8acab73`)
+- **Bilingual player** — English-primary UI with EN/RU language toggle in the header; all strings moved to an i18n dictionary with `t()` function; language persisted in `localStorage('sdm.player.lang')` (`8acab73`)
+- **Repo hygiene** — `node_modules/` and `packages/*/dist/` removed from git and ignored; internal `plans/` and `reference/` materials moved to a private repository (`a4caae9`)
+- **Docs translated to English** — README, AGENTS.md, GETTING_STARTED.md, ABOUT.md, VERSIONING.md, CHANGELOG.md, all `agents/*/SKILL.md`, ADR, obsidian-integration, player READMEs
+
 ## [1.4.0] - 2026-09-13
 
 ### Changed
