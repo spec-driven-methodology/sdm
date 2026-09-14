@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 (before 1.0 the API may still change).
 
+## [2.1.1] - 2026-09-14
+
+### Changed
+
+- **Unify methodology model** — two views instead of one mixed chain: Layers (static: Specification → Computation → Presentation) and Lifecycle (dynamic: Human Intent → Agent → CLI/MCP → SDM → Specs YAML). Content (questions, terms) is part of the ontology (nodes with `kind`), not a separate layer. Export is delivery mechanics (Presentation), not a stage of the artifact chain. `ABOUT.md`, `methodology/concept.md`, glossary, org-README, and landing pages (EN/RU) updated accordingly.
+
+### Fixed
+
+- **About test assertion** — updated to match the canonical wording (ontology nodes vs library/content).
+
 ## [2.1.0] - 2026-09-14
 
 ### Added
