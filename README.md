@@ -38,4 +38,4 @@ You do not need to type CLI flags — CLI is for the agent.
 
 For agents: see `AGENTS.md` and portable skills (`intent-loop`, …) after `mcp install`.
 
-Why SDM, not just an agent with a model: [docs/WHY_SDM.md](docs/WHY_SDM.md)
+Why SDM, not just an agent with a model: [methodology/why-sdm.md](https://github.com/spec-driven-methodology/methodology/blob/main/why-sdm.md)
