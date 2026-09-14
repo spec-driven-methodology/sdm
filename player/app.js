@@ -1,4 +1,405 @@
 (() => {
+  const UI = {
+    en: {
+      "nav.course": "Course",
+      "nav.kit": "Cheat sheet",
+      "nav.test": "Test",
+      "nav.stats": "Results",
+      "load.library.heading.kits": "Loaded cheat sheets",
+      "load.library.heading.courses": "Loaded courses",
+      "load.library.heading.tests": "Loaded tests",
+      "load.dropzone.kit": "Drop kit JSON here or click to select (multiple allowed)",
+      "load.dropzone.course": "Drop course JSON here or click to select (multiple allowed)",
+      "load.dropzone.test": "Drop test JSON here or click to select (multiple allowed)",
+      "err.notJson": "The file is not valid JSON.",
+      "err.badDoc": "Invalid document.",
+      "err.noQuestions": "The document must have a non-empty questions array.",
+      "err.courseNeedsModules": "The course document must have a modules array.",
+      "err.kitNeedsModules": "The kit document must have a modules array.",
+      "err.kitNeedsGlossary": "The kit document must have a glossary array.",
+      "err.kitNeedsChecklist": "The kit document must have a checklist array.",
+      "lib.open": "Open",
+      "lib.start": "Start",
+      "lib.remove": "Remove",
+      "lib.fallback.course": "Course",
+      "lib.fallback.kit": "Cheat sheet",
+      "err.saveTests": "Could not save the test library to localStorage (no space). Remove some entries or clear browser storage. The current page session is kept in memory.",
+      "err.saveCourses": "Could not save the course library to localStorage (no space). Remove some entries or clear browser storage. The current page session is kept in memory.",
+      "err.saveKits": "Could not save the cheat-sheet library to localStorage (no space). Remove some entries or clear browser storage.",
+      "err.testsCorrupted": "The saved test library was corrupted and has been reset. Load the JSON again.",
+      "err.coursesCorrupted": "The saved course library was corrupted and has been reset. Load the JSON again.",
+      "err.kitsCorrupted": "The saved cheat-sheet library was corrupted and has been reset. Load the JSON again.",
+      "err.minutesInvalid": "Enter a whole number of minutes \u2265 1 or leave the field empty.",
+      "err.noAnswer": "First select or enter an answer (or skip).",
+      "err.unsupportedType": "Unsupported question type: {type}",
+      "err.meta.profile": "profile: {v}",
+      "err.meta.level": "level: {v}",
+      "err.meta.threshold": "threshold: {v}",
+      "err.meta.questions": "{n} questions",
+      "err.saveTestsMsg": "Could not save the test library: {msg}",
+      "err.saveCoursesMsg": "Could not save the course library: {msg}",
+      "err.saveKitsMsg": "Could not save the cheat-sheet library: {msg}",
+      "err.loadUrl": "Could not load {label}",
+      "err.loadError": "{file}: {msg}",
+      "err.loadError.file": "file",
+      "err.noSchema": "schemaVersion is missing. Expected {test}, {course} or {kit}.",
+      "err.badSchema": "Unsupported schemaVersion \"{version}\". Expected {test}, {course} or {kit}.",
+      "meta.count.module": "module",
+      "meta.count.modules": "modules",
+      "meta.count.modulesMany": "modules",
+      "meta.count.lesson": "lesson",
+      "meta.count.lessons": "lessons",
+      "meta.count.lessonsMany": "lessons",
+      "meta.count.probe": "probe",
+      "meta.count.probes": "probes",
+      "meta.count.probesMany": "probes",
+      "meta.count.question": "question",
+      "meta.count.questions": "questions",
+      "meta.count.course": "course",
+      "practice.title": "Practice",
+      "practice.fromCourse": "{n} questions \u00b7 practice from course",
+      "course.about": "About the course",
+      "course.module": "Module {n}",
+      "course.lesson": "Lesson {n}",
+      "course.noLessons": "No lessons",
+      "course.noLessonsBody": "This course has no lessons to view.",
+      "course.noLessonText": "No lesson text (empty body \u2014 brief not filled in yet).",
+      "course.warningsOnlyAuthor": "The list of fixes is below. Visible only to the course author.",
+      "course.footnotes": "Footnotes",
+      "course.terms": "Course terms",
+      "course.termsIntro": "Full list of course terms. In regular lessons only footnotes for this section\u2019s terms are shown below the text.",
+      "course.ref": "Reference",
+      "course.rerework": "To rework",
+      "course.rereworkTitle": "Course fixes",
+      "course.warningsBadge": "Fixes: {n}",
+      "course.warningsTitle": "Course fixes ({n})",
+      "course.warningsLead": "Technical notes for the author, not for the reader.",
+      "course.practice": "Module practice",
+      "course.practiceIds": "Practice questions ({n})",
+      "course.practiceRun": "Run practice ({n})",
+      "course.practiceNeedTest": "Load a paired {code}export test{/code} on the Tests tab to run practice here.",
+      "course.practiceFromLibrary": "{n} questions from library",
+      "course.noModules": "The course has no modules or lessons.",
+      "kit.title": "Cheat sheet",
+      "kit.revision": "revision {n}",
+      "kit.warnHead": "What to fix in the standard",
+      "kit.warnLead": "Fix in YAML, not in HTML. Export is not blocked.",
+      "kit.warnNoProbe": "No interviewer questions: \u00ab{skill}\u00bb",
+      "kit.warnNoProbeDetail": "The cheat sheet shows only open and code questions with a reference answer. Choice questions are for test export.",
+      "kit.warnNoProbeAction": "Add open questions with explanations to the SDM Library, then rebuild the cheat sheet.",
+      "kit.warnNoRef": "No reference answer for question {id}",
+      "kit.warnNoRefDetail": "Add an explanation (reference answer) to the open question in the SDM Library.",
+      "kit.warnNoSkillDesc": "Empty skill description \u00ab{skill}\u00bb",
+      "kit.warnNoSkillDescDetail": "Fill in the skill description in the ontology (ontology/).",
+      "kit.emptyProbes": "No interviewer questions",
+      "kit.needOpen": "Need {strong}open{/strong} or {strong}code{/strong} questions with an explanation (reference answer), like \u00abWhat is\u2026?\u00bb",
+      "kit.hasTestOnly": "The SDM Library already has {strong}{n}{/strong} choice questions \u2014 they are for test export.",
+      "kit.noQuestionsYet": "The SDM Library has no questions for this skill yet.",
+      "kit.addOpenAction": "Add open questions with explanations to the SDM Library and rebuild the cheat sheet. Skill:",
+      "kit.qLabel": "Question for the expert",
+      "kit.covers": "Covers:",
+      "kit.reference": "Reference:",
+      "kit.expected": "Expected:",
+      "kit.rubric": "Rubric:",
+      "kit.keyTopics": "Key topics:",
+      "kit.moduleFallback": "Module",
+      "kit.meta.depth": "depth {v}",
+      "kit.meta.weight": "weight {v}",
+      "kit.glossary": "Glossary",
+      "kit.term": "Term",
+      "kit.definition": "Definition",
+      "kit.checklist": "Level checklist",
+      "kit.checklistIntro": "Check each skill. {strong}Weight{/strong} \u2014 priority and time (sum \u2248 1). {strong}Depth / L{/strong} \u2014 how hard to dig into follow-ups.",
+      "kit.skill": "Skill",
+      "kit.depthMeaning": "L / meaning",
+      "kit.depth": "Depth",
+      "kit.weight": "Weight",
+      "kit.modules": "Modules",
+      "kit.noModulesInExports": "No kit JSON in exports/ for this tab.",
+      "kit.noCourseInExports": "No course JSON in exports/ for this tab (there are tests \u2014 switch to Tests).",
+      "kit.noTestInExports": "No test JSON in exports/ for this tab (there are courses \u2014 switch to Courses).",
+      "kit.exports.kits": "Cheat sheets in exports/",
+      "kit.exports.courses": "Courses in exports/",
+      "kit.exports.tests": "Tests in exports/",
+      "test.feedback.correct": "Correct.",
+      "test.feedback.incorrect": "Incorrect.",
+      "test.feedback.skipped": "Skipped.",
+      "test.feedback.unscored": "Recorded without auto-check.",
+      "test.placeholder.open": "Enter a short answer\u2026",
+      "test.placeholder.code": "Notes (code is not auto-checked)\u2026",
+      "test.criteria": "Grading criteria",
+      "test.difficulty": "difficulty {v}",
+      "test.emptyText": "(empty question text)",
+      "test.stats.correct": "Correct",
+      "test.stats.incorrect": "Incorrect",
+      "test.stats.skipped": "Skipped",
+      "test.stats.unscored": "Unscored",
+      "test.stats.percent": "Percent",
+      "test.stats.weighted": "Weighted",
+      "test.stats.summary.timeUp": "time is up",
+      "test.stats.summary.score": "{correct} correct / {scored} scored ({pct}%)",
+      "test.stats.summary.skipped": "{n} skipped",
+      "test.stats.summary.unscored": "{n} unscored",
+      "test.stats.summary.weighted": "weighted score {v}",
+      "test.stats.summary.threshold": "weighted {v} of threshold {t} \u2192 {result}",
+      "test.stats.result.pass": "threshold passed",
+      "test.stats.result.fail": "below threshold",
+
+      "nav.home": "Home",
+      "load.title": "Load export JSON",
+      "load.tabs.label": "Export type",
+      "load.tab.tests": "Tests",
+      "load.tab.courses": "Courses",
+      "load.tab.kits": "Cheat sheets",
+      "load.exports.heading": "Files in exports/",
+      "load.dropzone": "Drop files here or click to select (multiple allowed)",
+      "load.options": "Session options",
+      "load.opt.autonext": "Auto-advance after check (~1 s)",
+      "load.opt.shuffle": "Shuffle questions",
+      "load.opt.shuffleOptions": "Shuffle options",
+      "load.opt.timed": "Limit time",
+      "load.opt.minutes": "Total minutes (empty = N × 1 min)",
+      "load.opt.minutes.placeholder": "auto",
+      "course.title": "Course",
+      "course.modules": "Modules",
+      "course.contents": "Contents",
+      "course.practiceHint": "Practice comes from {code}practiceQuestionIds{/code} of the module (not from a section in the lesson text).",
+      "kit.actions.home": "To library",
+      "test.actions.prev": "Back",
+      "test.actions.skip": "Skip",
+      "test.actions.check": "Check",
+      "test.actions.next": "Next",
+      "test.actions.finish": "Finish",
+      "test.actions.home": "To library",
+      "test.stats.title": "Results",
+      "test.stats.bySkill": "By skill",
+      "test.stats.skill": "Skill",
+      "test.stats.weight": "Weight",
+      "test.stats.ratio": "Ratio",
+      "lang.switch": "Switch language",
+    },
+    ru: {
+      "nav.course": "\u041a\u0443\u0440\u0441",
+      "nav.kit": "\u0428\u043f\u0430\u0440\u0433\u0430\u043b\u043a\u0430",
+      "nav.test": "\u0422\u0435\u0441\u0442",
+      "nav.stats": "\u0420\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b",
+      "load.library.heading.kits": "\u0417\u0430\u0433\u0440\u0443\u0436\u0435\u043d\u043d\u044b\u0435 \u0448\u043f\u0430\u0440\u0433\u0430\u043b\u043a\u0438",
+      "load.library.heading.courses": "\u0417\u0430\u0433\u0440\u0443\u0436\u0435\u043d\u043d\u044b\u0435 \u043a\u0443\u0440\u0441\u044b",
+      "load.library.heading.tests": "\u0417\u0430\u0433\u0440\u0443\u0436\u0435\u043d\u043d\u044b\u0435 \u0442\u0435\u0441\u0442\u044b",
+      "load.dropzone.kit": "\u041f\u0435\u0440\u0435\u0442\u0430\u0449\u0438\u0442\u0435 kit JSON \u0441\u044e\u0434\u0430 \u0438\u043b\u0438 \u043d\u0430\u0436\u043c\u0438\u0442\u0435, \u0447\u0442\u043e\u0431\u044b \u0432\u044b\u0431\u0440\u0430\u0442\u044c (\u043c\u043e\u0436\u043d\u043e \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e)",
+      "load.dropzone.course": "\u041f\u0435\u0440\u0435\u0442\u0430\u0449\u0438\u0442\u0435 course JSON \u0441\u044e\u0434\u0430 \u0438\u043b\u0438 \u043d\u0430\u0436\u043c\u0438\u0442\u0435, \u0447\u0442\u043e\u0431\u044b \u0432\u044b\u0431\u0440\u0430\u0442\u044c (\u043c\u043e\u0436\u043d\u043e \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e)",
+      "load.dropzone.test": "\u041f\u0435\u0440\u0435\u0442\u0430\u0449\u0438\u0442\u0435 test JSON \u0441\u044e\u0434\u0430 \u0438\u043b\u0438 \u043d\u0430\u0436\u043c\u0438\u0442\u0435, \u0447\u0442\u043e\u0431\u044b \u0432\u044b\u0431\u0440\u0430\u0442\u044c (\u043c\u043e\u0436\u043d\u043e \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e)",
+      "err.notJson": "\u0424\u0430\u0439\u043b \u043d\u0435 \u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u044b\u043c JSON.",
+      "err.badDoc": "\u041d\u0435\u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u044b\u0439 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442.",
+      "err.noQuestions": "\u0412 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0435 \u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u043d\u0435\u043f\u0443\u0441\u0442\u043e\u0439 \u043c\u0430\u0441\u0441\u0438\u0432 questions.",
+      "err.courseNeedsModules": "\u0412 course-\u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0435 \u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u043c\u0430\u0441\u0441\u0438\u0432 modules.",
+      "err.kitNeedsModules": "\u0412 kit-\u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0435 \u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u043c\u0430\u0441\u0441\u0438\u0432 modules.",
+      "err.kitNeedsGlossary": "\u0412 kit-\u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0435 \u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u043c\u0430\u0441\u0441\u0438\u0432 glossary.",
+      "err.kitNeedsChecklist": "\u0412 kit-\u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0435 \u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u043c\u0430\u0441\u0441\u0438\u0432 checklist.",
+      "lib.open": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c",
+      "lib.start": "\u041d\u0430\u0447\u0430\u0442\u044c",
+      "lib.remove": "\u0423\u0434\u0430\u043b\u0438\u0442\u044c",
+      "lib.fallback.course": "\u041a\u0443\u0440\u0441",
+      "lib.fallback.kit": "\u0428\u043f\u0430\u0440\u0433\u0430\u043b\u043a\u0430",
+      "err.saveTests": "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0431\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0443 \u0442\u0435\u0441\u0442\u043e\u0432 \u0432 localStorage (\u043d\u0435\u0442 \u043c\u0435\u0441\u0442\u0430). \u0423\u0434\u0430\u043b\u0438\u0442\u0435 \u0447\u0430\u0441\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u0435\u0439 \u0438\u043b\u0438 \u043e\u0447\u0438\u0441\u0442\u0438\u0442\u0435 \u0445\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0422\u0435\u043a\u0443\u0449\u0430\u044f \u0441\u0435\u0441\u0441\u0438\u044f \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u044b \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0430 \u0432 \u043f\u0430\u043c\u044f\u0442\u0438.",
+      "err.saveCourses": "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0431\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0443 \u043a\u0443\u0440\u0441\u043e\u0432 \u0432 localStorage (\u043d\u0435\u0442 \u043c\u0435\u0441\u0442\u0430). \u0423\u0434\u0430\u043b\u0438\u0442\u0435 \u0447\u0430\u0441\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u0435\u0439 \u0438\u043b\u0438 \u043e\u0447\u0438\u0441\u0442\u0438\u0442\u0435 \u0445\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0422\u0435\u043a\u0443\u0449\u0430\u044f \u0441\u0435\u0441\u0441\u0438\u044f \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u044b \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0430 \u0432 \u043f\u0430\u043c\u044f\u0442\u0438.",
+      "err.saveKits": "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0431\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0443 \u0448\u043f\u0430\u0440\u0433\u0430\u043b\u043e\u043a \u0432 localStorage (\u043d\u0435\u0442 \u043c\u0435\u0441\u0442\u0430). \u0423\u0434\u0430\u043b\u0438\u0442\u0435 \u0447\u0430\u0441\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u0435\u0439 \u0438\u043b\u0438 \u043e\u0447\u0438\u0441\u0442\u0438\u0442\u0435 \u0445\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430.",
+      "err.testsCorrupted": "\u0421\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u0430\u044f \u0431\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0430 \u0442\u0435\u0441\u0442\u043e\u0432 \u043f\u043e\u0432\u0440\u0435\u0436\u0434\u0435\u043d\u0430 \u0438 \u0431\u044b\u043b\u0430 \u0441\u0431\u0440\u043e\u0448\u0435\u043d\u0430. \u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u0435 JSON \u0441\u043d\u043e\u0432\u0430.",
+      "err.coursesCorrupted": "\u0421\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u0430\u044f \u0431\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0430 \u043a\u0443\u0440\u0441\u043e\u0432 \u043f\u043e\u0432\u0440\u0435\u0436\u0434\u0435\u043d\u0430 \u0438 \u0431\u044b\u043b\u0430 \u0441\u0431\u0440\u043e\u0448\u0435\u043d\u0430. \u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u0435 JSON \u0441\u043d\u043e\u0432\u0430.",
+      "err.kitsCorrupted": "\u0421\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u0430\u044f \u0431\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0430 \u0448\u043f\u0430\u0440\u0433\u0430\u043b\u043e\u043a \u043f\u043e\u0432\u0440\u0435\u0436\u0434\u0435\u043d\u0430 \u0438 \u0431\u044b\u043b\u0430 \u0441\u0431\u0440\u043e\u0448\u0435\u043d\u0430. \u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u0435 JSON \u0441\u043d\u043e\u0432\u0430.",
+      "err.minutesInvalid": "\u0423\u043a\u0430\u0436\u0438\u0442\u0435 \u0446\u0435\u043b\u043e\u0435 \u0447\u0438\u0441\u043b\u043e \u043c\u0438\u043d\u0443\u0442 \u2265 1 \u0438\u043b\u0438 \u043e\u0441\u0442\u0430\u0432\u044c\u0442\u0435 \u043f\u043e\u043b\u0435 \u043f\u0443\u0441\u0442\u044b\u043c.",
+      "err.noAnswer": "\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u0432\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0438\u043b\u0438 \u0432\u0432\u0435\u0434\u0438\u0442\u0435 \u043e\u0442\u0432\u0435\u0442 (\u0438\u043b\u0438 \u043f\u0440\u043e\u043f\u0443\u0441\u0442\u0438\u0442\u0435).",
+      "err.unsupportedType": "\u041d\u0435\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u043c\u044b\u0439 \u0442\u0438\u043f \u0432\u043e\u043f\u0440\u043e\u0441\u0430: {type}",
+      "err.meta.profile": "\u043f\u0440\u043e\u0444\u0438\u043b\u044c: {v}",
+      "err.meta.level": "\u0443\u0440\u043e\u0432\u0435\u043d\u044c: {v}",
+      "err.meta.threshold": "\u043f\u043e\u0440\u043e\u0433: {v}",
+      "err.meta.questions": "{n} \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432",
+      "err.saveTestsMsg": "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0431\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0443 \u0442\u0435\u0441\u0442\u043e\u0432: {msg}",
+      "err.saveCoursesMsg": "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0431\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0443 \u043a\u0443\u0440\u0441\u043e\u0432: {msg}",
+      "err.saveKitsMsg": "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0431\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0443 \u0448\u043f\u0430\u0440\u0433\u0430\u043b\u043e\u043a: {msg}",
+      "err.loadUrl": "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c {label}",
+      "err.loadError": "{file}: {msg}",
+      "err.loadError.file": "\u0444\u0430\u0439\u043b",
+      "err.noSchema": "\u041d\u0435 \u0443\u043a\u0430\u0437\u0430\u043d schemaVersion. \u041e\u0436\u0438\u0434\u0430\u0435\u0442\u0441\u044f {test}, {course} \u0438\u043b\u0438 {kit}.",
+      "err.badSchema": "\u041d\u0435\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u043c\u044b\u0439 schemaVersion \"{version}\". \u041e\u0436\u0438\u0434\u0430\u0435\u0442\u0441\u044f {test}, {course} \u0438\u043b\u0438 {kit}.",
+      "meta.count.module": "\u043c\u043e\u0434\u0443\u043b\u044c",
+      "meta.count.modules": "\u043c\u043e\u0434\u0443\u043b\u044f",
+      "meta.count.modulesMany": "\u043c\u043e\u0434\u0443\u043b\u0435\u0439",
+      "meta.count.lesson": "\u0443\u0440\u043e\u043a",
+      "meta.count.lessons": "\u0443\u0440\u043e\u043a\u0430",
+      "meta.count.lessonsMany": "\u0443\u0440\u043e\u043a\u043e\u0432",
+      "meta.count.probe": "\u043f\u0440\u043e\u0431\u0430",
+      "meta.count.probes": "\u043f\u0440\u043e\u0431\u044b",
+      "meta.count.probesMany": "\u043f\u0440\u043e\u0431",
+      "meta.count.question": "\u0432\u043e\u043f\u0440\u043e\u0441",
+      "meta.count.questions": "\u0432\u043e\u043f\u0440\u043e\u0441\u0430",
+      "meta.count.course": "\u043a\u0443\u0440\u0441",
+      "practice.title": "\u041f\u0440\u0430\u043a\u0442\u0438\u043a\u0430",
+      "practice.fromCourse": "{n} \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u00b7 \u043f\u0440\u0430\u043a\u0442\u0438\u043a\u0430 \u0438\u0437 \u043a\u0443\u0440\u0441\u0430",
+      "course.about": "\u041e \u043a\u0443\u0440\u0441\u0435",
+      "course.module": "\u041c\u043e\u0434\u0443\u043b\u044c {n}",
+      "course.lesson": "\u0423\u0440\u043e\u043a {n}",
+      "course.noLessons": "\u041d\u0435\u0442 \u0443\u0440\u043e\u043a\u043e\u0432",
+      "course.noLessonsBody": "\u0412 \u044d\u0442\u043e\u043c \u043a\u0443\u0440\u0441\u0435 \u043d\u0435\u0442 \u0443\u0440\u043e\u043a\u043e\u0432 \u0434\u043b\u044f \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430.",
+      "course.noLessonText": "\u041d\u0435\u0442 \u0442\u0435\u043a\u0441\u0442\u0430 \u0443\u0440\u043e\u043a\u0430 (\u043f\u0443\u0441\u0442\u043e\u0439 body \u2014 \u0435\u0449\u0451 \u043d\u0435 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043d\u044b\u0439 brief).",
+      "course.warningsOnlyAuthor": "\u0421\u043f\u0438\u0441\u043e\u043a \u0434\u043e\u0440\u0430\u0431\u043e\u0442\u043e\u043a \u043d\u0438\u0436\u0435. \u041e\u043d\u0438 \u0432\u0438\u0434\u043d\u044b \u0442\u043e\u043b\u044c\u043a\u043e \u0430\u0432\u0442\u043e\u0440\u0443 \u043a\u0443\u0440\u0441\u0430.",
+      "course.footnotes": "\u0421\u043d\u043e\u0441\u043a\u0438",
+      "course.terms": "\u0422\u0435\u0440\u043c\u0438\u043d\u044b \u043a\u0443\u0440\u0441\u0430",
+      "course.termsIntro": "\u041f\u043e\u043b\u043d\u044b\u0439 \u0441\u043f\u0438\u0441\u043e\u043a \u0442\u0435\u0440\u043c\u0438\u043d\u043e\u0432 \u043a\u0443\u0440\u0441\u0430. \u0412 \u043e\u0431\u044b\u0447\u043d\u044b\u0445 \u0443\u0440\u043e\u043a\u0430\u0445 \u043d\u0438\u0436\u0435 \u0442\u0435\u043a\u0441\u0442\u0430 \u043f\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u044e\u0442\u0441\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u0441\u043d\u043e\u0441\u043a\u0438 \u043f\u043e \u0442\u0435\u0440\u043c\u0438\u043d\u0430\u043c \u044d\u0442\u043e\u0433\u043e \u0440\u0430\u0437\u0434\u0435\u043b\u0430.",
+      "course.ref": "\u0421\u043f\u0440\u0430\u0432\u043e\u0447\u043d\u0438\u043a",
+      "course.rerework": "\u0414\u043e\u0440\u0430\u0431\u043e\u0442\u043a\u0438",
+      "course.rereworkTitle": "\u0414\u043e\u0440\u0430\u0431\u043e\u0442\u043a\u0438 \u043a\u0443\u0440\u0441\u0430",
+      "course.warningsBadge": "\u0414\u043e\u0440\u0430\u0431\u043e\u0442\u043a\u0438: {n}",
+      "course.warningsTitle": "\u0414\u043e\u0440\u0430\u0431\u043e\u0442\u043a\u0438 \u043a\u0443\u0440\u0441\u0430 ({n})",
+      "course.warningsLead": "\u0422\u0435\u0445\u043d\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u0437\u0430\u043c\u0435\u0447\u0430\u043d\u0438\u044f \u0434\u043b\u044f \u0430\u0432\u0442\u043e\u0440\u0430, \u043d\u0435 \u0434\u043b\u044f \u0447\u0438\u0442\u0430\u0442\u0435\u043b\u044f.",
+      "course.practice": "\u041f\u0440\u0430\u043a\u0442\u0438\u043a\u0430 \u043c\u043e\u0434\u0443\u043b\u044f",
+      "course.practiceIds": "\u0412\u043e\u043f\u0440\u043e\u0441\u044b \u043f\u0440\u0430\u043a\u0442\u0438\u043a\u0438 ({n})",
+      "course.practiceRun": "\u041f\u0440\u043e\u0439\u0442\u0438 \u043f\u0440\u0430\u043a\u0442\u0438\u043a\u0443 ({n})",
+      "course.practiceNeedTest": "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u0435 paired {code}export test{/code} \u043d\u0430 \u0432\u043a\u043b\u0430\u0434\u043a\u0435 \u0422\u0435\u0441\u0442\u044b, \u0447\u0442\u043e\u0431\u044b \u043f\u0440\u043e\u0439\u0442\u0438 \u043f\u0440\u0430\u043a\u0442\u0438\u043a\u0443 \u0437\u0434\u0435\u0441\u044c.",
+      "course.practiceFromLibrary": "{n} \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0438\u0437 library",
+      "course.noModules": "\u0412 \u043a\u0443\u0440\u0441\u0435 \u043d\u0435\u0442 \u043c\u043e\u0434\u0443\u043b\u0435\u0439 \u0438\u043b\u0438 \u0443\u0440\u043e\u043a\u043e\u0432.",
+      "kit.title": "\u0428\u043f\u0430\u0440\u0433\u0430\u043b\u043a\u0430",
+      "kit.revision": "\u0440\u0435\u0432\u0438\u0437\u0438\u044f {n}",
+      "kit.warnHead": "\u0427\u0442\u043e \u0434\u043e\u0440\u0430\u0431\u043e\u0442\u0430\u0442\u044c \u0432 \u044d\u0442\u0430\u043b\u043e\u043d\u0435",
+      "kit.warnLead": "\u0418\u0441\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u0432 YAML, \u043d\u0435 \u0432 HTML. \u042d\u043a\u0441\u043f\u043e\u0440\u0442 \u043d\u0435 \u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u0430\u043d.",
+      "kit.warnNoProbe": "\u041d\u0435\u0442 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0434\u043b\u044f \u0438\u043d\u0442\u0435\u0440\u0432\u044c\u044e\u0435\u0440\u0430: \u00ab{skill}\u00bb",
+      "kit.warnNoProbeDetail": "\u0428\u043f\u0430\u0440\u0433\u0430\u043b\u043a\u0430 \u043f\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u0435\u0442 \u0442\u043e\u043b\u044c\u043a\u043e \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0435 \u0438 \u043a\u043e\u0434\u043e\u0432\u044b\u0435 \u0432\u043e\u043f\u0440\u043e\u0441\u044b \u0441 \u044d\u0442\u0430\u043b\u043e\u043d\u043e\u043c. \u0422\u0435\u0441\u0442\u044b \u0441 \u0432\u0430\u0440\u0438\u0430\u043d\u0442\u0430\u043c\u0438 \u2014 \u0434\u043b\u044f \u0442\u0435\u0441\u0442\u043e\u0432\u043e\u0433\u043e \u044d\u043a\u0441\u043f\u043e\u0440\u0442\u0430.",
+      "kit.warnNoProbeAction": "\u0414\u043e\u0431\u0430\u0432\u044c\u0442\u0435 \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0435 \u0432\u043e\u043f\u0440\u043e\u0441\u044b \u0441 \u043e\u0431\u044a\u044f\u0441\u043d\u0435\u043d\u0438\u044f\u043c\u0438 \u0432 \u0411\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0443 SDM, \u0437\u0430\u0442\u0435\u043c \u043f\u0435\u0440\u0435\u0441\u043e\u0431\u0435\u0440\u0438\u0442\u0435 \u0448\u043f\u0430\u0440\u0433\u0430\u043b\u043a\u0443.",
+      "kit.warnNoRef": "\u041d\u0435\u0442 \u044d\u0442\u0430\u043b\u043e\u043d\u0430 \u0443 \u0432\u043e\u043f\u0440\u043e\u0441\u0430 {id}",
+      "kit.warnNoRefDetail": "\u0414\u043e\u043f\u0438\u0448\u0438\u0442\u0435 \u043e\u0431\u044a\u044f\u0441\u043d\u0435\u043d\u0438\u0435 (\u044d\u0442\u0430\u043b\u043e\u043d \u043e\u0442\u0432\u0435\u0442\u0430) \u0443 \u043e\u0442\u043a\u0440\u044b\u0442\u043e\u0433\u043e \u0432\u043e\u043f\u0440\u043e\u0441\u0430 \u0432 \u0411\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0435 SDM.",
+      "kit.warnNoSkillDesc": "\u041f\u0443\u0441\u0442\u043e\u0435 \u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u043d\u0430\u0432\u044b\u043a\u0430 \u00ab{skill}\u00bb",
+      "kit.warnNoSkillDescDetail": "\u0417\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u0435 \u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u043d\u0430\u0432\u044b\u043a\u0430 \u0432 \u043e\u043d\u0442\u043e\u043b\u043e\u0433\u0438\u0438 (ontology/).",
+      "kit.emptyProbes": "\u041d\u0435\u0442 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0434\u043b\u044f \u0438\u043d\u0442\u0435\u0440\u0432\u044c\u044e\u0435\u0440\u0430",
+      "kit.needOpen": "\u041d\u0443\u0436\u043d\u044b {strong}\u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0435{/strong} \u0438\u043b\u0438 {strong}\u043a\u043e\u0434\u043e\u0432\u044b\u0435{/strong} \u0432\u043e\u043f\u0440\u043e\u0441\u044b \u0441 \u043e\u0431\u044a\u044f\u0441\u043d\u0435\u043d\u0438\u0435\u043c (\u044d\u0442\u0430\u043b\u043e\u043d \u043e\u0442\u0432\u0435\u0442\u0430), \u043a\u0430\u043a \u00ab\u041a\u0430\u043a \u043d\u0430\u0437\u044b\u0432\u0430\u044e\u0442\u2026?\u00bb",
+      "kit.hasTestOnly": "\u0412 \u0411\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0435 SDM \u0443\u0436\u0435 \u0435\u0441\u0442\u044c {strong}{n}{/strong} \u0442\u0435\u0441\u0442\u043e\u0432\u044b\u0445 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0441 \u0432\u0430\u0440\u0438\u0430\u043d\u0442\u0430\u043c\u0438 \u2014 \u043e\u043d\u0438 \u0434\u043b\u044f \u0442\u0435\u0441\u0442\u043e\u0432\u043e\u0433\u043e \u044d\u043a\u0441\u043f\u043e\u0440\u0442\u0430.",
+      "kit.noQuestionsYet": "\u0412 \u0411\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0435 SDM \u043f\u043e\u043a\u0430 \u043d\u0435\u0442 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u043f\u043e \u044d\u0442\u043e\u043c\u0443 \u043d\u0430\u0432\u044b\u043a\u0443.",
+      "kit.addOpenAction": "\u0414\u043e\u0431\u0430\u0432\u044c\u0442\u0435 \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0435 \u0432\u043e\u043f\u0440\u043e\u0441\u044b \u0441 \u043e\u0431\u044a\u044f\u0441\u043d\u0435\u043d\u0438\u044f\u043c\u0438 \u0432 \u0411\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0443 SDM \u0438 \u043f\u0435\u0440\u0435\u0441\u043e\u0431\u0435\u0440\u0438\u0442\u0435 \u0448\u043f\u0430\u0440\u0433\u0430\u043b\u043a\u0443. \u041d\u0430\u0432\u044b\u043a:",
+      "kit.qLabel": "\u0412\u043e\u043f\u0440\u043e\u0441 \u044d\u043a\u0441\u043f\u0435\u0440\u0442\u0443",
+      "kit.covers": "\u0417\u0430\u043a\u0440\u044b\u0432\u0430\u0435\u0442:",
+      "kit.reference": "\u042d\u0442\u0430\u043b\u043e\u043d:",
+      "kit.expected": "\u041e\u0436\u0438\u0434\u0430\u0435\u043c\u043e\u0435:",
+      "kit.rubric": "\u0420\u0443\u0431\u0440\u0438\u043a\u0430:",
+      "kit.keyTopics": "\u041a\u043b\u044e\u0447\u0435\u0432\u044b\u0435 \u0442\u0435\u043c\u044b:",
+      "kit.moduleFallback": "\u041c\u043e\u0434\u0443\u043b\u044c",
+      "kit.meta.depth": "\u0433\u043b\u0443\u0431\u0438\u043d\u0430 {v}",
+      "kit.meta.weight": "\u0432\u0435\u0441 {v}",
+      "kit.glossary": "\u0413\u043b\u043e\u0441\u0441\u0430\u0440\u0438\u0439",
+      "kit.term": "\u0422\u0435\u0440\u043c\u0438\u043d",
+      "kit.definition": "\u041e\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u0435",
+      "kit.checklist": "\u0427\u0435\u043a\u043b\u0438\u0441\u0442 \u0443\u0440\u043e\u0432\u043d\u044f",
+      "kit.checklistIntro": "\u041e\u0442\u043c\u0435\u0442\u044c\u0442\u0435 \u043a\u0430\u0436\u0434\u044b\u0439 \u043d\u0430\u0432\u044b\u043a. {strong}\u0412\u0435\u0441{/strong} \u2014 \u043f\u0440\u0438\u043e\u0440\u0438\u0442\u0435\u0442 \u0438 \u0432\u0440\u0435\u043c\u044f (\u0441\u0443\u043c\u043c\u0430 \u2248 1). {strong}\u0413\u043b\u0443\u0431\u0438\u043d\u0430 / L{/strong} \u2014 \u043d\u0430\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0436\u0451\u0441\u0442\u043a\u043e \u043a\u043e\u043f\u0430\u0442\u044c follow-up.",
+      "kit.skill": "\u041d\u0430\u0432\u044b\u043a",
+      "kit.depthMeaning": "L / \u0441\u043c\u044b\u0441\u043b",
+      "kit.depth": "\u0413\u043b\u0443\u0431\u0438\u043d\u0430",
+      "kit.weight": "\u0412\u0435\u0441",
+      "kit.modules": "\u041c\u043e\u0434\u0443\u043b\u0438",
+      "kit.noModulesInExports": "\u0412 exports/ \u043d\u0435\u0442 kit JSON \u0434\u043b\u044f \u044d\u0442\u043e\u0439 \u0432\u043a\u043b\u0430\u0434\u043a\u0438.",
+      "kit.noCourseInExports": "\u0412 exports/ \u043d\u0435\u0442 course JSON \u0434\u043b\u044f \u044d\u0442\u043e\u0439 \u0432\u043a\u043b\u0430\u0434\u043a\u0438 (\u0435\u0441\u0442\u044c \u0442\u0435\u0441\u0442\u044b \u2014 \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0438\u0442\u0435\u0441\u044c \u043d\u0430 \u0422\u0435\u0441\u0442\u044b).",
+      "kit.noTestInExports": "\u0412 exports/ \u043d\u0435\u0442 test JSON \u0434\u043b\u044f \u044d\u0442\u043e\u0439 \u0432\u043a\u043b\u0430\u0434\u043a\u0438 (\u0435\u0441\u0442\u044c \u043a\u0443\u0440\u0441\u044b \u2014 \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0438\u0442\u0435\u0441\u044c \u043d\u0430 \u041a\u0443\u0440\u0441\u044b).",
+      "kit.exports.kits": "\u0428\u043f\u0430\u0440\u0433\u0430\u043b\u043a\u0438 \u0432 exports/",
+      "kit.exports.courses": "\u041a\u0443\u0440\u0441\u044b \u0432 exports/",
+      "kit.exports.tests": "\u0422\u0435\u0441\u0442\u044b \u0432 exports/",
+      "test.feedback.correct": "\u0412\u0435\u0440\u043d\u043e.",
+      "test.feedback.incorrect": "\u041d\u0435\u0432\u0435\u0440\u043d\u043e.",
+      "test.feedback.skipped": "\u041f\u0440\u043e\u043f\u0443\u0449\u0435\u043d\u043e.",
+      "test.feedback.unscored": "\u0417\u0430\u043f\u0438\u0441\u0430\u043d\u043e \u0431\u0435\u0437 \u0430\u0432\u0442\u043e\u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438.",
+      "test.placeholder.open": "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0439 \u043e\u0442\u0432\u0435\u0442\u2026",
+      "test.placeholder.code": "\u0417\u0430\u043c\u0435\u0442\u043a\u0438 (\u043a\u043e\u0434 \u043d\u0435 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442\u0441\u044f \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438)\u2026",
+      "test.criteria": "\u041a\u0440\u0438\u0442\u0435\u0440\u0438\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438",
+      "test.difficulty": "\u0441\u043b\u043e\u0436\u043d\u043e\u0441\u0442\u044c {v}",
+      "test.emptyText": "(\u043f\u0443\u0441\u0442\u043e\u0439 \u0442\u0435\u043a\u0441\u0442 \u0432\u043e\u043f\u0440\u043e\u0441\u0430)",
+      "test.stats.correct": "\u0412\u0435\u0440\u043d\u043e",
+      "test.stats.incorrect": "\u041d\u0435\u0432\u0435\u0440\u043d\u043e",
+      "test.stats.skipped": "\u041f\u0440\u043e\u043f\u0443\u0441\u043a",
+      "test.stats.unscored": "\u0411\u0435\u0437 \u043e\u0446\u0435\u043d\u043a\u0438",
+      "test.stats.percent": "\u041f\u0440\u043e\u0446\u0435\u043d\u0442",
+      "test.stats.weighted": "\u0412\u0437\u0432\u0435\u0448\u0435\u043d\u043d\u044b\u0439",
+      "test.stats.summary.timeUp": "\u0432\u0440\u0435\u043c\u044f \u0432\u044b\u0448\u043b\u043e",
+      "test.stats.summary.score": "{correct} \u0432\u0435\u0440\u043d\u043e / {scored} \u0441 \u043e\u0446\u0435\u043d\u043a\u043e\u0439 ({pct}%)",
+      "test.stats.summary.skipped": "{n} \u043f\u0440\u043e\u043f\u0443\u0449\u0435\u043d\u043e",
+      "test.stats.summary.unscored": "{n} \u0431\u0435\u0437 \u043e\u0446\u0435\u043d\u043a\u0438",
+      "test.stats.summary.weighted": "\u0432\u0437\u0432\u0435\u0448\u0435\u043d\u043d\u044b\u0439 \u0431\u0430\u043b\u043b {v}",
+      "test.stats.summary.threshold": "\u0432\u0437\u0432\u0435\u0448\u0435\u043d\u043d\u044b\u0439 {v} \u043f\u0440\u0438 \u043f\u043e\u0440\u043e\u0433\u0435 {t} \u2192 {result}",
+      "test.stats.result.pass": "\u043f\u043e\u0440\u043e\u0433 \u043f\u0440\u043e\u0439\u0434\u0435\u043d",
+      "test.stats.result.fail": "\u043d\u0438\u0436\u0435 \u043f\u043e\u0440\u043e\u0433\u0430",
+
+      "nav.home": "Главная",
+      "load.title": "Загрузить JSON экспорта",
+      "load.tabs.label": "Тип экспорта",
+      "load.tab.tests": "Тесты",
+      "load.tab.courses": "Курсы",
+      "load.tab.kits": "Шпаргалки",
+      "load.exports.heading": "Файлы в exports/",
+      "load.dropzone": "Перетащите файлы сюда или нажмите, чтобы выбрать (можно несколько)",
+      "load.options": "Параметры сессии",
+      "load.opt.autonext": "Автопереход после проверки (~1 с)",
+      "load.opt.shuffle": "Перетасовывать вопросы",
+      "load.opt.shuffleOptions": "Перетасовывать варианты",
+      "load.opt.timed": "Ограничить время",
+      "load.opt.minutes": "Всего минут (пусто = N × 1 мин)",
+      "load.opt.minutes.placeholder": "авто",
+      "course.title": "Курс",
+      "course.modules": "Модули",
+      "course.contents": "Содержание",
+      "course.practiceHint": "Практика берётся из {code}practiceQuestionIds{/code} модуля (не из секции в тексте урока).",
+      "kit.actions.home": "К библиотеке",
+      "test.actions.prev": "Назад",
+      "test.actions.skip": "Пропустить",
+      "test.actions.check": "Проверить",
+      "test.actions.next": "Далее",
+      "test.actions.finish": "Завершить",
+      "test.actions.home": "К библиотеке",
+      "test.stats.title": "Результаты",
+      "test.stats.bySkill": "По навыкам",
+      "test.stats.skill": "Навык",
+      "test.stats.weight": "Вес",
+      "test.stats.ratio": "Доля",
+      "lang.switch": "Переключить язык",
+    },
+  };
+  let lang = (typeof localStorage !== "undefined" && localStorage.getItem("sdm.player.lang")) || "en";
+  function t(key, vars) {
+    const dict = UI[lang] || UI.en;
+    let val = dict[key];
+    if (val == null) val = UI.en[key];
+    if (val == null) val = key;
+    if (vars) {
+      for (const [k, v] of Object.entries(vars)) {
+        val = String(val).replace(new RegExp("\\{" + k + "\\}", "g"), String(v));
+      }
+      val = val.replace(/\{strong\}(.*?)\{\/strong\}/g, "<strong>$1</strong>");
+    }
+    return val;
+  }
+  function setLang(next) {
+    lang = next === "ru" ? "ru" : "en";
+    try { localStorage.setItem("sdm.player.lang", lang); } catch { /* ignore */ }
+    document.documentElement.lang = lang;
+    applyI18n();
+  }
+  function applyI18n() {
+    // Translate static HTML via data-i18n attributes
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+      el.textContent = t(el.getAttribute("data-i18n"));
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+      el.placeholder = t(el.getAttribute("data-i18n-placeholder"));
+    });
+    document.querySelectorAll("[data-i18n-legend]").forEach((el) => {
+      el.innerText = t(el.getAttribute("data-i18n-legend"));
+    });
+    // Language button label: show the OTHER language to switch to
+    const langBtn = document.getElementById("btn-lang");
+    if (langBtn) langBtn.textContent = lang === "ru" ? "EN" : "RU";
+    document.title = t("load.title") + " — SDM";
+    // Re-render dynamic UI
+    syncHomeUi();
+    if (doc) { els.testTitle.textContent = doc.title || doc.level || t("nav.test"); }
+    if (courseDoc) openCourse(courseDoc);
+    if (kitDoc) openKit(kitDoc);
+    if (sessionQuestions.length) renderQuestion();
+  }
+
   const SCHEMA_TEST = "sdm.export.test/v1";
   const SCHEMA_COURSE = "sdm.export.course/v1";
   const SCHEMA_KIT = "sdm.export.kit/v1";
@@ -78,6 +479,7 @@
     runView: document.getElementById("run-view"),
     statsView: document.getElementById("stats-view"),
     navHome: document.getElementById("nav-home"),
+    langBtn: document.getElementById("btn-lang"),
     crumbs: document.getElementById("crumbs"),
     crumbHome: document.getElementById("crumb-home"),
     crumbCurrent: document.getElementById("crumb-current"),
@@ -189,10 +591,10 @@
       return;
     }
     els.crumbs.hidden = false;
-    if (view === "course") els.crumbCurrent.textContent = "Курс";
-    else if (view === "kit") els.crumbCurrent.textContent = "Шпаргалка";
-    else if (view === "run") els.crumbCurrent.textContent = "Тест";
-    else els.crumbCurrent.textContent = "Результаты";
+    if (view === "course") els.crumbCurrent.textContent = t("nav.course");
+    else if (view === "kit") els.crumbCurrent.textContent = t("nav.kit");
+    else if (view === "run") els.crumbCurrent.textContent = t("nav.test");
+    else els.crumbCurrent.textContent = t("nav.stats");
   }
 
   function show(view) {
@@ -293,27 +695,27 @@
     if (els.sessionOptions) els.sessionOptions.hidden = isCourses || isKits;
     if (els.libraryHeading) {
       els.libraryHeading.textContent = isKits
-        ? "Загруженные шпаргалки"
+        ? t("load.library.heading.kits")
         : isCourses
-          ? "Загруженные курсы"
-          : "Загруженные тесты";
+          ? t("load.library.heading.courses")
+          : t("load.library.heading.tests");
     }
     if (els.libraryList) {
       els.libraryList.setAttribute(
         "aria-label",
         isKits
-          ? "Загруженные шпаргалки"
+          ? t("load.library.heading.kits")
           : isCourses
-            ? "Загруженные курсы"
-            : "Загруженные тесты",
+            ? t("load.library.heading.courses")
+            : t("load.library.heading.tests"),
       );
     }
     if (els.dropzoneHint) {
       els.dropzoneHint.textContent = isKits
-        ? "Перетащите kit JSON сюда или нажмите, чтобы выбрать (можно несколько)"
+        ? t("load.dropzone.kit")
         : isCourses
-          ? "Перетащите course JSON сюда или нажмите, чтобы выбрать (можно несколько)"
-          : "Перетащите test JSON сюда или нажмите, чтобы выбрать (можно несколько)";
+          ? t("load.dropzone.course")
+          : t("load.dropzone.test");
     }
     syncSelectionUi();
     renderDiscoveredExports();
@@ -497,37 +899,37 @@
     try {
       data = JSON.parse(raw);
     } catch {
-      throw new Error("Файл не является корректным JSON.");
+      throw new Error(t("err.notJson"));
     }
     if (!data || typeof data !== "object") {
-      throw new Error("Некорректный документ.");
+      throw new Error(t("err.badDoc"));
     }
     return data;
   }
 
   function parseTestDocument(data) {
     if (!Array.isArray(data.questions) || data.questions.length === 0) {
-      throw new Error("В документе должен быть непустой массив questions.");
+      throw new Error(t("err.noQuestions"));
     }
     return data;
   }
 
   function parseCourseDocument(data) {
     if (!Array.isArray(data.modules)) {
-      throw new Error("В course-документе должен быть массив modules.");
+      throw new Error(t("err.courseNeedsModules"));
     }
     return data;
   }
 
   function parseKitDocument(data) {
     if (!Array.isArray(data.modules)) {
-      throw new Error("В kit-документе должен быть массив modules.");
+      throw new Error(t("err.kitNeedsModules"));
     }
     if (!Array.isArray(data.glossary)) {
-      throw new Error("В kit-документе должен быть массив glossary.");
+      throw new Error(t("err.kitNeedsGlossary"));
     }
     if (!Array.isArray(data.checklist)) {
-      throw new Error("В kit-документе должен быть массив checklist.");
+      throw new Error(t("err.kitNeedsChecklist"));
     }
     return data;
   }
@@ -559,7 +961,7 @@
         return { kind: "course", document: parseCourseDocument(data) };
       }
       throw new Error(
-        `Не указан schemaVersion. Ожидается ${SCHEMA_TEST}, ${SCHEMA_COURSE} или ${SCHEMA_KIT}.`,
+        t("err.noSchema",{test:SCHEMA_TEST,course:SCHEMA_COURSE,kit:SCHEMA_KIT}),
       );
     }
     if (version === SCHEMA_TEST) {
@@ -572,7 +974,7 @@
       return { kind: "kit", document: parseKitDocument(data) };
     }
     throw new Error(
-      `Неподдерживаемый schemaVersion "${version}". Ожидается ${SCHEMA_TEST}, ${SCHEMA_COURSE} или ${SCHEMA_KIT}.`,
+      t("err.badSchema",{version,test:SCHEMA_TEST,course:SCHEMA_COURSE,kit:SCHEMA_KIT}),
     );
   }
 
@@ -589,10 +991,10 @@
 
   function testMetaLine(data) {
     return [
-      data.profile && `профиль: ${data.profile}`,
-      data.level && `уровень: ${data.level}`,
-      typeof data.threshold === "number" && `порог: ${data.threshold}`,
-      `${data.questions.length} вопросов`,
+      data.profile && t("err.meta.profile",{v:data.profile}),
+      data.level && t("err.meta.level",{v:data.level}),
+      typeof data.threshold === "number" && t("err.meta.threshold",{v:data.threshold}),
+      t("err.meta.questions",{n:data.questions.length}),
     ]
       .filter(Boolean)
       .join(" · ");
@@ -613,7 +1015,7 @@
    * (single) module — prefer that over the bare fallback «Курс».
    */
   function resolveCourseDisplayTitle(data) {
-    if (!data || typeof data !== "object") return "Курс";
+    if (!data || typeof data !== "object") return t("lib.fallback.course");
     const top = typeof data.title === "string" ? data.title.trim() : "";
     if (top) return top;
     const modules = Array.isArray(data.modules) ? data.modules : [];
@@ -630,7 +1032,7 @@
     if (typeof modules[0]?.skill === "string" && modules[0].skill.trim()) {
       return modules[0].skill.trim();
     }
-    return "Курс";
+    return t("lib.fallback.course");
   }
 
   function courseMetaLine(data) {
@@ -646,19 +1048,19 @@
       controls.depth && `depth: ${controls.depth}`,
       controls.format && `format: ${controls.format}`,
       controls.locale && `locale: ${controls.locale}`,
-      ruCount(modules.length, "модуль", "модуля", "модулей"),
-      ruCount(lessons, "урок", "урока", "уроков"),
+      ruCount(modules.length, t("meta.count.module"), t("meta.count.modules"), t("meta.count.modulesMany")),
+      ruCount(lessons, t("meta.count.lesson"), t("meta.count.lessons"), t("meta.count.lessonsMany")),
     ]
       .filter(Boolean)
       .join(" · ");
   }
 
   function resolveKitDisplayTitle(data) {
-    if (!data || typeof data !== "object") return "Шпаргалка";
+    if (!data || typeof data !== "object") return t("lib.fallback.kit");
     const top = typeof data.title === "string" ? data.title.trim() : "";
     if (top) return top;
     if (data.profile && data.level) return `${data.profile} · ${data.level}`;
-    return "Шпаргалка";
+    return t("lib.fallback.kit");
   }
 
   function kitMetaLine(data) {
@@ -670,8 +1072,8 @@
     return [
       data.profile && `профиль: ${data.profile}`,
       data.level && `уровень: ${data.level}`,
-      ruCount(modules.length, "модуль", "модуля", "модулей"),
-      ruCount(probeCount, "проба", "пробы", "проб"),
+      ruCount(modules.length, t("meta.count.module"), t("meta.count.modules"), t("meta.count.modulesMany")),
+      ruCount(probeCount, t("meta.count.probe"), t("meta.count.probes"), t("meta.count.probesMany")),
     ]
       .filter(Boolean)
       .join(" · ");
@@ -734,11 +1136,11 @@
           err.code === 1014);
       if (quota) {
         setLoadError(
-          "Не удалось сохранить библиотеку тестов в localStorage (нет места). Удалите часть записей или очистите хранилище браузера. Текущая сессия страницы сохранена в памяти.",
+          t("err.saveTests"),
         );
       } else {
         setLoadError(
-          `Не удалось сохранить библиотеку тестов: ${err?.message || String(err)}`,
+          t("err.saveTestsMsg",{msg:err?.message||String(err)}),
         );
       }
       return false;
@@ -759,11 +1161,11 @@
           err.code === 1014);
       if (quota) {
         setLoadError(
-          "Не удалось сохранить библиотеку курсов в localStorage (нет места). Удалите часть записей или очистите хранилище браузера. Текущая сессия страницы сохранена в памяти.",
+          t("err.saveCourses"),
         );
       } else {
         setLoadError(
-          `Не удалось сохранить библиотеку курсов: ${err?.message || String(err)}`,
+          t("err.saveCoursesMsg",{msg:err?.message||String(err)}),
         );
       }
       return false;
@@ -784,11 +1186,11 @@
           err.code === 1014);
       if (quota) {
         setLoadError(
-          "Не удалось сохранить библиотеку шпаргалок в localStorage (нет места). Удалите часть записей или очистите хранилище браузера.",
+          t("err.saveKits"),
         );
       } else {
         setLoadError(
-          `Не удалось сохранить библиотеку шпаргалок: ${err?.message || String(err)}`,
+          t("err.saveKitsMsg",{msg:err?.message||String(err)}),
         );
       }
       return false;
@@ -834,7 +1236,7 @@
         /* ignore */
       }
       setLoadError(
-        "Сохранённая библиотека тестов повреждена и была сброшена. Загрузите JSON снова.",
+        t("err.testsCorrupted"),
       );
     }
 
@@ -892,7 +1294,7 @@
         /* ignore */
       }
       setLoadError(
-        "Сохранённая библиотека курсов повреждена и была сброшена. Загрузите JSON снова.",
+        t("err.coursesCorrupted"),
       );
     }
 
@@ -952,7 +1354,7 @@
         /* ignore */
       }
       setLoadError(
-        "Сохранённая библиотека шпаргалок повреждена и была сброшена. Загрузите JSON снова.",
+        t("err.kitsCorrupted"),
       );
     }
 
@@ -1043,10 +1445,10 @@
       title.className = "library-item-title";
       title.textContent =
         homeMode === "kits"
-          ? resolveKitDisplayTitle(entry.document) || entry.name || "Шпаргалка"
+          ? resolveKitDisplayTitle(entry.document) || entry.name || t("lib.fallback.kit")
           : homeMode === "courses"
-            ? resolveCourseDisplayTitle(entry.document) || entry.name || "Курс"
-            : entry.document.title || entry.document.level || entry.name || "Тест";
+            ? resolveCourseDisplayTitle(entry.document) || entry.name || t("lib.fallback.course")
+            : entry.document.title || entry.document.level || entry.name || t("nav.test");
 
       const meta = document.createElement("p");
       meta.className = "library-item-meta";
@@ -1070,7 +1472,7 @@
       start.type = "button";
       start.className = "library-item-start";
       start.textContent =
-        homeMode === "courses" || homeMode === "kits" ? "Открыть" : "Начать";
+        homeMode === "courses" || homeMode === "kits" ? t("lib.open") : t("lib.start");
       start.addEventListener("click", (ev) => {
         ev.stopPropagation();
         startEntry(entry.id);
@@ -1079,7 +1481,7 @@
       const remove = document.createElement("button");
       remove.type = "button";
       remove.className = "library-item-remove";
-      remove.textContent = "Удалить";
+      remove.textContent = t("lib.remove");
       remove.addEventListener("click", (ev) => {
         ev.stopPropagation();
         removeEntry(entry.id);
@@ -1257,7 +1659,7 @@
       try {
         await loadFile(file);
       } catch (err) {
-        errors.push(`${file.name || "файл"}: ${err.message || String(err)}`);
+        errors.push(t("err.loadError",{file:file.name||t("err.loadError.file"),msg:err.message||String(err)}));
       }
     }
     if (errors.length) {
@@ -1267,7 +1669,7 @@
 
   async function loadUrl(url, label) {
     const res = await fetch(url);
-    if (!res.ok) throw new Error(`Не удалось загрузить ${label || url}`);
+    if (!res.ok) throw new Error(t("err.loadUrl",{label:label||url}));
     const text = await res.text();
     const parsed = parseIncoming(text);
     upsertLibraryEntry({
@@ -1282,7 +1684,7 @@
     if (raw) {
       const mins = Number(raw);
       if (!Number.isFinite(mins) || mins < 1) {
-        throw new Error("Укажите целое число минут ≥ 1 или оставьте поле пустым.");
+        throw new Error(t("err.minutesInvalid"));
       }
       return Math.round(mins * 60_000);
     }
@@ -1309,7 +1711,7 @@
     answers = sessionQuestions.map(() => null);
     index = 0;
     finishedByTimeout = false;
-    els.testTitle.textContent = doc.title || doc.level || "Тест";
+    els.testTitle.textContent = doc.title || doc.level || t("nav.test");
     els.testMeta.textContent = testMetaLine(doc);
     show("run");
     startTimer();
@@ -1325,7 +1727,7 @@
     if (!questions.length) return;
     const practiceDoc = {
       schemaVersion: SCHEMA_TEST,
-      title: title || "Практика",
+      title: title || t("practice.title"),
       profile: courseDoc?.profile,
       level: courseDoc?.level,
       threshold: null,
@@ -1355,9 +1757,9 @@
     clearTimer();
     els.testTitle.textContent = practiceDoc.title;
     els.testMeta.textContent = [
-      practiceDoc.profile && `профиль: ${practiceDoc.profile}`,
-      practiceDoc.level && `уровень: ${practiceDoc.level}`,
-      `${sessionQuestions.length} вопросов · практика из курса`,
+      practiceDoc.profile && t("err.meta.profile",{v:practiceDoc.profile}),
+      practiceDoc.level && t("err.meta.level",{v:practiceDoc.level}),
+      t("practice.fromCourse",{n:sessionQuestions.length}),
     ]
       .filter(Boolean)
       .join(" · ");
@@ -1386,8 +1788,8 @@
       const moduleKind = mod.kind || "skill";
       const moduleTitle =
         moduleKind === "overview"
-          ? mod.title || "О курсе"
-          : mod.title || mod.skill || `Модуль ${moduleIndex + 1}`;
+          ? mod.title || t("course.about")
+          : mod.title || mod.skill || t("course.module",{n:moduleIndex+1});
       const moduleSkill = mod.skill || "";
       const navModuleIndex = orderIndex;
       if (lessons.length === 0) {
@@ -1416,7 +1818,7 @@
           moduleKind,
           practiceQuestionIds,
           id: lesson.id || `${mod.skill || moduleIndex}-${lessonIndex}`,
-          title: lesson.title || `Урок ${lessonIndex + 1}`,
+          title: lesson.title || t("course.lesson",{n:lessonIndex+1}),
           topic: lesson.topic,
           body: typeof lesson.body === "string" ? lesson.body : "",
           footnotes: Array.isArray(lesson.footnotes) ? lesson.footnotes : [],
@@ -1435,12 +1837,12 @@
       flatIndex: flat.length,
       moduleIndex,
       lessonIndex: 0,
-      moduleTitle: "Доработки",
+      moduleTitle: t("course.rerework"),
       moduleSkill: "course-warnings",
       moduleKind: "warnings",
       practiceQuestionIds: [],
       id: "course-warnings--list",
-      title: "Доработки курса",
+      title: t("course.rereworkTitle"),
       body: "",
       footnotes: [],
       isWarningsPage: true,
@@ -1470,14 +1872,14 @@
       flatIndex: flat.length,
       moduleIndex,
       lessonIndex: 0,
-      moduleTitle: "Справочник",
+      moduleTitle: t("course.ref"),
       moduleSkill: "course-glossary",
       moduleKind: "glossary",
       practiceQuestionIds: [],
       id: "course-glossary--terms",
-      title: "Термины курса",
+      title: t("course.terms"),
       body:
-        "Полный список терминов курса. В обычных уроках ниже текста показываются только сноски по терминам этого раздела.",
+        t("course.termsIntro"),
       footnotes: [],
       isCourseGlossary: true,
     });
@@ -1553,30 +1955,30 @@
       const skill = skillTitle(w.skill);
       if (w.code === "KIT_NO_PROBE_QUESTION") {
         return {
-          title: `Нет вопросов для интервьюера: «${skill}»`,
+          title: t("kit.warnNoProbe",{skill}),
           detail:
-            "Шпаргалка показывает только открытые и кодовые вопросы с эталоном. Тесты с вариантами — для тестового экспорта.",
+            t("kit.warnNoProbeDetail"),
           action:
-            "Добавьте открытые вопросы с объяснениями в Библиотеку SDM, затем пересоберите шпаргалку.",
+            t("kit.warnNoProbeAction"),
         };
       }
       if (w.code === "KIT_EXPLANATION_MISSING") {
         return {
-          title: `Нет эталона у вопроса ${w.questionId ?? ""}`,
-          detail: "Допишите объяснение (эталон ответа) у открытого вопроса в Библиотеке SDM.",
+          title: t("kit.warnNoRef",{id:w.questionId??""}),
+          detail: t("kit.warnNoRefDetail"),
         };
       }
       if (w.code === "KIT_SKILL_DESCRIPTION_EMPTY") {
         return {
-          title: `Пустое описание навыка «${skill}»`,
-          detail: "Заполните описание навыка в онтологии (ontology/).",
+          title: t("kit.warnNoSkillDesc",{skill}),
+          detail: t("kit.warnNoSkillDescDetail"),
         };
       }
       return { title: w.code, detail: w.message ?? "" };
     };
     els.kitWarnings.hidden = false;
-    els.kitWarnings.innerHTML = `<h2 class="kit-warn-heading">Что доработать в эталоне</h2>
-      <p class="lead">Исправления в YAML, не в HTML. Экспорт не блокирован.</p>
+    els.kitWarnings.innerHTML = `<h2 class="kit-warn-heading">${t("kit.warnHead")}</h2>
+      <p class="lead">${t("kit.warnLead")}</p>
       <ul class="kit-warn-list">${warnings
         .map((w) => {
           const e = explain(w);
@@ -1592,20 +1994,20 @@
     const n = mod.assessmentQuestionCount ?? 0;
     const testNote =
       n > 0
-        ? `<p>В Библиотеке SDM уже есть <strong>${n}</strong> тестовых вопросов с вариантами — они для тестового экспорта.</p>`
-        : `<p>В Библиотеке SDM пока нет вопросов по этому навыку.</p>`;
+        ? `<p>${t("kit.hasTestOnly",{n})}</p>`
+        : `<p>${t("kit.noQuestionsYet")}</p>`;
     return `<div class="kit-gap">
-      <p class="kit-gap-title">Нет вопросов для интервьюера</p>
-      <p>Нужны <strong>открытые</strong> или <strong>кодовые</strong> вопросы с объяснением (эталон ответа), как «Как называют…?»</p>
+      <p class="kit-gap-title">${t("kit.emptyProbes")}</p>
+      <p>${t("kit.needOpen")}</p>
       ${testNote}
-      <p class="kit-gap-action">Добавьте открытые вопросы с объяснениями в Библиотеку SDM и пересоберите шпаргалку. Навык: <code>${escapeHtml(mod.skill)}</code></p>
+      <p class="kit-gap-action">${t("kit.addOpenAction")} <code>${escapeHtml(mod.skill)}</code></p>
     </div>`;
   }
 
   function renderKitProbeHtml(probe) {
     const parts = [
       `<div class="kit-qbox">`,
-      `<div class="q-label">Вопрос эксперту</div>`,
+      `<div class="q-label">${t("kit.qLabel")}</div>`,
       `<p class="q-text">${escapeHtml(probe.text || "")}</p>`,
     ];
     if (probe.evidence) {
@@ -1615,19 +2017,19 @@
     }
     if (probe.minDepthBand) {
       parts.push(
-        `<p><strong>Закрывает:</strong> ${escapeHtml(probe.minDepthBand)} (${escapeHtml(probe.minDepthLabel || "")})</p>`,
+        `<p><strong>${t("kit.covers")}</strong> ${escapeHtml(probe.minDepthBand)} (${escapeHtml(probe.minDepthLabel || "")})</p>`,
       );
     }
     if (probe.explanation) {
       parts.push(
-        `<p><strong>Эталон:</strong> ${escapeHtml(probe.explanation)}</p>`,
+        `<p><strong>${t("kit.reference")}</strong> ${escapeHtml(probe.explanation)}</p>`,
       );
     }
     if (probe.expected) {
       const exp = Array.isArray(probe.expected)
         ? probe.expected.map(escapeHtml).join("; ")
         : escapeHtml(probe.expected);
-      parts.push(`<p><strong>Ожидаемое:</strong> ${exp}</p>`);
+      parts.push(`<p><strong>${t("kit.expected")}</strong> ${exp}</p>`);
     }
     if (Array.isArray(probe.red_flags) && probe.red_flags.length) {
       parts.push(
@@ -1636,7 +2038,7 @@
     }
     if (Array.isArray(probe.rubric) && probe.rubric.length) {
       parts.push(
-        `<p><strong>Рубрика:</strong></p><ul>${probe.rubric.map((r) => `<li><strong>${r.score}:</strong> ${escapeHtml(r.description || "")}</li>`).join("")}</ul>`,
+        `<p><strong>${t("kit.rubric")}</strong></p><ul>${probe.rubric.map((r) => `<li><strong>${r.score}:</strong> ${escapeHtml(r.description || "")}</li>`).join("")}</ul>`,
       );
     }
     if (Array.isArray(probe.validationCriteria) && probe.validationCriteria.length) {
@@ -1657,7 +2059,7 @@
       .map((mod, index) => {
         const topics =
           Array.isArray(mod.topics) && mod.topics.length
-            ? `<p class="kit-topics"><span class="kit-topics-label">Ключевые темы:</span> ${escapeHtml(mod.topics.join(", "))}</p>`
+            ? `<p class="kit-topics"><span class="kit-topics-label">${t("kit.keyTopics")}</span> ${escapeHtml(mod.topics.join(", "))}</p>`
             : "";
         const desc = mod.description
           ? `<p class="kit-desc">${escapeHtml(mod.description)}</p>`
@@ -1667,8 +2069,8 @@
             ? mod.probes.map(renderKitProbeHtml).join("")
             : kitEmptyProbesBlock(mod);
         return `<article class="kit-module" id="kit-m${index}">
-          <h3>${index + 1}. ${escapeHtml(mod.title || mod.skill || "Модуль")}</h3>
-          <p class="meta">${escapeHtml(mod.depthBand ? `${mod.depthBand} · ` : "")}глубина ${escapeHtml(String(mod.depth ?? "—"))} · вес ${escapeHtml(String(mod.weight ?? "—"))}</p>
+          <h3>${index + 1}. ${escapeHtml(mod.title || mod.skill || t("kit.moduleFallback"))}</h3>
+          <p class="meta">${escapeHtml(mod.depthBand ? `${mod.depthBand} · ` : "")}${t("kit.meta.depth",{v:escapeHtml(String(mod.depth ?? "—"))})} · ${t("kit.meta.weight",{v:escapeHtml(String(mod.weight ?? "—"))})}</p>
           ${desc}
           ${topics}
           <div class="kit-probes">${probes}</div>
@@ -1677,8 +2079,8 @@
       .join("");
     const glossaryHtml =
       glossary.length > 0
-        ? `<section class="kit-section"><h2>Глоссарий</h2>
-          <table class="kit-table"><thead><tr><th>Термин</th><th>Определение</th></tr></thead><tbody>
+        ? `<section class="kit-section"><h2>${t("kit.glossary")}</h2>
+          <table class="kit-table"><thead><tr><th>${t("kit.term")}</th><th>${t("kit.definition")}</th></tr></thead><tbody>
           ${glossary
             .map(
               (g) =>
@@ -1689,9 +2091,9 @@
         : "";
     const checklistHtml =
       checklist.length > 0
-        ? `<section class="kit-section"><h2>Чеклист уровня</h2>
-          <p class="kit-checklist-intro">Отметьте каждый навык. <strong>Вес</strong> — приоритет и время (сумма ≈ 1). <strong>Глубина / L</strong> — насколько жёстко копать follow-up.</p>
-          <table class="kit-table"><thead><tr><th>Навык</th><th>L / смысл</th><th>Глубина</th><th>Вес</th></tr></thead><tbody>
+        ? `<section class="kit-section"><h2>${t("kit.checklist")}</h2>
+          <p class="kit-checklist-intro">${t("kit.checklistIntro")}</p>
+          <table class="kit-table"><thead><tr><th>${t("kit.skill")}</th><th>${t("kit.depthMeaning")}</th><th>${t("kit.depth")}</th><th>${t("kit.weight")}</th></tr></thead><tbody>
           ${checklist
             .map(
               (c) =>
@@ -1700,7 +2102,7 @@
             .join("")}
           </tbody></table></section>`
         : "";
-    els.kitBody.innerHTML = `${moduleHtml ? `<section class="kit-section"><h2>Модули</h2>${moduleHtml}</section>` : ""}${glossaryHtml}${checklistHtml}`;
+    els.kitBody.innerHTML = `${moduleHtml ? `<section class="kit-section"><h2>${t("kit.modules")}</h2>${moduleHtml}</section>` : ""}${glossaryHtml}${checklistHtml}`;
   }
 
   function openKit(data) {
@@ -1709,7 +2111,7 @@
     els.kitMeta.textContent = kitMetaLine(data);
     if (els.kitRevision) {
       const revision = data?.meta?.revision;
-      els.kitRevision.textContent = revision ? `ревизия ${revision}` : "";
+      els.kitRevision.textContent = revision ? t("kit.revision",{n:revision}) : "";
     }
     renderKitWarnings(data);
     renderKitBody(data);
@@ -1727,7 +2129,7 @@
     if (courseLessons.length === 0) {
       const p = document.createElement("p");
       p.className = "lead";
-      p.textContent = "В курсе нет модулей или уроков.";
+      p.textContent = t("course.noModules");
       els.courseOutline.append(p);
       return;
     }
@@ -2208,9 +2610,9 @@
     if (total === 0) {
       els.courseProgress.textContent = "0 / 0";
       els.courseLessonCrumb.textContent = "";
-      els.courseLessonTitle.textContent = "Нет уроков";
+      els.courseLessonTitle.textContent = t("course.noLessons");
       els.courseLessonBody.innerHTML =
-        '<p class="lesson-stub">В этом курсе нет уроков для просмотра.</p>';
+        `<p class="lesson-stub">${t("course.noLessonsBody")}</p>`;
       if (els.courseLessonFootnotes) {
         els.courseLessonFootnotes.hidden = true;
         els.courseLessonFootnotes.innerHTML = "";
@@ -2241,7 +2643,7 @@
     const body = String(lesson.body || "").trim();
     if (!body) {
       els.courseLessonBody.innerHTML =
-        '<p class="lesson-stub">Нет текста урока (пустой body — ещё не заполненный brief).</p>';
+        `<p class="lesson-stub">${t("course.noLessonText")}</p>`;
     } else {
       // Body howto packs usually start with `# …` that overlaps the lesson h2.
       els.courseLessonBody.innerHTML = renderMarkdown(body, { skipLeadingH1: true });
@@ -2260,7 +2662,7 @@
     } else if (lesson.isWarningsPage) {
       // Hide body, footnotes, glossary, practice — the warnings list fills the page.
       els.courseLessonBody.innerHTML =
-        '<p class="lesson-stub">Список доработок ниже. Они видны только автору курса.</p>';
+        `<p class="lesson-stub">${t("course.warningsOnlyAuthor")}</p>`;
       if (els.courseLessonFootnotes) {
         els.courseLessonFootnotes.hidden = true;
         els.courseLessonFootnotes.innerHTML = "";
@@ -2304,7 +2706,7 @@
         return `<li><strong>${display}</strong> — ${escapeHtml(f.definition)}</li>`;
       })
       .join("");
-    els.courseLessonFootnotes.innerHTML = `<h3>Сноски</h3><ul>${items}</ul>`;
+    els.courseLessonFootnotes.innerHTML = `<h3>${t("course.footnotes")}</h3><ul>${items}</ul>`;
   }
 
   /** Full glossary once — only on the dedicated «Термины курса» page. */
@@ -2332,7 +2734,7 @@
         return `<li><strong>${display}</strong> — ${escapeHtml(String(g.definition).trim())}</li>`;
       })
       .join("");
-    els.courseGlossary.innerHTML = `<h3>Термины курса</h3><ul>${items}</ul>`;
+    els.courseGlossary.innerHTML = `<h3>${t("course.terms")}</h3><ul>${items}</ul>`;
   }
 
   function renderCoursePractice(lesson) {
@@ -2355,18 +2757,18 @@
       .join("");
     let actions = "";
     if (resolved.length > 0) {
-      actions = `<button type="button" class="btn primary" id="btn-run-practice">Пройти практику (${resolved.length})</button>`;
+      actions = `<button type="button" class="btn primary" id="btn-run-practice">${t("course.practiceRun",{n:resolved.length})}</button>`;
     } else {
       actions =
-        '<p class="lead" style="margin:0">Загрузите paired <code>export test</code> на вкладке Тесты, чтобы пройти практику здесь.</p>';
+        `<p class="lead" style="margin:0">${t("course.practiceNeedTest")}</p>`;
     }
     // Topic labels from teachingContext.questionAnchors; full id kept for authors.
     els.coursePractice.innerHTML = `
-      <h3>Практика модуля</h3>
-      <p class="lead" style="margin:0 0 0.65rem">${ruCount(ids.length, "вопрос", "вопроса", "вопросов")} из library</p>
+      <h3>${t("course.practice")}</h3>
+      <p class="lead" style="margin:0 0 0.65rem">${t("course.practiceFromLibrary",{n:ids.length})}</p>
       ${actions}
       <details class="practice-details">
-        <summary>Вопросы практики (${ids.length})</summary>
+        <summary>${t("course.practiceIds",{n:ids.length})}</summary>
         <ul class="practice-ids">${list}</ul>
       </details>
     `;
@@ -2375,7 +2777,7 @@
       btn.addEventListener("click", () => {
         startPracticeSession(
           resolved,
-          `Практика: ${lesson.moduleTitle || courseDoc?.title || "курс"}`,
+          `Практика: ${lesson.moduleTitle || courseDoc?.title || t("meta.count.course")}`,
         );
       });
     }
@@ -2420,7 +2822,7 @@
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "course-warn-badge warn";
-      btn.textContent = `Доработки: ${warnings.length}`;
+      btn.textContent = t("course.warningsBadge",{n:warnings.length});
       btn.addEventListener("click", () => {
         const idx = courseLessons.findIndex((l) => l.moduleKind === "warnings");
         if (idx !== -1) {
@@ -2448,8 +2850,8 @@
       })
       .join("");
     els.courseWarnings.innerHTML = `
-      <h3>Доработки курса (${warnings.length})</h3>
-      <p class="lead">Технические замечания для автора, не для читателя.</p>
+      <h3>${t("course.warningsTitle",{n:warnings.length})}</h3>
+      <p class="lead">${t("course.warningsLead")}</p>
       <ul>${items}</ul>`;
   }
 
@@ -2483,11 +2885,11 @@
       q.id,
       q.skill,
       q.type,
-      typeof q.difficulty === "number" ? `сложность ${q.difficulty}` : null,
+      typeof q.difficulty === "number" ? t("test.difficulty",{v:q.difficulty}) : null,
     ]
       .filter(Boolean)
       .join(" · ");
-    els.qText.textContent = q.text || "(пустой текст вопроса)";
+    els.qText.textContent = q.text || t("test.emptyText");
     els.qBody.innerHTML = "";
     els.feedback.hidden = true;
     els.feedback.className = "feedback";
@@ -2528,8 +2930,8 @@
       area.className = "answer";
       area.placeholder =
         q.type === "open"
-          ? "Введите короткий ответ…"
-          : "Заметки (код не проверяется автоматически)…";
+          ? t("test.placeholder.open")
+          : t("test.placeholder.code");
       area.value = typeof answers[index] === "string" ? answers[index] : "";
       if (outcomes[index] !== "unanswered" && outcomes[index] !== "skipped") {
         area.readOnly = true;
@@ -2546,7 +2948,7 @@
         if (Array.isArray(criteria) && criteria.length) {
           const box = document.createElement("div");
           box.className = "criteria";
-          box.innerHTML = `<strong>Критерии проверки</strong><ul>${criteria
+          box.innerHTML = `<strong>${t("test.criteria")}</strong><ul>${criteria
             .map((c) => `<li>${escapeHtml(c)}</li>`)
             .join("")}</ul>`;
           els.qBody.append(box);
@@ -2555,7 +2957,7 @@
     } else {
       const p = document.createElement("p");
       p.className = "lead";
-      p.textContent = `Неподдерживаемый тип вопроса: ${q.type}`;
+      p.textContent = t("err.unsupportedType",{type:q.type});
       els.qBody.append(p);
     }
 
@@ -2594,16 +2996,16 @@
     const parts = [];
     if (outcome === "correct") {
       els.feedback.className = "feedback ok";
-      parts.push("Верно.");
+      parts.push(t("test.feedback.correct"));
     } else if (outcome === "incorrect") {
       els.feedback.className = "feedback bad";
-      parts.push("Неверно.");
+      parts.push(t("test.feedback.incorrect"));
     } else if (outcome === "skipped") {
       els.feedback.className = "feedback neutral";
-      parts.push("Пропущено.");
+      parts.push(t("test.feedback.skipped"));
     } else {
       els.feedback.className = "feedback neutral";
-      parts.push("Записано без автопроверки.");
+      parts.push(t("test.feedback.unscored"));
     }
     if (q.explanation) parts.push(q.explanation);
     els.feedback.textContent = parts.join(" ");
@@ -2615,7 +3017,7 @@
     if (!hasAnswer(q, answer)) {
       els.feedback.hidden = false;
       els.feedback.className = "feedback neutral";
-      els.feedback.textContent = "Сначала выберите или введите ответ (или пропустите).";
+      els.feedback.textContent = t("err.noAnswer");
       return;
     }
     answers[index] = answer;
@@ -2696,26 +3098,24 @@
     const pass = threshold == null ? null : weighted >= threshold;
 
     els.statsSummary.textContent = [
-      finishedByTimeout ? "время вышло" : null,
-      `${correct} верно / ${scored} с оценкой (${pct}%)`,
-      `${skipped} пропущено`,
-      `${unscored} без оценки`,
+      finishedByTimeout ? t("test.stats.summary.timeUp") : null,
+      t("test.stats.summary.score",{correct,scored,pct}),
+      t("test.stats.summary.skipped",{n:skipped}),
+      t("test.stats.summary.unscored",{n:unscored}),
       threshold == null
-        ? `взвешенный балл ${weighted.toFixed(3)}`
-        : `взвешенный ${weighted.toFixed(3)} при пороге ${threshold} → ${
-            pass ? "порог пройден" : "ниже порога"
-          }`,
+        ? t("test.stats.summary.weighted",{v:weighted.toFixed(3)})
+        : t("test.stats.summary.threshold",{v:weighted.toFixed(3),t:threshold,result:pass?t("test.stats.result.pass"):t("test.stats.result.fail")}),
     ]
       .filter(Boolean)
       .join(" · ");
 
     els.statsGrid.innerHTML = [
-      ["Верно", correct],
-      ["Неверно", incorrect],
-      ["Пропуск", skipped],
-      ["Без оценки", unscored],
-      ["Процент", `${pct}%`],
-      ["Взвешенный", weighted.toFixed(3)],
+      [t("test.stats.correct"), correct],
+      [t("test.stats.incorrect"), incorrect],
+      [t("test.stats.skipped"), skipped],
+      [t("test.stats.unscored"), unscored],
+      [t("test.stats.percent"), `${pct}%`],
+      [t("test.stats.weighted"), weighted.toFixed(3)],
     ]
       .map(
         ([label, value]) =>
@@ -2759,30 +3159,30 @@
       p.style.margin = "0";
       p.textContent =
         homeMode === "kits"
-          ? "В exports/ нет kit JSON для этой вкладки."
+          ? t("kit.noModulesInExports")
           : homeMode === "courses"
-            ? "В exports/ нет course JSON для этой вкладки (есть тесты — переключитесь на Тесты)."
-            : "В exports/ нет test JSON для этой вкладки (есть курсы — переключитесь на Курсы).";
+            ? t("kit.noCourseInExports")
+            : t("kit.noTestInExports");
       li.append(p);
       els.exportList.append(li);
       els.exportListWrap.hidden = false;
       if (els.exportListHeading) {
         els.exportListHeading.textContent =
           homeMode === "kits"
-            ? "Шпаргалки в exports/"
+            ? t("kit.exports.kits")
             : homeMode === "courses"
-              ? "Курсы в exports/"
-              : "Тесты в exports/";
+              ? t("kit.exports.courses")
+              : t("kit.exports.tests");
       }
       return;
     }
     if (els.exportListHeading) {
       els.exportListHeading.textContent =
         homeMode === "kits"
-          ? "Шпаргалки в exports/"
+          ? t("kit.exports.kits")
           : homeMode === "courses"
-            ? "Курсы в exports/"
-            : "Тесты в exports/";
+            ? t("kit.exports.courses")
+            : t("kit.exports.tests");
     }
     for (const item of filtered.sort((a, b) => a.name.localeCompare(b.name))) {
       const li = document.createElement("li");
@@ -2913,6 +3313,9 @@
   els.btnKitHome?.addEventListener("click", goHome);
   els.navHome.addEventListener("click", goHome);
   els.crumbHome.addEventListener("click", goHome);
+  if (els.langBtn) {
+    els.langBtn.addEventListener("click", () => setLang(lang === "ru" ? "en" : "ru"));
+  }
 
   // Term tooltip (like roadmap): hover = short definition, no native title.
   document.addEventListener("pointerover", (e) => {

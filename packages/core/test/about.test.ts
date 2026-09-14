@@ -38,8 +38,8 @@ describe("buildAbout", () => {
     assert.match(joined, /hr|тест|test/i);
     assert.match(joined, /harness|оркестратор|orchestr/i);
     assert.ok(
-      joined.includes("не ") ||
-        payload.positioning.whatNot.some((s) => /не\s/i.test(s)),
+      joined.includes("not ") ||
+        payload.positioning.whatNot.some((s) => /(?:not|не)\s/i.test(s)),
     );
   });
 

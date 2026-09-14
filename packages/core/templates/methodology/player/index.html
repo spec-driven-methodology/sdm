@@ -1,39 +1,42 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SDM — проигрыватель</title>
+    <title>SDM player</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="page">
       <header class="header">
         <div class="brand-row">
-          <button type="button" class="brand" id="nav-home" title="На главную">
+          <button type="button" class="brand" id="nav-home" title="Go home">
             SDM
           </button>
           <p class="tagline">
             <span class="tag-sep" aria-hidden="true"></span>Spec-Driven Methodology
           </p>
+          <div class="lang-toggle-wrap">
+            <button type="button" class="lang-btn" id="btn-lang" title="Switch language">EN</button>
+          </div>
         </div>
-        <nav class="crumbs" id="crumbs" aria-label="Навигация" hidden>
-          <button type="button" class="crumb-link" id="crumb-home">Главная</button>
+        <nav class="crumbs" id="crumbs" aria-label="Navigation" hidden>
+          <button type="button" class="crumb-link" id="crumb-home">Home</button>
           <span class="crumb-sep" aria-hidden="true">/</span>
           <span class="crumb-current" id="crumb-current"></span>
         </nav>
       </header>
 
       <section id="load-view" class="panel">
-        <h1>Загрузить JSON экспорта</h1>
+        <h1>Load export JSON</h1>
         <p class="lead">
-          SDM — эталон компетенций (methodology-as-specs): онтология навыков →
-          библиотека контента → профили/пороги → аудит покрытия и экспорт.
-          Один скелет для оценки и обучения. Превью тестов, курсов и шпаргалок
-          эксперта — для автора, не LMS и не экзаменатор.
+          SDM — competency standard as specs: skill ontology → content library →
+          profiles/thresholds → coverage audit and export. One skeleton for
+          assessment and learning. Preview of tests, courses and expert cheat
+          sheets — for the author, not an LMS or an examiner.
         </p>
 
-        <div class="mode-tabs" role="tablist" aria-label="Тип экспорта">
+        <div class="mode-tabs" role="tablist" aria-label="Export type">
           <button
             type="button"
             class="mode-tab"
@@ -42,7 +45,7 @@
             aria-selected="true"
             data-mode="tests"
           >
-            Тесты
+            Tests
           </button>
           <button
             type="button"
@@ -52,7 +55,7 @@
             aria-selected="false"
             data-mode="courses"
           >
-            Курсы
+            Courses
           </button>
           <button
             type="button"
@@ -62,12 +65,12 @@
             aria-selected="false"
             data-mode="kits"
           >
-            Шпаргалки
+            Cheat sheets
           </button>
         </div>
 
         <div id="export-list-wrap" class="export-list-wrap" hidden>
-          <h2 class="subhead" id="export-list-heading">Файлы в exports/</h2>
+          <h2 class="subhead" id="export-list-heading">Files in exports/</h2>
           <ul id="export-list" class="export-list"></ul>
         </div>
 
@@ -79,47 +82,47 @@
             multiple
           />
           <span id="dropzone-hint"
-            >Перетащите файлы сюда или нажмите, чтобы выбрать (можно несколько)</span
+            >Drop files here or click to select (multiple allowed)</span
           >
         </label>
         <p id="load-error" class="error" hidden></p>
 
         <div id="library-wrap" class="library-wrap" hidden>
-          <h2 class="subhead" id="library-heading">Загруженные тесты</h2>
+          <h2 class="subhead" id="library-heading">Loaded tests</h2>
           <ul
             id="library-list"
             class="library-list"
             role="listbox"
-            aria-label="Загруженные тесты"
+            aria-label="Loaded tests"
           ></ul>
         </div>
 
         <fieldset class="options-box" id="session-options">
-          <legend>Параметры сессии</legend>
+          <legend>Session options</legend>
           <label class="check">
             <input type="checkbox" id="opt-auto-next" />
-            Автопереход после проверки (~1 с)
+            Auto-advance after check (~1 s)
           </label>
           <label class="check">
             <input type="checkbox" id="opt-shuffle" />
-            Перетасовывать вопросы
+            Shuffle questions
           </label>
           <label class="check">
             <input type="checkbox" id="opt-shuffle-options" />
-            Перетасовывать варианты
+            Shuffle options
           </label>
           <label class="check">
             <input type="checkbox" id="opt-timed" />
-            Ограничить время
+            Limit time
           </label>
           <label class="field" id="minutes-field" hidden>
-            <span>Всего минут (пусто = N × 1 мин)</span>
+            <span>Total minutes (empty = N × 1 min)</span>
             <input
               type="number"
               id="opt-minutes"
               min="1"
               step="1"
-              placeholder="авто"
+              placeholder="auto"
             />
           </label>
         </fieldset>
@@ -128,7 +131,7 @@
       <section id="kit-view" class="panel" hidden>
         <div class="meta-row">
           <div>
-            <h1 id="kit-title">Шпаргалка</h1>
+            <h1 id="kit-title">Cheat sheet</h1>
             <p class="meta" id="kit-meta"></p>
           </div>
           <p class="progress" id="kit-revision"></p>
@@ -136,14 +139,14 @@
         <div id="kit-warnings" class="course-warnings" hidden></div>
         <div id="kit-body" class="kit-body"></div>
         <div class="actions">
-          <button type="button" id="btn-kit-home" class="btn">К библиотеке</button>
+          <button type="button" id="btn-kit-home" class="btn">To library</button>
         </div>
       </section>
 
       <section id="course-view" class="panel" hidden>
         <div class="meta-row">
           <div>
-            <h1 id="course-title">Курс</h1>
+            <h1 id="course-title">Course</h1>
             <p class="meta" id="course-meta"></p>
             <p class="meta" id="course-warn-badge" hidden></p>
           </div>
@@ -151,8 +154,8 @@
         </div>
 
         <div class="course-layout">
-          <aside class="course-outline" aria-label="Содержание">
-            <h2 class="subhead">Модули</h2>
+          <aside class="course-outline" aria-label="Contents">
+            <h2 class="subhead">Modules</h2>
             <nav id="course-outline" class="course-outline-nav"></nav>
           </aside>
           <article class="course-lesson" id="course-lesson-card">
@@ -163,23 +166,23 @@
             <div id="course-glossary" class="course-glossary" hidden></div>
             <div id="course-practice" class="course-practice" hidden></div>
             <p class="lead course-practice-hint" id="course-practice-hint" hidden>
-              Практика берётся из <code>practiceQuestionIds</code> модуля (не из секции в тексте урока).
+              Practice comes from <code>practiceQuestionIds</code> of the module (not from a section in the lesson text).
             </p>
             <div id="course-warnings" class="course-warnings" hidden></div>
           </article>
         </div>
 
         <div class="actions">
-          <button type="button" id="btn-course-prev" class="btn ghost">Назад</button>
-          <button type="button" id="btn-course-next" class="btn primary">Далее</button>
-          <button type="button" id="btn-course-home" class="btn">К библиотеке</button>
+          <button type="button" id="btn-course-prev" class="btn ghost">Back</button>
+          <button type="button" id="btn-course-next" class="btn primary">Next</button>
+          <button type="button" id="btn-course-home" class="btn">To library</button>
         </div>
       </section>
 
       <section id="run-view" class="panel" hidden>
         <div class="meta-row">
           <div>
-            <h1 id="test-title">Тест</h1>
+            <h1 id="test-title">Test</h1>
             <p class="meta" id="test-meta"></p>
           </div>
           <div class="run-badges">
@@ -196,30 +199,30 @@
         </article>
 
         <div class="actions">
-          <button type="button" id="btn-prev" class="btn ghost">Назад</button>
-          <button type="button" id="btn-skip" class="btn ghost">Пропустить</button>
-          <button type="button" id="btn-check" class="btn primary">Проверить</button>
-          <button type="button" id="btn-next" class="btn" hidden>Далее</button>
-          <button type="button" id="btn-finish" class="btn accent">Завершить</button>
+          <button type="button" id="btn-prev" class="btn ghost">Back</button>
+          <button type="button" id="btn-skip" class="btn ghost">Skip</button>
+          <button type="button" id="btn-check" class="btn primary">Check</button>
+          <button type="button" id="btn-next" class="btn" hidden>Next</button>
+          <button type="button" id="btn-finish" class="btn accent">Finish</button>
         </div>
       </section>
 
       <section id="stats-view" class="panel" hidden>
-        <p id="time-up-banner" class="time-up" hidden>Время вышло</p>
-        <h1>Результаты</h1>
+        <p id="time-up-banner" class="time-up" hidden>Time is up</p>
+        <h1>Results</h1>
         <p class="lead" id="stats-summary"></p>
         <div class="stats-grid" id="stats-grid"></div>
-        <h2>По навыкам</h2>
+        <h2>By skill</h2>
         <table class="table" id="skill-table">
           <thead>
             <tr>
-              <th>Навык</th>
-              <th>Вес</th>
-              <th>Верно</th>
-              <th>Неверно</th>
-              <th>Пропуск</th>
-              <th>Без оценки</th>
-              <th>Доля</th>
+              <th>Skill</th>
+              <th>Weight</th>
+              <th>Correct</th>
+              <th>Incorrect</th>
+              <th>Skipped</th>
+              <th>Unscored</th>
+              <th>Ratio</th>
             </tr>
           </thead>
           <tbody></tbody>

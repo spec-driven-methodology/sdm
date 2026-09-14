@@ -102,6 +102,27 @@ body {
   color: var(--ink);
 }
 
+.lang-toggle-wrap {
+  margin-left: auto;
+}
+.lang-btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 8px;
+  padding: 0.3rem 0.6rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+.lang-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
 .tagline {
   margin: 0;
   display: inline-flex;
