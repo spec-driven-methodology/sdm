@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 (before 1.0 the API may still change).
 
+## [2.1.0] - 2026-09-14
+
+### Added
+
+- **`sdm-humanizer` portable skill** — rewrite AI-sounding text so it reads like a person wrote it. Detects the text language (English or Russian) and applies language-specific AI-tell patterns (not-X-but-Y contrasts, one-line closers, staged openers, forced triads, dash overload, inflated significance, sales language, stock AI words, bold decoration, chatbot residue). Based on Wikipedia's "Signs of AI writing". Installed with all other portable skills via `sdm mcp install` / `sdm agent install`.
+- **`sdm update` command** — updates the SDM CLI from npm (`@spec-driven-methodology/cli@latest`) and refreshes MCP config + portable skills in all configured hosts. Flags: `--hosts <csv|all>` (default `all`), `--skip-npm` (only re-install skills + MCP config), `--json`.
+
+### Changed
+
+- **npm package now ships methodology assets** — `@spec-driven-methodology/core` publishes `ABOUT.md`, `AGENTS.md`, and `agents/` (all portable skills incl. `sdm-humanizer`) next to `dist/` via a `prepack` hook (`scripts/copy-publish-assets.mjs`). This lets `sdm mcp install` / `sdm agent install` work from a plain npm install without a git clone.
+- **Package-root and agents resolution work from npm installs** — `resolveSdmHome` (core) and `resolveAgentsRoot` (CLI) now also check the installed `@spec-driven-methodology/core` package directory (`packages/core/{src,dist}` → root), so `sdm about`, `sdm --version`, and skill install no longer require `SDM_HOME` or a monorepo layout.
+
 ## [2.0.0] - 2026-09-14
 
 ### Changed

@@ -1,3 +1,4 @@
+import { createRequire } from "node:module";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -149,7 +150,8 @@ function isSdmPackageRoot(dir: string): boolean {
   }
   try {
     const pkg = JSON.parse(readFileSync(pkgPath, "utf8")) as { name?: string };
-    return pkg.name === "sdm";
+    // Root: "sdm" (dev); published: @spec-driven-methodology/core or /cli — both ship ABOUT.md
+    return pkg.name === "sdm" || pkg.name === "@spec-driven-methodology/cli" || pkg.name === "@spec-driven-methodology/core";
   } catch {
     return false;
   }
@@ -157,7 +159,7 @@ function isSdmPackageRoot(dir: string): boolean {
 
 /**
  * Resolve SDM package root (contains ABOUT.md + package.json name "sdm").
- * Order: explicit → SDM_HOME → walk from this module → cwd walk.
+ * Order: explicit → SDM_HOME → walk from this module → npm-resolved CLI package → cwd walk.
  */
 export function resolveSdmHome(explicit?: string): string {
   if (explicit?.trim()) {
@@ -179,6 +181,7 @@ export function resolveSdmHome(explicit?: string): string {
     }
   }
 
+  // Walk from this module (works in monorepo: packages/core/{src|dist} → repo root)
   const here = dirname(fileURLToPath(import.meta.url));
   const candidates = [
     join(here, "..", "..", ".."), // packages/core/{src|dist} → repo root
@@ -189,6 +192,31 @@ export function resolveSdmHome(explicit?: string): string {
     if (isSdmPackageRoot(root)) {
       return root;
     }
+  }
+
+  // Installed core package: dist/about.js → packages/core/ root (ABOUT.md ships since 2.1)
+  const coreRoot = resolve(here, "..");
+  if (isSdmPackageRoot(coreRoot)) {
+    return coreRoot;
+  }
+  for (const c of candidates) {
+    const root = resolve(c);
+    if (isSdmPackageRoot(root)) {
+      return root;
+    }
+  }
+
+  // Try resolving the CLI package from npm (published alongside core).
+  // @spec-driven-methodology/cli ships ABOUT.md + AGENTS.md + agents/ since 2.x.
+  try {
+    const require = createRequire(import.meta.url);
+    const cliPkg = require.resolve("@spec-driven-methodology/cli/package.json");
+    const cliRoot = dirname(cliPkg);
+    if (isSdmPackageRoot(cliRoot)) {
+      return cliRoot;
+    }
+  } catch {
+    // CLI package not installed — fall through
   }
 
   let dir = resolve(process.cwd());

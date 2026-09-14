@@ -1,6 +1,6 @@
 {
   "name": "@spec-driven-methodology/core",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Core library for SDM methodology projects",
   "type": "module",
   "main": "./dist/index.js",
@@ -13,10 +13,14 @@
   },
   "files": [
     "dist",
-    "templates"
+    "templates",
+    "ABOUT.md",
+    "AGENTS.md",
+    "agents"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "prepack": "node ../../scripts/copy-publish-assets.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "tsx --test \"test/**/*.test.ts\""
   },

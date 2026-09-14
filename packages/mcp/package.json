@@ -1,6 +1,6 @@
 {
   "name": "@spec-driven-methodology/mcp",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "SDM MCP server (stdio) — same domain ops as CLI",
   "type": "module",
   "bin": {

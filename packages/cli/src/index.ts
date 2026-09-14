@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { Command } from "commander";
+import { spawnSync } from "node:child_process";
 import { readFileSync, readdirSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import {
@@ -2723,6 +2724,80 @@ agent
           console.log(`  wrote: ${copied}  skipped: ${skipped}`);
           console.log("");
           console.log("Reload the agent host so skills are discovered.");
+        }
+        process.exitCode = 0;
+      } catch (err) {
+        emitError(err, Boolean(opts.json));
+      }
+    },
+  );
+
+program
+  .command("update")
+  .description(
+    "Update the SDM CLI (npm) and refresh MCP config + portable skills in all hosts",
+  )
+  .option(
+    "--hosts <list>",
+    "Host ids to refresh skills/MCP (default: all; e.g. cursor,gigacode,multitool)",
+    "all",
+  )
+  .option("--skip-npm", "Skip npm update; only re-install skills and MCP config", false)
+  .option("--json", "Machine-readable JSON output for agents", false)
+  .action(
+    async (opts: { hosts: string; skipNpm: boolean; json: boolean }) => {
+      const report: Record<string, unknown> = {
+        ok: true,
+        action: "update",
+        hosts: opts.hosts,
+        steps: [] as string[],
+      };
+      try {
+        if (!opts.skipNpm) {
+          const npm = spawnSync(
+            "npm",
+            ["install", "-g", "@spec-driven-methodology/cli@latest"],
+            { stdio: opts.json ? "pipe" : "inherit", shell: false },
+          );
+          if (npm.status !== 0) {
+            throw new SdmError(
+              "UPDATE_NPM_FAILED",
+              `npm install -g @spec-driven-methodology/cli@latest failed (exit ${npm.status ?? "?"}). Run it manually.`,
+            );
+          }
+          (report.steps as string[]).push("npm update");
+        }
+
+        const hosts = await resolveHostsFromCli({ hosts: opts.hosts });
+
+        const skills = installAgentSkills({
+          hosts,
+          cursorRoot: process.cwd(),
+          force: true,
+        });
+        (report.steps as string[]).push(
+          `skills refreshed (${skills.skillIds.length} skills, ${hosts.join(", ")})`,
+        );
+
+        const mcp = installMcpHosts({
+          hosts,
+          cursorRoot: process.cwd(),
+        });
+        (report.steps as string[]).push(
+          `MCP config refreshed (${mcp.installs.map((i) => i.host).join(", ")})`,
+        );
+
+        if (opts.json) {
+          report.skills = skills.skillIds;
+          report.mcp = mcp.installs.map((i) => ({ host: i.host, path: i.path }));
+          console.log(JSON.stringify(report));
+        } else {
+          console.log("SDM update complete.");
+          for (const step of report.steps as string[]) {
+            console.log(`  ✓ ${step}`);
+          }
+          console.log("");
+          console.log("Restart your agent host / reload MCP and skills.");
         }
         process.exitCode = 0;
       } catch (err) {
