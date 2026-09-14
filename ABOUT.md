@@ -53,7 +53,7 @@ Result quality depends on specs × agent × model; the framework limits harm.
 - Not a candidate UI (static `player/` is an author preview, not an exam)
 - Not a place for "manual flag typing" as the primary UX — the main path is through an agent
 
-How SDM differs from "just an agent with a model": [docs/WHY_SDM.md](docs/WHY_SDM.md)
+How SDM differs from "just an agent with a model": [methodology/why-sdm.md](https://github.com/spec-driven-methodology/methodology/blob/main/why-sdm.md)
 
 ## How to work
 
