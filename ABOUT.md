@@ -2,9 +2,10 @@
 name: SDM
 tagline: "Spec-Driven Methodology"
 what: >-
-  SDM — a methodology-as-specs framework: skill ontology → content library →
-  profiles/thresholds → coverage audit and export. A single competency skeleton
-  (canonical / single source of truth) for assessment and learning.
+  SDM — a methodology-as-specs framework: an ontology of nodes (skills, concepts,
+  questions, terms, topics) → profiles/thresholds → coverage audit. A single
+  competency skeleton (canonical / single source of truth) for assessment and
+  learning; export is delivery mechanics (Presentation layer).
 whatNot:
   - Not a candidate testing platform or HR UI
   - Not an LMS; does not administer tests or analyze candidate answers as a primary product
@@ -20,21 +21,21 @@ model: >-
 
 # SDM — Overview
 
-**SDM** is a **methodology-as-specs** framework: skill ontology → content
-library → profiles/thresholds → coverage audit and export. A single competency
-skeleton (**canonical** / single source of truth) for assessment and learning.
-It is not a test administration system or LMS.
+**SDM** is a **methodology-as-specs** framework: an ontology of nodes (skills,
+concepts, questions, terms, topics) → profiles/thresholds → coverage audit. A
+single competency skeleton (**canonical** / single source of truth) for assessment
+and learning. It is not a test administration system or LMS.
 
 ## What it is
 
-- **What:** a methodology-as-specs framework (ontology → library → profiles/thresholds → coverage and export)
+- **What:** a methodology-as-specs framework (ontology → profiles/thresholds → coverage)
 - **Why:** one competency canonical for **assessment** and **learning**; export to agents and external systems (surfaces: test, learning, matrix, …)
 - **Who:** competency owners — HR, recruiters, methodologists, analysts, domain experts (contexts: university, bootcamp, onboarding)
-- Skill ontology (`ontology/`)
-- Question library and learning content on the same graph (`library/`, `export learning`, `export kit`)
+- Ontology (`ontology/`) — a graph of nodes of any `kind`
+- Content on the same graph — questions, terms, learning materials are ontology nodes with their own `kind` (`library/`, `export learning`, `export kit`)
 - Profiles / levels / thresholds (`certifications/`)
-- Coverage, gaps, summary `quality report` (●○○), detailed audit, content staleness (`content stale` / `meta.basis`), export for agents and consumers
-- Export test / learning JSON for agents; Methodology Studio removed (obsidian-sdm)
+- Coverage, gaps, summary `quality report` (●○○), detailed audit, content staleness (`content stale` / `meta.basis`)
+- Export (Presentation) — test / learning JSON for agents, matrices, kits; Methodology Studio removed (obsidian-sdm)
 
 ### Specs · Framework · Agent
 
